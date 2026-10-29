@@ -54,8 +54,8 @@
    "version": "0.9.0",
    "lang": "ja",
    "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/starchart_ja.html",
-   "size": 98305,
-   "sha256": "9a84146b18b377ec8be77855ec9c689b2cf15162efd128e76e3d6f0094d3dcc6",
+   "size": 98320,
+   "sha256": "57466865442bd19d4e80e0f8b194a24b3c46986b35841821da267b54ac051dab",
    "title": {
     "ja": "星図"
    },
@@ -64,7 +64,7 @@
    },
    "license": "Freeware (LICENSE)",
    "changes": {
-    "ja": "2 つ要ります: この星図と「星図のデータ」。両方を入れてください"
+    "ja": "テスト配信です。開発版です。2 つ要ります: この星図と「星図のデータ」。両方を入れてください。時計(時刻の送信)は確認中で、ずれることがあります"
    }
   },
   {
@@ -83,7 +83,7 @@
    },
    "license": "Freeware (LICENSE)",
    "changes": {
-    "ja": "星図のデータ。「星図」と一緒に入れてください"
+    "ja": "テスト配信です。星図のデータ。「星図」と一緒に入れてください"
    }
   },
   {

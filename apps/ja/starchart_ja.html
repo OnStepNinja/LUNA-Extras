@@ -1073,8 +1073,8 @@ async function sendLoc(){
   return [a, b];
 }
 async function sendTime(){
-  const d = new Date(), off = d.getTimezoneOffset() / 60; // 現地時+値=UTC (東京=-9)
-  const g = (off < 0 ? "-" : "+") + pad(Math.floor(Math.abs(off))) + "." + (Math.abs(off) % 1 ? "5" : "0");
+  const d = new Date(), off = d.getTimezoneOffset(), am = Math.abs(off); // 分。現地時+値=UTC (東京=-540)
+  const g = (off < 0 ? "-" : "+") + pad(Math.floor(am / 60)) + (am % 60 ? ":" + pad(am % 60) : "");
   const res = [];
   res.push(await ask("SG" + g));
   res.push(await ask("SC" + pad(d.getMonth() + 1) + "/" + pad(d.getDate()) + "/" + pad(d.getFullYear() % 100)));
