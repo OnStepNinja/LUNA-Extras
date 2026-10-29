@@ -1,0 +1,7 @@
+{
+ "format": 1,
+ "updated": "2026-10-29",
+ "catalogs": {
+  "esp32-4mb-1": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/catalog/esp32-4mb-1.json"
+ }
+}
