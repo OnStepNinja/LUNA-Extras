@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<!--
+  LUNA AiBridge StarChart v0.9.0
+  Copyright (c) 2026 Nishioka Sadahiko. All rights reserved. Freeware: see LICENSE.
+  Star data: d3-celestial (BSD 3-Clause, Olaf Frohn) - see THIRD_PARTY_LICENSES.md
+-->
+<html lang="ja">
+<head>
+<meta name="description" content="星図: 天体を選んで望遠鏡を向けます(GOTO)。2 つ要ります: starchart_ja.html と starchart_ja_data.js。両方を入れてください">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AiBridge Star Chart (jp)</title>
+<meta name="author" content="Nishioka Sadahiko">
+<meta name="copyright" content="Copyright (c) 2026 Nishioka Sadahiko. Freeware.">
+<style>
+  :root{--bg:#05080f;--card:#151b26;--card2:#1d2533;--line:#2a3445;--txt:#e6edf3;--sub:#8b97a8;
+    --accent:#4da3ff;--ok:#34d399;--warn:#fbbf24;--bad:#f87171;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);overflow:hidden;
+    font-family:-apple-system,"Segoe UI",Roboto,"Hiragino Sans",sans-serif;}
+  #cv{position:fixed;inset:0;width:100%;height:100%;touch-action:none;display:block;}
+  .bar{position:fixed;top:0;left:0;right:0;padding:8px 10px;display:flex;align-items:center;gap:10px;
+    background:linear-gradient(#05080fe6,#05080f00);font-size:13px;pointer-events:none;
+    font-variant-numeric:tabular-nums;}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--bad);box-shadow:0 0 6px var(--bad);flex:none;}
+  .dot.on{background:var(--ok);box-shadow:0 0 6px var(--ok);}
+  .bar b{color:var(--sub);font-weight:500;font-size:11px;margin-right:3px;}
+  #stt{color:var(--sub);margin-left:auto;}
+  #stt.move{color:var(--warn);} #stt.track{color:var(--ok);}
+  .fab{position:fixed;right:10px;display:flex;flex-direction:column;gap:8px;top:46px;}
+  button{font:inherit;color:var(--txt);cursor:pointer;-webkit-user-select:none;user-select:none;}
+  .fab button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);
+    background:#151b26d9;font-size:19px;padding:0;}
+  .fab button.act{background:#2b6fd6;border-color:transparent;}
+  .fab .stop{background:#dc2626;border-color:transparent;font-size:11px;font-weight:700;}
+  .panel{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);
+    border-radius:16px 16px 0 0;padding:14px 16px calc(14px + env(safe-area-inset-bottom));display:none;
+    max-width:560px;margin:0 auto;}
+  .panel.show{display:block;z-index:8;}
+  .panel h2{margin:0 0 2px;font-size:18px;}
+  .panel .sub{color:var(--sub);font-size:13px;line-height:1.6;font-variant-numeric:tabular-nums;}
+  .row{display:flex;gap:8px;margin-top:12px;}
+  .row button{flex:1;padding:12px;border-radius:10px;border:none;font-weight:600;font-size:15px;background:var(--card2);}
+  .row .go{background:linear-gradient(135deg,#4da3ff,#2b6fd6);color:#fff;}
+  #menu{top:auto;bottom:0;max-height:75vh;overflow:auto;}
+  #menu label{display:flex;align-items:center;gap:8px;padding:7px 0;font-size:15px;}
+  #menu input[type=checkbox]{width:20px;height:20px;}
+  #menu .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
+  #menu h3{margin:14px 0 4px;font-size:12px;color:var(--sub);letter-spacing:.06em;}
+  #menu input[type=number],#menu select{background:var(--card2);border:1px solid var(--line);color:var(--txt);
+    border-radius:8px;padding:8px;font-size:15px;width:100%;}
+  .f2{display:flex;gap:8px;} .f2>div{flex:1;font-size:11px;color:var(--sub);}
+  #toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--card2);
+    border:1px solid var(--line);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;
+    pointer-events:none;transition:.3s;max-width:90%;}
+  #toast.show{opacity:1;} #toast.err{border-color:var(--bad);color:var(--bad);}
+  #red{position:fixed;inset:0;background:#f00;mix-blend-mode:multiply;pointer-events:none;display:none;z-index:9;}
+  #lunaLink{position:fixed;left:8px;top:32px;z-index:6;font-size:12px;font-weight:700;color:#9fd6ff;text-decoration:none;text-shadow:0 0 4px #000,0 0 4px #000;}
+  #lunaLink:hover{text-decoration:underline;}
+  #minfo{position:fixed;left:8px;top:54px;font-size:11px;white-space:nowrap;line-height:1.55;color:#c9d4e3;pointer-events:none;
+    font-variant-numeric:tabular-nums;text-shadow:0 0 4px #000,0 0 4px #000;}
+  #minfo b{color:var(--sub);font-weight:500;font-size:11px;margin-right:4px;}
+  #minfo .w{color:var(--warn);}
+  #minfo .who{color:var(--sub);font-size:11px;}
+  #minfo b{display:inline-block;min-width:5.2em;}
+  #branding{position:fixed;bottom:6px;right:10px;font-size:11px;color:#666;font-family:monospace;z-index:5;
+    display:flex;align-items:center;gap:8px;}
+  #supportBtn{background:rgba(255,80,120,.15);border:1px solid rgba(255,80,120,.4);color:#ff90ab;border-radius:50%;
+    width:22px;height:22px;padding:0;font-size:12px;line-height:1;}
+  .overlay{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:20;}
+  .overlay.show{display:flex;}
+  .modal{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;max-width:340px;margin:16px;font-size:14px;line-height:1.6;}
+  #ctl{max-width:560px;background:rgba(14,21,34,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid #2a3a55;border-bottom:none;box-shadow:0 -8px 30px rgba(0,0,0,.55),0 -1px 0 #4da3ff55;max-height:78vh;overflow:auto;}
+  #ctl::before{content:"";position:absolute;left:16px;right:16px;top:0;height:2px;border-radius:2px;background:linear-gradient(90deg,#4da3ff,#a78bfa,#ff9f1a);opacity:.85;}
+  .chead{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .chead h2{margin:0;font-size:17px;letter-spacing:.02em;} #ctlBadge{font-size:11px;color:var(--sub);flex:1;}
+  #menu .chead{position:sticky;top:-14px;z-index:2;background:var(--card);margin:-14px 0 4px;padding:12px 0 8px;}
+  .chead button{background:var(--card2);border:1px solid var(--line);border-radius:8px;width:32px;height:32px;padding:0;}
+  #ctlTabs{display:flex;gap:6px;margin-bottom:12px;overflow:auto;}
+  #ctlTabs button{flex:1 1 auto;padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:#0f1624;font-size:13px;color:var(--sub);white-space:nowrap;}
+  #ctlTabs button.on{color:#fff;border-color:#4da3ff;background:linear-gradient(135deg,#2b6fd6aa,#6d4fd6aa);box-shadow:0 0 14px #4da3ff55;}
+  .cblock{margin-bottom:14px;} .ctitle{font-size:12px;color:var(--sub);letter-spacing:.06em;margin-bottom:6px;} .ctitle span{color:#7fb6ff;margin-left:6px;letter-spacing:0;}
+  .seg{display:flex;flex-wrap:wrap;gap:6px;}
+  .seg button{flex:1 1 56px;padding:10px 4px;border-radius:10px;border:1px solid var(--line);background:#111a2b;font-size:14px;font-weight:600;line-height:1.2;transition:.15s;}
+  .seg button small{display:block;font-size:10px;font-weight:400;color:var(--sub);margin-top:2px;}
+  .seg button:active{transform:scale(.96);}
+  .seg button.on{border-color:#4da3ff;background:linear-gradient(135deg,#1f4f9a,#3a2f8f);color:#fff;box-shadow:0 0 12px #4da3ff66,inset 0 0 8px #4da3ff33;}
+  .seg button:disabled{opacity:.38;pointer-events:none;}
+  .tswitch{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:#0f1624;margin-bottom:14px;}
+  .tswitch b{font-size:17px;display:block;} .tswitch small{color:var(--sub);font-size:12px;} .tswitch>div{flex:1;}
+  .tswitch button{padding:10px 18px;border-radius:10px;border:none;font-weight:700;background:linear-gradient(135deg,#34d399,#10b981);color:#04281c;}
+  .tswitch:not(.on) button{background:linear-gradient(135deg,#4da3ff,#2b6fd6);color:#fff;}
+  .tswitch.on{border-color:#34d39977;box-shadow:0 0 16px #34d39933;}
+  .dotp{width:12px;height:12px;border-radius:50%;background:#556;flex:none;} .tswitch.on .dotp{background:#34d399;animation:pl 1.6s infinite;}
+  @keyframes pl{0%{box-shadow:0 0 0 0 #34d39988}70%{box-shadow:0 0 0 10px #34d39900}100%{box-shadow:0 0 0 0 #34d39900}}
+  .kvbox{border:1px solid var(--line);border-radius:12px;background:#0f1624;padding:4px 12px;margin-bottom:10px;}
+  .kv{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1c2638;font-size:14px;} .kv:last-child{border:none;}
+  .kv span{color:var(--sub);} .kv b.w{color:var(--warn);}
+  .agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+  .agrid button{padding:12px 4px;border-radius:12px;border:1px solid var(--line);background:#111a2b;font-size:14px;font-weight:600;line-height:1.25;}
+  .agrid button small{display:block;font-size:10px;font-weight:400;color:var(--sub);margin-top:3px;}
+  .agrid button:active{transform:scale(.96);} .agrid button:disabled{opacity:.35;pointer-events:none;}
+  .agrid button.danger{border-color:#7a4a2a;background:linear-gradient(135deg,#2a1a10,#1b1420);color:#ffc9a0;}
+  .agrid:last-of-type{grid-template-columns:1fr 1fr;}
+  .agrid.two{grid-template-columns:1fr 1fr;} .agrid.one{grid-template-columns:1fr;}
+  .nrow{display:flex;gap:8px;} .nrow input{flex:1;background:#111a2b;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px;font-size:16px;text-align:center;}
+  .nrow button.safe{background:linear-gradient(135deg,#1f6f55,#157a5c);padding:6px 10px;font-size:13px;line-height:1.2;}
+  .nrow button.safe small{display:block;font-size:10px;font-weight:400;opacity:.85;}
+  .nrow button{padding:10px 20px;border-radius:10px;border:none;font-weight:700;background:linear-gradient(135deg,#4da3ff,#2b6fd6);color:#fff;}
+  .mcard{border:1px solid var(--line);border-radius:12px;background:#0f1624;padding:10px 12px;margin-bottom:12px;}
+  .mrow{display:flex;align-items:center;gap:10px;margin:8px 0;} .mrow span{flex:1;font-size:13px;color:var(--sub);}
+  .mrow input,.mrow select{width:150px;background:#111a2b;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px;font-size:15px;text-align:center;}
+  .autoscale{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--txt);margin:2px 2px 10px;} .autoscale input{width:18px;height:18px;}
+  button.wide{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#111a2b;font-weight:600;font-size:14px;margin-bottom:10px;}
+  button.wide small{display:block;font-size:10px;font-weight:400;color:var(--sub);margin-top:3px;}
+  .nrow button small{display:block;font-size:10px;font-weight:400;opacity:.85;}
+  .nrow button.danger2{background:linear-gradient(135deg,#2a1a10,#1b1420);border:1px solid #7a4a2a;color:#ffc9a0;padding:8px 10px;font-size:13px;line-height:1.2;}
+  #menu .sec{border:1px solid var(--line);border-radius:12px;background:#0f1624;padding:6px 14px 14px;margin-top:16px;}
+  #menu .sec.gap-lg{margin-top:34px;}
+  #menu .sec h3{margin:8px 0 6px;font-size:13px;color:#9fc4ff;letter-spacing:.06em;}
+  #menu .sec .sub{font-size:12px;line-height:1.6;}
+  #menu .mrow input{width:150px;} #menu .sub.hint{margin-top:4px;} #menu .sub.lead{margin-top:14px;color:var(--txt);font-weight:600;}
+  #menu .curloc{font-size:13px;margin:2px 0 6px;color:var(--sub);} #menu .curloc b{color:var(--txt);}
+  #menu .row.tight{margin-top:6px;} #menu .row.tight button{padding:9px 6px;font-size:14px;}
+  #menu .idrow{display:flex;align-items:center;gap:12px;} #menu .idrow .sub{flex:1;}
+  button.sm{flex:none;padding:6px 14px;border-radius:9px;border:1px solid var(--line);background:var(--card2);font-size:13px;font-weight:600;}
+  .cnote{font-size:12px;color:var(--sub);line-height:1.6;margin:6px 2px;}
+  #hud{position:fixed;left:10px;bottom:10px;max-width:calc(100% - 230px);font-size:11px;color:var(--sub);pointer-events:none;}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div class="bar"><span class="dot" id="dot"></span>
+  <span><b>RA</b><span id="sra">--:--:--</span></span>
+  <span><b>DEC</b><span id="sdec">--:--:--</span></span>
+  <span id="stt">offline</span></div>
+<a id="lunaLink" href="https://github.com/OnStepNinja" target="_blank" rel="noopener">🌙 LUNA Project</a>
+<div id="minfo"></div>
+<div class="fab">
+  <button id="bScope" title="望遠鏡の位置へ">🔭</button>
+  <button id="bMode" title="赤道座標/地平座標">⊕</button>
+  <button id="bMenu" title="設定 (Config)">⚙️</button>
+  <button id="bRed" title="夜間モード(赤)">🔴</button>
+  <button id="bCtl" title="マウント操作" style="display:none">🎛️</button>
+  <button id="bBeep" title="ブザー(:=SD#)">🔔</button>
+  <button id="bStop" class="stop">STOP</button>
+</div>
+<div id="hud"></div>
+<div id="branding"><span>LUNA AiBridge StarChart v0.9.0</span><button id="supportBtn" title="開発のご支援">💗</button></div>
+<div class="panel" id="info">
+  <h2 id="iName"></h2><div class="sub" id="iSub"></div>
+  <div class="row"><button id="bClose">閉じる</button><button id="bAlign">アライメント</button><button id="bGoto" class="go">GOTO</button></div>
+</div>
+<div class="panel" id="ctl">
+  <div class="chead"><h2>マウント操作</h2><span id="ctlBadge"></span><button id="ctlClose">✕</button></div>
+  <div id="ctlTabs"></div><div id="ctlBody"></div>
+  <button id="ctlClose2" class="wide" style="margin:6px 0 0">✕ 閉じる</button>
+</div>
+<div class="panel" id="menu">
+  <div class="chead"><h2>設定 (Config)</h2><span style="flex:1"></span><button id="menuX" title="閉じる">✕</button></div>
+
+  <div class="sec">
+    <h3>接続機種</h3>
+    <div class="idrow"><button id="bIdent" class="sm">機種を確認</button><div class="sub" id="mountId">未確認(接続すると自動で確認します)</div></div>
+  </div>
+
+  <div class="sec">
+    <h3>観測地</h3>
+    <div class="curloc">現在の設定: <b id="locNow"></b></div>
+    <div class="mrow"><span>緯度<br><small>北緯 + / 南緯 −</small></span><input type="number" id="lat" step="0.01"></div>
+    <div class="mrow"><span>経度<br><small>西経 + / 東経 −</small></span><input type="number" id="lon" step="0.01"></div>
+    <div class="sub hint">OnStep / NS-5000 と同じ表記です。例: 東京 → 緯度 +35.68 / 経度 −139.77</div>
+    <div class="sub lead">入力の代わりに取得する</div>
+    <div class="row tight"><button id="bGps">📍 この端末の位置</button><button id="bMountLoc">マウントから取得</button></div>
+    <div class="sub lead">マウントへ送る</div>
+    <div class="row tight"><button id="bSendLoc">観測地を送信</button></div>
+  </div>
+
+  <div class="sec">
+    <h3>日時</h3>
+    <div class="sub">この端末(PC/スマホ)の時計と時間帯を、マウントへ送ります。送信後、画面左上のマウント情報で反映を確認できます。</div>
+    <div class="row tight"><button id="bSendTime">日時を送信</button></div>
+  </div>
+
+  <div class="sec">
+    <h3>マウントの座標系</h3>
+    <div class="sub">マウントとの座標のやりとりは JNow(観測日の座標)です。OnStep・SkySafari・NS-5000 と同じです。この星図は J2000 の星表から自動で補正して送受信します。</div>
+  </div>
+
+  <div class="sec gap-lg">
+    <h3>表示</h3>
+    <div class="grid" id="layers"></div>
+  </div>
+
+  <div class="sub" id="saveSt" style="margin-top:12px;font-size:12px"></div>
+  <div class="row"><button id="bMenuClose">閉じる</button></div>
+</div>
+<div id="supportPopover" class="overlay" onclick="if(event.target===this) this.classList.remove('show')">
+  <div class="modal">
+    <h2 style="margin:0 0 8px">開発のご支援</h2>
+    <p>このアプリは無料でお使いいただけます。お役に立てた場合、今後の開発への $5(コーヒー1杯分)のご支援をいただけると励みになります(任意です)。</p>
+    <p><a href="https://www.paypal.com/ncp/payment/WWQ7NLZ2HZ53U" target="_blank" rel="noopener" style="color:#ff90ab;">ご支援のリンクを開く</a></p>
+    <p style="font-size:11px;color:var(--sub);margin:10px 0 0">LUNA AiBridge StarChart v0.9.0 ・ © 2026 Nishioka Sadahiko ・ フリーウェア<br>星表データ: d3-celestial (BSD-3, Olaf Frohn)</p>
+    <div class="row"><button onclick="document.getElementById('supportPopover').classList.remove('show')">閉じる</button></div>
+  </div>
+</div>
+<div id="toast"></div>
+<div id="red"></div>
+
+<script src="starchart_ja_data.js"></script>
+<script>
+"use strict";
+if(typeof STARS === "undefined"){ document.body.innerHTML = "<p style=\"color:#fbbf24;padding:20px;font-family:sans-serif\">starchart_ja_data.js が見つかりません。starchart.html と同じ場所(SPIFFS)にアップロードしてください。</p>"; throw new Error("starchart_ja_data.js missing"); }
+const $ = id => document.getElementById(id);
+const D2R = Math.PI / 180, R2D = 180 / Math.PI;
+const BASE = (new URLSearchParams(location.search).get("host") || "");
+const API = BASE ? "http://" + BASE : "";
+
+// ---------- 保存設定 ----------
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("sc_" + k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("sc_" + k, JSON.stringify(v)); }catch(e){} }
+};
+const LAYERS = [
+  ["stars","星",1],["clines","星座線",1],["cnames","星座名",1],["snames","恒星名",1],
+  ["grid","赤経・赤緯線",1],["meridian","子午線",1],["ecliptic","黄道",0],["horizon","地平線",1],
+  ["messier","メシエ天体",1],["planets","惑星・太陽・月",1]
+];
+const on = store.get("layers", {});
+LAYERS.forEach(l => { if(!(l[0] in on)) on[l[0]] = !!l[2]; });
+const loc = store.get("loc", {lat: 35.68, lon: 139.77, src: "default"});
+const epoch = "now"; // マウントとの座標系は JNow 固定
+const view = store.get("view", {altaz: false, lon: 0, lat: 0, fov: 60});
+if(!view.fov) view.fov = 60;
+
+// ---------- 時刻・座標計算 ----------
+const jdNow = () => Date.now() / 86400000 + 2440587.5;
+const norm = a => { a %= 360; return a < 0 ? a + 360 : a; };
+function lstDeg(jd){ return norm(280.46061837 + 360.98564736629 * (jd - 2451545) + loc.lon); }
+const vec = (ra, dec) => { const a = ra * D2R, d = dec * D2R, c = Math.cos(d); return [c * Math.cos(a), c * Math.sin(a), Math.sin(d)]; };
+const toRaDec = v => { const n = Math.hypot(v[0], v[1], v[2]) || 1; return [norm(Math.atan2(v[1], v[0]) * R2D), Math.asin(Math.max(-1, Math.min(1, v[2] / n))) * R2D]; };
+
+// J2000 <-> 当日(JNow) 歳差 (Meeus)
+function precParams(jd){
+  const T = (jd - 2451545) / 36525, s = 1 / 3600;
+  return {
+    ze: (2306.2181 * T + 0.30188 * T * T + 0.017998 * T * T * T) * s * D2R,
+    z:  (2306.2181 * T + 1.09468 * T * T + 0.018203 * T * T * T) * s * D2R,
+    th: (2004.3109 * T - 0.42665 * T * T - 0.041833 * T * T * T) * s * D2R };
+}
+function toNow(ra, dec, jd){
+  const p = precParams(jd), a = ra * D2R, d = dec * D2R;
+  const A = Math.cos(d) * Math.sin(a + p.ze);
+  const B = Math.cos(p.th) * Math.cos(d) * Math.cos(a + p.ze) - Math.sin(p.th) * Math.sin(d);
+  const C = Math.sin(p.th) * Math.cos(d) * Math.cos(a + p.ze) + Math.cos(p.th) * Math.sin(d);
+  return [norm((Math.atan2(A, B) + p.z) * R2D), Math.asin(C) * R2D];
+}
+function fromNow(ra, dec, jd){
+  const p = precParams(jd), a = ra * D2R - p.z, d = dec * D2R;
+  const A = Math.cos(d) * Math.sin(a);
+  const B = Math.cos(p.th) * Math.cos(d) * Math.cos(a) + Math.sin(p.th) * Math.sin(d);
+  const C = -Math.sin(p.th) * Math.cos(d) * Math.cos(a) + Math.cos(p.th) * Math.sin(d);
+  return [norm((Math.atan2(A, B) - p.ze) * R2D), Math.asin(C) * R2D];
+}
+
+// 赤道 -> 地平 の回転行列(ベクトル=(北,東,天頂))
+let M = [1,0,0, 0,1,0, 0,0,1], LST = 0, JD = 0;
+function buildFrame(){
+  JD = jdNow(); LST = lstDeg(JD);
+  const cl = Math.cos(LST * D2R), sl = Math.sin(LST * D2R), cp = Math.cos(loc.lat * D2R), sp = Math.sin(loc.lat * D2R);
+  // X=cl*x+sl*y, Y=sl*x-cl*y, Z=z ; n=Z*cp-X*sp, e=-Y, u=X*cp+Z*sp
+  M = [ -sp * cl, -sp * sl, cp,
+        -sl,       cl,      0,
+         cp * cl,  cp * sl, sp ];
+}
+const mul = (m, v) => [m[0]*v[0]+m[1]*v[1]+m[2]*v[2], m[3]*v[0]+m[4]*v[1]+m[5]*v[2], m[6]*v[0]+m[7]*v[1]+m[8]*v[2]];
+const mulT = (m, v) => [m[0]*v[0]+m[3]*v[1]+m[6]*v[2], m[1]*v[0]+m[4]*v[1]+m[7]*v[2], m[2]*v[0]+m[5]*v[1]+m[8]*v[2]];
+function altAz(ra, dec){ const h = mul(M, vec(ra, dec)); return [Math.asin(h[2]) * R2D, norm(Math.atan2(h[1], h[0]) * R2D)]; }
+
+// ---------- 惑星・太陽・月 (Schlyter の簡易軌道要素) ----------
+const sind = x => Math.sin(x * D2R), cosd = x => Math.cos(x * D2R);
+const EL = { // N,i,w,a,e,M  (基準値, 日変化)
+  mercury:[[48.3313,3.24587e-5],[7.0047,5e-8],[29.1241,1.01444e-5],[0.387098,0],[0.205635,5.59e-10],[168.6562,4.0923344368]],
+  venus:[[76.6799,2.4659e-5],[3.3946,2.75e-8],[54.891,1.38374e-5],[0.72333,0],[0.006773,-1.302e-9],[48.0052,1.6021302244]],
+  mars:[[49.5574,2.11081e-5],[1.8497,-1.78e-8],[286.5016,2.92961e-5],[1.523688,0],[0.093405,2.516e-9],[18.6021,0.5240207766]],
+  jupiter:[[100.4542,2.76854e-5],[1.303,-1.557e-7],[273.8777,1.64505e-5],[5.20256,0],[0.048498,4.469e-9],[19.895,0.0830853001]],
+  saturn:[[113.6634,2.3898e-5],[2.4886,-1.081e-7],[339.3939,2.97661e-5],[9.55475,0],[0.055546,-9.499e-9],[316.967,0.0334442282]],
+  uranus:[[74.0005,1.3978e-5],[0.7733,1.9e-8],[96.6612,3.0565e-5],[19.18171,-1.55e-8],[0.047318,7.45e-9],[142.5905,0.011725806]],
+  neptune:[[131.7806,3.0173e-5],[1.77,-2.55e-7],[272.8461,-6.027e-6],[30.05826,3.313e-8],[0.008606,2.15e-9],[260.2471,0.005995147]]
+};
+function orbit(name, d){
+  const e = EL[name].map(p => p[0] + p[1] * d);
+  const N = e[0], i = e[1], w = e[2], a = e[3], ec = e[4], Mn = norm(e[5]);
+  let E = Mn + R2D * ec * sind(Mn) * (1 + ec * cosd(Mn));
+  for(let k = 0; k < 8; k++) E -= (E - R2D * ec * sind(E) - Mn) / (1 - ec * cosd(E));
+  const xv = a * (cosd(E) - ec), yv = a * Math.sqrt(1 - ec * ec) * sind(E);
+  const v = Math.atan2(yv, xv) * R2D, r = Math.hypot(xv, yv);
+  return { N, i, w, r, v, Mn,
+    x: r * (cosd(N) * cosd(v + w) - sind(N) * sind(v + w) * cosd(i)),
+    y: r * (sind(N) * cosd(v + w) + cosd(N) * sind(v + w) * cosd(i)),
+    z: r * sind(v + w) * sind(i) };
+}
+function bodies(jd){
+  const d = jd - 2451543.5, ecl = 23.4393 - 3.563e-7 * d;
+  // 太陽(地球軌道)
+  const ws = 282.9404 + 4.70935e-5 * d, es = 0.016709 - 1.151e-9 * d, Ms = norm(356.047 + 0.9856002585 * d);
+  let E = Ms + R2D * es * sind(Ms) * (1 + es * cosd(Ms));
+  for(let k = 0; k < 6; k++) E -= (E - R2D * es * sind(E) - Ms) / (1 - es * cosd(E));
+  const xv = cosd(E) - es, yv = Math.sqrt(1 - es * es) * sind(E);
+  const vs = Math.atan2(yv, xv) * R2D, rs = Math.hypot(xv, yv), lonsun = vs + ws;
+  const xs = rs * cosd(lonsun), ys = rs * sind(lonsun);
+  const ecl2eq = (x, y, z) => [x, y * cosd(ecl) - z * sind(ecl), y * sind(ecl) + z * cosd(ecl)];
+  const toJ2000 = v => { const rd = toRaDec(v); const j = fromNow(rd[0], rd[1], jd); return j; };
+  const out = [];
+  out.push({id:"sun", n:"太陽", c:"#ffd54a", mag:-26, pos: toJ2000(ecl2eq(xs, ys, 0))});
+  const Mj = orbit("jupiter", d).Mn, Msat = orbit("saturn", d).Mn, Mu = orbit("uranus", d).Mn;
+  const defs = [["mercury","水星","#c9c2b8",0],["venus","金星","#fff3c4",-4],["mars","火星","#ff7b5c",1],
+    ["jupiter","木星","#f3d9b1",-2],["saturn","土星","#e8d48a",0.5],["uranus","天王星","#9fe8ee",5.7],["neptune","海王星","#7b9bff",7.8]];
+  for(const [id, n, c, mag] of defs){
+    const o = orbit(id, d);
+    let lon = norm(Math.atan2(o.y, o.x) * R2D), lat = 0;
+    let xh = o.x, yh = o.y, zh = o.z;
+    let pl = 0, pb = 0;
+    if(id === "jupiter") pl = -0.332*sind(2*Mj-5*Msat-67.6) -0.056*sind(2*Mj-2*Msat+21) +0.042*sind(3*Mj-5*Msat+21) -0.036*sind(Mj-2*Msat) +0.022*cosd(Mj-Msat) +0.023*sind(2*Mj-3*Msat+52) -0.016*sind(Mj-5*Msat-69);
+    if(id === "saturn"){ pl = 0.812*sind(2*Mj-5*Msat-67.6) -0.229*cosd(2*Mj-4*Msat-2) +0.119*sind(Mj-2*Msat-3) +0.046*sind(2*Mj-6*Msat-69) +0.014*sind(Mj-3*Msat+32);
+      pb = -0.020*cosd(2*Mj-4*Msat-2) +0.018*sind(2*Mj-6*Msat-49); }
+    if(id === "uranus") pl = 0.040*sind(Msat-2*Mu+6) +0.035*sind(Msat-3*Mu+33) -0.015*sind(Mj-Mu+20);
+    if(pl || pb){
+      lat = Math.atan2(zh, Math.hypot(xh, yh)) * R2D + pb; lon += pl;
+      const r = o.r; xh = r * cosd(lon) * cosd(lat); yh = r * sind(lon) * cosd(lat); zh = r * sind(lat);
+    }
+    out.push({id, n, c, mag, pos: toJ2000(ecl2eq(xh + xs, yh + ys, zh))});
+  }
+  // 月 (地心→観測地の視差補正)
+  const N = 125.1228 - 0.0529538083 * d, inc = 5.1454, wm = 318.0634 + 0.1643573223 * d, am = 60.2666, em = 0.0549;
+  const Mm = norm(115.3654 + 13.0649929509 * d);
+  let Em = Mm + R2D * em * sind(Mm) * (1 + em * cosd(Mm));
+  for(let k = 0; k < 8; k++) Em -= (Em - R2D * em * sind(Em) - Mm) / (1 - em * cosd(Em));
+  const xm = am * (cosd(Em) - em), ym = am * Math.sqrt(1 - em * em) * sind(Em);
+  const vm = Math.atan2(ym, xm) * R2D; let rm = Math.hypot(xm, ym);
+  const Ls = Ms + ws, Lm = Mm + wm + N, Dm = Lm - Ls, F = Lm - N;
+  let lonm = vm + wm + N + (-1.274*sind(Mm-2*Dm) +0.658*sind(2*Dm) -0.186*sind(Ms) -0.059*sind(2*Mm-2*Dm) -0.057*sind(Mm-2*Dm+Ms) +0.053*sind(Mm+2*Dm) +0.046*sind(2*Dm-Ms) +0.041*sind(Mm-Ms) -0.035*sind(Dm) -0.031*sind(Mm+Ms) -0.015*sind(2*F-2*Dm) +0.011*sind(Mm-4*Dm));
+  let latm = Math.asin(sind(vm + wm) * sind(inc)) * R2D + (-0.173*sind(F-2*Dm) -0.055*sind(Mm-F-2*Dm) -0.046*sind(Mm+F-2*Dm) +0.033*sind(F+2*Dm) +0.017*sind(2*Mm+F));
+  rm += -0.58 * cosd(Mm - 2 * Dm) - 0.46 * cosd(2 * Dm);
+  const gm = ecl2eq(rm * cosd(lonm) * cosd(latm), rm * sind(lonm) * cosd(latm), rm * sind(latm));
+  const lstNow = lstDeg(jd), ph = loc.lat * D2R;
+  const obs = [Math.cos(ph) * cosd(lstNow), Math.cos(ph) * sind(lstNow), Math.sin(ph)]; // 当日赤道座標(地球半径)
+  const tm = [gm[0] - obs[0], gm[1] - obs[1], gm[2] - obs[2]];
+  out.push({id:"moon", n:"月", c:"#eeeeee", mag:-12, pos: toJ2000(tm), phase: norm(Dm)});
+  return out;
+}
+
+// ---------- 投影 ----------
+const cv = $("cv"), ctx = cv.getContext("2d");
+let W = 0, H = 0, S = 1, dpr = 1;
+let cF = [1,0,0], eF = [0,1,0], nF = [0,0,1];
+function setCenter(){
+  const L = view.lat * D2R, l = view.lon * D2R;
+  cF = [Math.cos(L) * Math.cos(l), Math.cos(L) * Math.sin(l), Math.sin(L)];
+  eF = [-Math.sin(l), Math.cos(l), 0];
+  nF = [-Math.sin(L) * Math.cos(l), -Math.sin(L) * Math.sin(l), Math.cos(L)];
+  S = (H / 2) / (2 * Math.tan(view.fov * D2R / 4));
+}
+const dot3 = (a, b) => a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
+function projF(w){ // 画面枠系ベクトル→[px,py] or null
+  const d = dot3(w, cF); if(d < -0.92) return null;
+  const k = 2 / (1 + d);
+  return [W / 2 - k * dot3(w, eF) * S, H / 2 - k * dot3(w, nF) * S, d];
+}
+const toFrame = v => view.altaz ? mul(M, v) : v;
+const proj = v => projF(toFrame(v));
+function unproj(px, py){
+  const x = -(px - W / 2) / S, y = -(py - H / 2) / S, rho = Math.hypot(x, y);
+  if(rho < 1e-9) return cF.slice();
+  const th = 2 * Math.atan(rho / 2), ce = x / rho, cn = y / rho;
+  const st = Math.sin(th), ct = Math.cos(th);
+  return [0,1,2].map(i => ct * cF[i] + st * (ce * eF[i] + cn * nF[i]));
+}
+function frameToLonLat(w){ return [Math.atan2(w[1], w[0]) * R2D, Math.asin(Math.max(-1, Math.min(1, w[2]))) * R2D]; }
+function eqCenter(){ const w = cF; const v = view.altaz ? mulT(M, w) : w; return toRaDec(v); }
+
+// ---------- 描画 ----------
+const CSS = k => getComputedStyle(document.documentElement).getPropertyValue(k);
+let hits = [];
+function poly(pts, close){ // 赤道ベクトル列を折れ線描画
+  ctx.beginPath(); let pen = false, prev = null;
+  for(const v of pts){
+    const p = proj(v);
+    if(!p){ pen = false; prev = null; continue; }
+    if(pen && prev && (Math.abs(p[0] - prev[0]) > W * 3 || Math.abs(p[1] - prev[1]) > H * 3)) pen = false;
+    if(pen) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]);
+    pen = true; prev = p;
+  }
+  ctx.stroke();
+}
+function bvColor(bv){
+  const t = Math.max(-0.3, Math.min(1.8, bv));
+  if(t < 0) return "#b4c8ff"; if(t < 0.4) return "#dfe7ff"; if(t < 0.8) return "#fff6e0";
+  if(t < 1.2) return "#ffd9a0"; return "#ffb27a";
+}
+function label(txt, x, y, color, size, align){
+  ctx.font = (size || 12) + "px -apple-system,'Hiragino Sans',sans-serif";
+  ctx.fillStyle = color; ctx.textAlign = align || "left"; ctx.fillText(txt, x, y);
+}
+const onScreen = (p, m) => p && p[0] > -(m||0) && p[0] < W + (m||0) && p[1] > -(m||0) && p[1] < H + (m||0);
+const gridAt = (fov, arr) => fov > 80 ? arr[0] : fov > 35 ? arr[1] : fov > 14 ? arr[2] : fov > 5 ? arr[3] : arr[4];
+
+let scope = null; // {ra,dec} J2000
+let gotoT = null;  // GOTO先 {ra,dec,name,t0,seen,idle} 到着するまで表示
+const sepDeg = (a, b) => Math.acos(Math.max(-1, Math.min(1, dot3(vec(a.ra, a.dec), vec(b.ra, b.dec))))) * R2D;
+let bodiesCache = [], bodiesT = 0;
+function draw(){
+  buildFrame(); setCenter();
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.fillStyle = "#05080f"; ctx.fillRect(0, 0, W, H);
+  hits = [];
+  const fov = view.fov, [ra0, dec0] = eqCenter();
+  const rad = fov * 0.5 * Math.max(1, W / H) * 1.25 + 3;
+
+  // --- グリッド ---
+  if(on.grid){
+    ctx.lineWidth = 1; ctx.strokeStyle = "#1c2f4a";
+    const raStep = gridAt(fov, [30, 15, 7.5, 2.5, 1.25]), decStep = gridAt(fov, [15, 10, 5, 2, 1]);
+    const dLo = Math.max(-90, dec0 - rad), dHi = Math.min(90, dec0 + rad);
+    const all = dLo <= -89 || dHi >= 89 || rad > 80;
+    const dmax = Math.max(Math.abs(dLo), Math.abs(dHi));
+    const dra = all ? 180 : Math.min(180, rad / Math.max(0.05, Math.cos(Math.min(dmax, 89) * D2R)));
+    const stepSamp = Math.max(0.5, Math.min(3, fov / 25));
+    for(let r = Math.ceil((ra0 - dra) / raStep) * raStep; r <= ra0 + dra; r += raStep){
+      const pts = []; for(let d = dLo; d <= dHi + 1e-6; d += stepSamp) pts.push(vec(r, d));
+      poly(pts);
+      const lp = proj(vec(r, Math.max(-85, Math.min(85, dec0 - fov * 0.36))));
+      if(onScreen(lp, -4)){ const hh = norm(r) / 15; label(Number.isInteger(hh) ? hh + "h" : (Math.floor(hh) + "h" + Math.round((hh % 1) * 60) + "m"), lp[0] + 3, lp[1], "#3b6aa5", 11); }
+    }
+    for(let d = Math.ceil(dLo / decStep) * decStep; d <= dHi; d += decStep){
+      if(Math.abs(d) >= 90) continue;
+      const pts = []; const sa = Math.max(1, stepSamp / Math.max(0.1, Math.cos(d * D2R)));
+      for(let r = ra0 - dra; r <= ra0 + dra + 1e-6; r += Math.min(sa, 6)) pts.push(vec(r, d));
+      poly(pts);
+      const lp = proj(vec(ra0 + Math.min(rad, 90) * 0.55 / Math.max(0.2, Math.cos(d * D2R)), d));
+      if(onScreen(lp, -4)) label((d > 0 ? "+" : "") + d + "°", lp[0], lp[1] - 3, "#3b6aa5", 11);
+    }
+  }
+  // --- 黄道 ---
+  if(on.ecliptic){
+    ctx.strokeStyle = "#7a6a25"; ctx.lineWidth = 1.2; const eps = 23.4393 * D2R, pts = [];
+    for(let l = 0; l <= 360; l += 2){ const c = cosd(l), s = sind(l); pts.push([c, s * Math.cos(eps), s * Math.sin(eps)]); }
+    poly(pts);
+  }
+  // --- 子午線 ---
+  if(on.meridian){
+    ctx.strokeStyle = "#2fbf8f"; ctx.lineWidth = 1.6; ctx.setLineDash([8, 5]);
+    const pts = []; for(let d = -90; d <= 90; d += 2) pts.push(vec(LST, d)); for(let d = 90; d >= -90; d -= 2) pts.push(vec(LST + 180, d));
+    poly(pts); ctx.setLineDash([]);
+    for(const [az, t] of [[0, "N"], [180, "S"]]){ // 子午線と地平線の交点にラベル
+      const p = proj(mulT(M, [cosd(az), 0, 0])); if(onScreen(p, -4)) label("子午線 " + t, p[0] + 6, p[1] - 6, "#2fbf8f", 11);
+    }
+    const z = proj(mulT(M, [0, 0, 1])); if(onScreen(z, -4)){ ctx.fillStyle = "#2fbf8f"; ctx.fillRect(z[0] - 2, z[1] - 2, 4, 4); label("天頂", z[0] + 6, z[1] - 4, "#2fbf8f", 11); }
+  }
+  // --- 地平線 ---
+  if(on.horizon){
+    ctx.strokeStyle = "#c07a3a"; ctx.lineWidth = 2;
+    const pts = []; for(let a = 0; a <= 360; a += 2) pts.push(mulT(M, [cosd(a), sind(a), 0])); poly(pts);
+    [["北", 0], ["東", 90], ["南", 180], ["西", 270]].forEach(([t, a]) => {
+      const p = proj(mulT(M, [cosd(a), sind(a), 0])); if(onScreen(p, -4)) label(t, p[0], p[1] + 16, "#e0a060", 16, "center");
+    });
+  }
+  // --- 星座線 ---
+  if(on.clines){
+    ctx.strokeStyle = "#2f5d9a"; ctx.lineWidth = 1.2;
+    for(const c of CONS) for(const l of c.l){
+      const pts = []; for(let i = 0; i < l.length; i += 2) pts.push(vec(l[i], l[i + 1])); poly(pts);
+    }
+  }
+  // --- 星 ---
+  if(on.stars){
+    const zs = Math.max(0.7, Math.min(2.6, 70 / fov + 0.6));
+    for(const s of STARS){
+      const p = proj(vec(s[0], s[1])); if(!onScreen(p, 6)) continue;
+      const r = Math.max(0.55, (6.3 - s[2]) * 0.5 * zs);
+      ctx.fillStyle = bvColor(s[3]); ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 6.2832); ctx.fill();
+      if(s[2] < 4) hits.push({x: p[0], y: p[1], pr: 3, kind: "star", ra: s[0], dec: s[1], mag: s[2], name: null});
+    }
+  }
+  // --- 恒星名 ---
+  if(on.snames){
+    const lim = fov > 90 ? 1.6 : fov > 50 ? 2.3 : fov > 25 ? 3 : 3.6;
+    for(const s of SNAMES){
+      if(s[2] > lim) continue; const p = proj(vec(s[0], s[1])); if(!onScreen(p, -4)) continue;
+      label(s[3], p[0] + 6, p[1] - 5, "#9fb4d6", 11);
+      hits.push({x: p[0], y: p[1], pr: 1, kind: "star", ra: s[0], dec: s[1], mag: s[2], name: s[3]});
+    }
+  }
+  // --- 星座名 ---
+  if(on.cnames && fov > 18){
+    for(const c of CONS){ const p = proj(vec(c.c[0], c.c[1])); if(onScreen(p, -10)) label(c.n, p[0], p[1], "#4a78b8", 13, "center"); }
+  }
+  // --- メシエ ---
+  if(on.messier){
+    const lim = fov > 80 ? 5.5 : fov > 40 ? 7.5 : fov > 15 ? 9 : 11;
+    for(const m of MESSIER){
+      if(m[3] > lim) continue; const p = proj(vec(m[1], m[2])); if(!onScreen(p, -4)) continue;
+      const x = p[0], y = p[1], t = m[4]; ctx.lineWidth = 1.5; ctx.strokeStyle = "#e6a15a";
+      ctx.beginPath();
+      if(t === "g"){ ctx.ellipse(x, y, 7, 4, -0.5, 0, 6.2832); }
+      else if(t === "c"){ ctx.arc(x, y, 5.5, 0, 6.2832); ctx.moveTo(x - 5.5, y); ctx.lineTo(x + 5.5, y); ctx.moveTo(x, y - 5.5); ctx.lineTo(x, y + 5.5); }
+      else if(t === "o"){ ctx.setLineDash([2.5, 2.5]); ctx.arc(x, y, 6, 0, 6.2832); }
+      else if(t === "p"){ ctx.arc(x, y, 3.5, 0, 6.2832); ctx.moveTo(x - 9, y); ctx.lineTo(x - 5, y); ctx.moveTo(x + 5, y); ctx.lineTo(x + 9, y); }
+      else { ctx.rect(x - 5.5, y - 5.5, 11, 11); }
+      ctx.stroke(); ctx.setLineDash([]);
+      label("M" + m[0] + (fov < 40 && m[5] ? " " + m[5] : ""), x + 9, y - 6, "#e6a15a", 12);
+      hits.push({x, y, pr: 4, kind: "messier", ra: m[1], dec: m[2], mag: m[3], name: "M" + m[0] + (m[5] ? " " + m[5] : ""), t});
+    }
+  }
+  // --- 惑星 ---
+  if(on.planets){
+    if(Date.now() - bodiesT > 5000){ bodiesCache = bodies(JD); bodiesT = Date.now(); }
+    for(const b of bodiesCache){
+      const p = proj(vec(b.pos[0], b.pos[1])); if(!onScreen(p, -4)) continue;
+      const r = b.id === "sun" || b.id === "moon" ? 8 : 4.5;
+      ctx.fillStyle = b.c; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 6.2832); ctx.fill();
+      ctx.strokeStyle = b.c; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(p[0], p[1], r + 4, 0, 6.2832); ctx.stroke();
+      label(b.n, p[0] + r + 7, p[1] + 4, b.c, 13);
+      hits.push({x: p[0], y: p[1], pr: 5, kind: "planet", ra: b.pos[0], dec: b.pos[1], mag: b.mag, name: b.n});
+    }
+  }
+  // --- 選択中 ---
+  if(sel){
+    const p = proj(vec(sel.ra, sel.dec));
+    if(p){ ctx.strokeStyle = "#ff4d6d"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p[0], p[1], 16, 0, 6.2832); ctx.stroke(); }
+  }
+  // --- GOTO先 (到着するまで表示) ---
+  if(gotoT){
+    const p = proj(vec(gotoT.ra, gotoT.dec)), ph = (Date.now() % 1500) / 1500, col = "#ff9f1a";
+    if(scope){ // 望遠鏡 → 目的地 の点線
+      const q = proj(vec(scope.ra, scope.dec));
+      if(p && q){ ctx.strokeStyle = "#ff9f1a99"; ctx.lineWidth = 1.5; ctx.setLineDash([6, 6]); ctx.beginPath(); ctx.moveTo(q[0], q[1]); ctx.lineTo(p[0], p[1]); ctx.stroke(); ctx.setLineDash([]); }
+    }
+    if(p){
+      ctx.strokeStyle = col; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(p[0], p[1] - 13); ctx.lineTo(p[0] + 13, p[1]); ctx.lineTo(p[0], p[1] + 13); ctx.lineTo(p[0] - 13, p[1]); ctx.closePath(); ctx.stroke();
+      ctx.globalAlpha = 1 - ph; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p[0], p[1], 14 + ph * 22, 0, 6.2832); ctx.stroke(); ctx.globalAlpha = 1;
+      const rem = scope ? sepDeg(scope, gotoT) : null;
+      label("GOTO先" + (gotoT.name ? " " + gotoT.name : "") + (rem !== null ? "  残り " + (rem < 1 ? (rem * 60).toFixed(0) + "′" : rem.toFixed(1) + "°") : ""), p[0] + 18, p[1] - 14, col, 13);
+    }
+  }
+  // --- 望遠鏡 ---
+  if(scope){
+    const p = proj(vec(scope.ra, scope.dec));
+    if(p){
+      ctx.strokeStyle = "#34d399"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(p[0], p[1], 10, 0, 6.2832); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(p[0] - 22, p[1]); ctx.lineTo(p[0] - 10, p[1]); ctx.moveTo(p[0] + 10, p[1]); ctx.lineTo(p[0] + 22, p[1]);
+      ctx.moveTo(p[0], p[1] - 22); ctx.lineTo(p[0], p[1] - 10); ctx.moveTo(p[0], p[1] + 10); ctx.lineTo(p[0], p[1] + 22); ctx.stroke();
+    }
+  }
+  const c = view.altaz ? "方位 " + norm(view.lon).toFixed(0) + "° 高度 " + view.lat.toFixed(0) + "°" : "";
+  $("hud").textContent = "視野 " + fov.toFixed(fov < 10 ? 1 : 0) + "°  " + (view.altaz ? "地平座標 " + c : "赤道座標") +
+    "  LST " + fmtHMS(LST / 15) + "  (" + fmtLoc() + ")";
+}
+let dirty = true;
+const redraw = () => { dirty = true; };
+function loop(){ if(dirty){ dirty = false; draw(); } requestAnimationFrame(loop); }
+
+// ---------- 表示補助 ----------
+function fmtHMS(h){ h = ((h % 24) + 24) % 24; let H_ = Math.floor(h), m = Math.floor((h - H_) * 60), s = Math.round(((h - H_) * 60 - m) * 60);
+  if(s === 60){ s = 0; m++; } if(m === 60){ m = 0; H_ = (H_ + 1) % 24; }
+  return String(H_).padStart(2,"0") + ":" + String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0"); }
+function fmtDMS(d){ const sg = d < 0 ? "-" : "+"; d = Math.abs(d); let D_ = Math.floor(d), m = Math.floor((d - D_) * 60), s = Math.round(((d - D_) * 60 - m) * 60);
+  if(s === 60){ s = 0; m++; } if(m === 60){ m = 0; D_++; }
+  return sg + String(D_).padStart(2,"0") + ":" + String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0"); }
+const fmtLoc = () => Math.abs(loc.lat).toFixed(2) + "°" + (loc.lat >= 0 ? "N" : "S") + " " + Math.abs(loc.lon).toFixed(2) + "°" + (loc.lon >= 0 ? "E" : "W");
+function parseSex(str, hours){
+  const m = /([+-])?\s*(\d+)\D+(\d+)(?:\D+(\d+(?:\.\d+)?))?/.exec(String(str || ""));
+  if(!m) return null;
+  const v = (+m[2]) + (+m[3]) / 60 + (+(m[4] || 0)) / 3600;
+  return (m[1] === "-" ? -v : v) * (hours ? 15 : 1);
+}
+function toast(msg, err){ const t = $("toast"); t.textContent = msg; t.className = "show" + (err ? " err" : "");
+  clearTimeout(toast._t); toast._t = setTimeout(() => { t.className = ""; }, 2500); }
+
+// ---------- 望遠鏡 API ----------
+async function api(path){
+  const ac = new AbortController(), t = setTimeout(() => ac.abort(), 4000);
+  try{
+    const r = await fetch(API + path, {cache: "no-store", signal: ac.signal});
+    const txt = await r.text();
+    if(!r.ok){ let m = ""; try{ m = (JSON.parse(txt).message || "").trim(); }catch(e){} throw new Error(m || "HTTP " + r.status); }
+    try{ return JSON.parse(txt); }catch(e){ throw new Error("JSON不正: " + txt.slice(0, 60)); }
+  }catch(e){ throw new Error(e.name === "AbortError" ? "タイムアウト" : e.message); }
+  finally{ clearTimeout(t); }
+}
+let polling = false, hostApi = true, hostLinkName, hostChk = 0;
+// AiBridge Host の接続先(COM→TCP など)が変わったら、機種の確認と情報の取得をやり直す
+async function checkHostLink(){
+  if(!hostApi) return;
+  try{
+    const r = await fetch(API + "/api/host", {cache: "no-store"});
+    if(!r.ok){ hostApi = false; return; }
+    const j = await r.json(), n = j.link && j.link.connected ? j.link.name : "";
+    if(hostLinkName !== undefined && n !== hostLinkName){
+      mount = {type: null, name: "", ver: "", date: "", raw: ""}; mcStatic = null; mc = null; infoN = 0; scope = null;
+      for(const k in kept) delete kept[k];
+      $("minfo").innerHTML = "";
+    }
+    hostLinkName = n;
+  }catch(e){ hostApi = false; }
+}
+async function poll(){
+  if(polling) return; polling = true;
+  try{
+    const j = await api("/api/status"), d = j.data || {};
+    $("dot").classList.add("on");
+    if(++hostChk % 4 === 1) checkHostLink(); // 約8秒ごと
+    if(mount.type === null && !identifying) identify(false);
+    const ra = parseSex(d.ra, true), dec = parseSex(d.dec, false);
+    if(ra !== null && dec !== null){
+      const [r2, d2] = epoch === "now" ? fromNow(ra, dec, jdNow()) : [ra, dec];
+      scope = {ra: r2, dec: d2};
+    }
+    $("sra").textContent = d.ra || "--"; $("sdec").textContent = d.dec || "--";
+    const st = (d.state || "").toLowerCase(), e = $("stt");
+    if(gotoT && scope){
+      const moving = st.includes("slew") || st.includes("move"), sep = sepDeg(scope, gotoT);
+      if(moving){ gotoT.seen = true; gotoT.idle = 0; } else gotoT.idle++;
+      if(sep < 0.15 && (gotoT.seen || Date.now() - gotoT.t0 > 4000)){ toast("GOTO 到着 (" + (gotoT.name || "指定位置") + ")"); gotoT = null; }
+      else if(!moving && gotoT.idle >= 4){ toast(gotoT.seen ? "GOTO が止まりました (目標まで残り " + sep.toFixed(2) + "°)" : "GOTO が開始されませんでした", true); gotoT = null; }
+    }
+    e.textContent = d.state || "---"; e.className = st.includes("slew") || st.includes("move") ? "move" : st.includes("track") ? "track" : "";
+  }catch(err){
+    if(++hostChk % 4 === 1) checkHostLink(); // 接続が切れている間も、ホスト側の接続先の変化を見ておく
+    $("dot").classList.remove("on"); $("stt").textContent = "通信エラー: " + err.message; $("stt").className = "";
+  }
+  polling = false; redraw();
+}
+
+// ---------- マウント情報 (LX200コマンドを順に問い合わせ) ----------
+// 数値を返すコマンド用: 値 "0" も有効な応答として扱う(ask は "0" を失敗として null にする)
+async function askv(c){ try{ const j = await api("/api/command?cmd=" + encodeURIComponent(c)); const v = String(j.data ?? "").replace(/#/g, "").trim(); return v || null; }catch(e){ return null; } }
+async function ask(c){ try{ const j = await api("/api/command?cmd=" + encodeURIComponent(c)); const v = String(j.data ?? "").replace(/#/g, "").trim(); return v && v !== "0" ? v : null; }catch(e){ return null; } }
+let infoBusy = false, mc = null, mcStatic = null, infoN = 0;
+let mount = {type: null, name: "", ver: "", date: "", raw: ""}, identifying = false;
+// 汎用モード(AiBridge Host の Alpaca 接続): /api/host と /api/mount/info を使う
+// 汎用モードの接続先が INDI のときは、表示の「Alpaca」を「INDI」にする(Alpaca は初期のまま)
+function kindWord(t){ const k = mount && mount.kind; return k === "indi" || k === "nina" ? t.replace(/Alpaca( \/ ASCOM)?/g, k === "nina" ? "NINA" : "INDI") : t; }
+async function getHostInfo(){ try{ const r = await fetch(API + "/api/host", {cache: "no-store"}); return r.ok ? await r.json() : null; }catch(e){ return null; } }
+let gcache = null, gAt = 0;
+async function ginfo(){ try{ const j = await api("/api/mount/info"); gcache = j; gAt = Date.now(); return j; }catch(e){ return null; } }
+const TRACK_NAMES = {0: "恒星時", 1: "月", 2: "太陽", 3: "キング"};
+// 接続機種の判定: OnStep は LX200 の :GVP#、NS-5000 は独自の :=V# :=GVP# :=GVN#
+async function identify(manual){
+  if(identifying) return; identifying = true;
+  const box = $("mountId"); if(manual) box.textContent = "確認中…";
+  try{
+    const hi = await getHostInfo();
+    if(hi && (hi.backend === "alpaca" || hi.backend === "indi" || hi.backend === "nina")){
+      const gi = await ginfo(); // 汎用モード(Alpaca / ASCOM): OnStep 専用の命令は使わず、/api/mount/* で操作する
+      mount = {type: "generic", kind: hi.backend, name: gi ? gi.name : "Alpaca", ver: hi.backend === "indi" ? "INDI" : hi.backend === "nina" ? "NINA" : "Alpaca", date: "", raw: gi ? gi.name : "Alpaca"};
+    }else{
+    const gvp = await ask("GVP"), gvn = await ask("GVN"), gvd = await ask("GVD");
+    const clean = t => (t || "").replace(/[^ -~]/g, "").trim();
+    if(/on-?step/i.test(gvp || "")){
+      mount = {type: "onstep", name: "OnStep", ver: clean(gvn), date: clean(gvd), raw: clean(gvp)};
+    }else{
+      const nv = await ask("=V"), np = await ask("=GVP"), nn = await ask("=GVN");
+      if(/ns-?5000/i.test((nv || "") + (np || ""))) mount = {type: "ns5000", name: "NS-5000", ver: clean(nn) || (/Ver([\d.]+)/.exec(nv || "") || [])[1] || "", date: "", raw: clean(nv)};
+      else mount = {type: "unknown", name: gvp ? "LX200互換 (" + clean(gvp) + ")" : "応答なし", ver: clean(gvn), date: "", raw: clean(gvp)};
+    }
+    }
+  }catch(e){ mount = {type: "unknown", name: "確認失敗", ver: "", date: "", raw: String(e.message)}; }
+  identifying = false; mcStatic = null; infoN = 0;
+  const t = mount.type === "onstep" ? "OnStep" : mount.type === "ns5000" ? "NS-5000" : mount.type === "generic" ? kindWord("汎用(Alpaca)") : "不明";
+  box.innerHTML = "機種: <b style='color:var(--txt)'>" + t + "</b><br>名称: " + (mount.raw || mount.name) + (mount.ver ? "<br>バージョン: " + mount.ver : "") + (mount.date ? "<br>ビルド日: " + mount.date : "");
+  if(manual) toast("機種: " + t + (mount.ver ? " " + mount.ver : ""));
+  $("bCtl").style.display = mount.type === "onstep" || mount.type === "ns5000" || mount.type === "generic" ? "" : "none";
+  $("bBeep").style.display = mount.type === "generic" ? "none" : "";
+  if(mount.type === "generic" && loc.src === "default") mountLocation(true);
+  infoPoll();
+} // mc: 最後に取得したマウント情報 + 取得時刻
+const parseSite = str => { const m = /([+-]?)(\d+)\D+(\d+)/.exec(str || ""); return m ? (m[1] === "-" ? -1 : 1) * (+m[2] + (+m[3]) / 60) : null; };
+const fmtSite = (lat, lon) => Math.abs(lat).toFixed(2) + "°" + (lat >= 0 ? "N" : "S") + " " + Math.abs(lon).toFixed(2) + "°" + (lon >= 0 ? "E" : "W");
+const hms = ms => new Date(ms).toISOString().replace("T", " ").slice(0, 19);
+const fmtDiff = d => { const ad = Math.abs(d), t = ad < 120 ? d.toFixed(0) + "秒" : ad < 7200 ? (d / 60).toFixed(1) + "分" : ad < 172800 ? (d / 3600).toFixed(1) + "時間" : (d / 86400).toFixed(0) + "日"; return (d >= 0 ? "+" : "") + t; };
+// 通信が不安定なとき(AiBridge の TCP 中継など)は、応答が空になることがある。取得できた最後の値を保持し、
+// 取れなかった項目は前回の値で表示する(行が消えないように)。導入中は、必要最小限の問い合わせだけにして負荷を下げる。
+const kept = {};
+async function fetchKeep(c, fn){
+  const v = await fn(c);
+  if(v !== null && v !== undefined){ kept[c] = {v, t: Date.now()}; return {v, t: kept[c].t, fresh: true}; }
+  const k = kept[c];
+  if(k && Date.now() - k.t < 180000) return {v: k.v, t: k.t, fresh: false};
+  return null;
+}
+async function infoPoll(){
+  if(infoBusy || !$("dot").classList.contains("on")) return; infoBusy = true;
+  if(mount.type === "generic"){ await ginfo(); infoBusy = false; mc = {generic: true, r: {}, t: {}, t0: Date.now(), reused: 0}; renderInfo(); return; }
+  const os = mount.type === "onstep"; // 機種に応じて問い合わせるコマンドを変える
+  const slewing = /slew|move/i.test($("stt").textContent); // 導入中は、GU(導入の状態)だけ問い合わせる
+  const list = slewing && os ? ["GU"] : os ? ["GC", "GL", "GS", "GU", "GT", "GA", "GZ", "Gm"] : ["GC", "GL", "GS", "GA", "GZ"];
+  const r = {}, t = {}; let reused = 0;
+  for(const c of ["GC", "GL", "GS", "GU", "GT", "GA", "GZ", "Gm"]){
+    if(!list.includes(c)){ if(kept[c]){ r[c] = kept[c].v; t[c] = kept[c].t; } continue; }
+    const x = await fetchKeep(c, ask); if(x){ r[c] = x.v; t[c] = x.t; if(!x.fresh && Date.now() - x.t > 20000) reused++; } // 1回の取りこぼしは気にせず、20秒以上古くなったときだけ注記する
+  }
+  if(!slewing && (!mcStatic || ++infoN % 10 === 0)){ // 設定値は頻繁に変わらないので 約1分ごと
+    const q = {}; for(const c of os ? ["GG", "Gt", "Gg", "Gh", "Go", "GXE9", "GXEA"] : ["GG", "Gt", "Gg"]){
+      const x = await fetchKeep(c, (c === "GXE9" || c === "GXEA") ? askv : ask); if(x) q[c] = x.v;
+    }
+    mcStatic = q;
+  }
+  infoBusy = false;
+  mc = {r: Object.assign({}, mcStatic, r), t, t0: Date.now(), reused}; renderInfo();
+}
+function renderGeneric(){
+  const g = gcache; if(!g || !g.state){ $("minfo").innerHTML = ""; return; }
+  buildFrame(); const s = g.state, caps = g.caps || {}, L = [], row = (k, v, who, cls) => L.push("<b>" + k + "</b><span" + (cls ? " class='" + cls + "'" : "") + ">" + v + "</span> <span class='who'>" + who + "</span>");
+  const el = (Date.now() - gAt) / 1000;
+  if(s.haveSite){
+    const diff = Math.abs(s.siteLat - loc.lat) > 0.05 || Math.abs(s.siteLon - loc.lon) > 0.05;
+    row("観測地", fmtSite(s.siteLat, s.siteLon), "(マウント)"); row("", fmtLoc(), "(PC・" + ({mount: "マウント取得", gps: "GPS", manual: "手入力", default: "既定"}[loc.src] || loc.src) + ")", diff ? "w" : "");
+  }
+  if(s.utc){
+    const mUtc = Date.parse(s.utc) + el * 1000, pcUtc = Date.now(), d = (mUtc - pcUtc) / 1000, pcEast = -new Date().getTimezoneOffset() / 60;
+    row("UTC", hms(mUtc), "(マウント)"); row("", hms(pcUtc), "(PC UTC" + (pcEast >= 0 ? "+" : "") + pcEast + ")");
+    row("時計の差", fmtDiff(d), "(マウント−PC)", Math.abs(d) > 60 ? "w" : "");
+  }
+  if(typeof s.lst === "number"){
+    const mLst = norm(s.lst * 15 + el * 1.0027379 / 240), dd = ((mLst - LST + 540) % 360 - 180) / 15 * 3600;
+    row("地方恒星時", fmtHMS(mLst / 15), "(マウント)"); row("", fmtHMS(LST / 15), "(PC計算)");
+    row("恒星時の差", (dd >= 0 ? "+" : "") + dd.toFixed(0) + "秒", "(マウント−PC)", Math.abs(dd) > 10 ? "w" : "");
+  }
+  row("高度/方位", s.alt.toFixed(1) + "° / " + s.az.toFixed(1) + "°", "(マウント)");
+  L.push("&nbsp;"); L.push("<b style='color:var(--accent)'>" + kindWord("汎用 (Alpaca)") + "</b> " + (g.name || ""));
+  row("追尾", (s.tracking ? "ON " + (TRACK_NAMES[s.trackingRate] || "") : "OFF") + (s.slewing ? "  導入中" : ""), "", s.tracking ? "" : "w");
+  if(caps.canPark || s.atPark) row("パーク", s.atPark ? "パーク済" : "未パーク" + (s.atHome ? " / ホーム" : ""), "");
+  if(s.pierSide === 0 || s.pierSide === 1) row("鏡筒側", s.pierSide === 0 ? "東側" : "西側", "");
+  if(g.error) L.push("<span class='w'>機材との通信エラー: " + g.error + "</span>");
+  $("minfo").innerHTML = "<div>" + L.join("</div><div>") + "</div>";
+}
+function renderInfo(){
+  if(!mc){ return; }
+  if(mc.generic){ renderGeneric(); return; }
+  const r = mc.r, elT = (Date.now() - (mc.t.GL || mc.t0)) / 1000, elS = (Date.now() - (mc.t.GS || mc.t0)) / 1000; // 取得からの経過秒(マウント時計もその分進めて表示)
+  buildFrame(); const L = [], row = (k, v, who, cls) => L.push("<b>" + k + "</b><span" + (cls ? " class='" + cls + "'" : "") + ">" + v + "</span> <span class='who'>" + who + "</span>");
+  // --- 観測地 ---
+  const mlat = parseSite(r.Gt), mlonW = parseSite(r.Gg), mlon = mlonW === null ? null : -mlonW; // LX200は西が正
+  const siteOk = mlat !== null && mlon !== null && !(mlat === 0 && mlon === 0);
+  const siteDiff = siteOk && (Math.abs(mlat - loc.lat) > 0.05 || Math.abs(mlon - loc.lon) > 0.05);
+  row("観測地", siteOk ? fmtSite(mlat, mlon) : "--", "(マウント)");
+  row("", fmtLoc(), "(PC・" + ({mount: "マウント取得", gps: "GPS", manual: "手入力", default: "既定"}[loc.src] || loc.src) + ")", siteDiff ? "w" : "");
+  // --- 現地・UTC ---
+  const dm = /(\d+)\/(\d+)\/(\d+)/.exec(r.GC || ""), tm = /(\d+):(\d+):(\d+)/.exec(r.GL || "");
+  const pcLocalMs = Date.now() - new Date().getTimezoneOffset() * 60000, pcEast = -new Date().getTimezoneOffset() / 60;
+  if(dm && tm){
+    const gg = parseFloat(r.GG), eastExp = Math.round(loc.lon / 15); // 東京=+9
+    const mLocal = Date.UTC(2000 + +dm[3], +dm[1] - 1, +dm[2], +tm[1], +tm[2], +tm[3]) + elT * 1000;
+    // 時間帯の符号は機種で異なる(LX200規約: 東京=-9 / NS-5000: +9)。観測地の経度から期待される時差に近い解釈を採用する。
+    let east = eastExp, note = "", warn = false;
+    if(!isNaN(gg)){
+      const flipped = Math.abs(gg - eastExp) < Math.abs(gg + eastExp);
+      east = flipped ? gg : -gg;
+      if(Math.abs(east - eastExp) > 1.5){ warn = true; note = "(経度の時差UTC" + (eastExp >= 0 ? "+" : "") + eastExp + "と不一致)"; east = eastExp; }
+      else note = flipped ? "(符号反転→補正)" : "(LX200規約)";
+    }
+    const mUtc = mLocal - east * 3600000, pcUtc = Date.now();
+    row("現地", hms(mLocal), "(マウント)"); row("", hms(pcLocalMs), "(PC)");
+    row("UTC", hms(mUtc), "(マウント UTC" + (east >= 0 ? "+" : "") + east + ")"); row("", hms(pcUtc), "(PC UTC" + (pcEast >= 0 ? "+" : "") + pcEast + ")");
+    const d = (mUtc - pcUtc) / 1000; row("時計の差", fmtDiff(d), "(マウント−PC)", Math.abs(d) > 60 ? "w" : "");
+    if(!isNaN(gg)) row("時間帯 :GG", (gg >= 0 ? "+" : "") + gg, note, warn ? "w" : "");
+  }else row("現地", "--", "(マウント)");
+  // --- 地方恒星時 ---
+  const ls = parseSex(r.GS, true);
+  if(ls !== null){
+    const mLst = norm(ls + elS * 1.0027379 / 240), dd = ((mLst - LST + 540) % 360 - 180) / 15 * 3600; // 度→秒(恒星時)
+    row("地方恒星時", fmtHMS(mLst / 15), "(マウント)"); row("", fmtHMS(LST / 15), "(PC計算)");
+    row("恒星時の差", (dd >= 0 ? "+" : "") + dd.toFixed(0) + "秒", "(マウント−PC)", Math.abs(dd) > 10 ? "w" : "");
+  }else row("地方恒星時", "--", "(マウント)");
+  if(r.GA || r.GZ){ const a = parseSex(r.GA, false), z = parseSex(r.GZ, false);
+    row("高度/方位", (a === null ? "--" : a.toFixed(1) + "°") + " / " + (z === null ? "--" : z.toFixed(1) + "°"), "(マウント)"); }
+  // --- 機種別の情報 (1行あけて表示) ---
+  if(mount.type === "onstep"){
+    L.push("&nbsp;"); L.push("<b style='color:var(--accent)'>OnStep</b> " + (mount.ver || "") + (mount.date ? " (" + mount.date + ")" : ""));
+    const gu = r.GU || "";
+    if(/^[A-Za-z]+[0-9]*$/.test(gu) && /[EKA]/.test(gu)){
+      const ti = gu.search(/[EKA]/), fl = gu.slice(0, ti), hz = parseFloat(r.GT);
+      const tracking = !fl.includes("n"), park = {p: "未パーク", P: "パーク済", I: "パーク中", F: "パーク失敗"}[(fl.match(/[pPIF]/) || ["p"])[0]];
+      const rate = !tracking ? "" : isNaN(hz) || hz === 0 ? "" : (() => { const n = trackName(hz); return n ? " " + TRACK_RATES.find(t => t[0] === n)[1] : " " + hz.toFixed(3) + "Hz"; })();
+      row("追尾", (tracking ? "ON" : "OFF") + rate + (fl.includes("N") ? "" : "  導入中"), "", tracking ? "" : "w");
+      row("パーク", park + (fl.includes("H") ? " / ホーム" : ""), "", park === "パーク失敗" ? "w" : "");
+      if(gu.charAt(ti) === "E") row("自動反転", fl.includes("a") ? "ON" : "OFF", "");
+      const pier = gu.charAt(ti + 1); if(pier === "T" || pier === "W" || pier === "o") row("鏡筒側", {T: "東側", W: "西側", o: "なし"}[pier], "");
+    }
+    const h = parseInt(r.Gh), o = parseInt(r.Go);
+    if(!isNaN(h) && !isNaN(o)) row("高度制限", (h >= 0 ? "+" : "") + h + "° 〜 +" + o + "°", "(下限〜上限)");
+    const me = parseInt(r.GXE9), mw = parseInt(r.GXEA);
+    if(!isNaN(me) && !isNaN(mw)) row("子午線限界", "東 " + (me / 4).toFixed(1) + "° 西 " + (mw / 4).toFixed(1) + "°", "(" + me + "分/" + mw + "分)");
+  }else if(mount.type === "ns5000"){
+    L.push("&nbsp;"); L.push("<b style='color:var(--accent)'>NS-5000</b> Ver" + (mount.ver || "?"));
+    L.push("<span class='who'>NS-5000 専用の情報は未対応です</span>");
+  }else if(mount.type === "unknown"){
+    L.push("&nbsp;"); L.push("<span class='who'>機種不明 (⚙️設定 → 機種の確認)</span>");
+  }
+  if(mc.reused) L.push("<span class='w'>通信が不安定: 一部は前回の取得値です</span>");
+  $("minfo").innerHTML = "<div>" + L.join("</div><div>") + "</div>";
+}
+
+
+// ---------- マウント操作パネル (OnStep) ----------
+const CTL_TABS = [["speed", "速度"], ["track", "追尾"], ["pos", "パーク/ホーム"], ["lim", "制限"], ["mech", "機構"]];
+let ctlTab = "speed", ctlR = null, ctlBusy = false;
+const ctlDraft = {}; // 入力途中の値(再描画されても消えないように保持)
+const GOTO_PRESETS = [[1, "200%", "最速"], [2, "150%", ""], [3, "100%", "標準"], [4, "75%", ""], [5, "50%", "最遅"]];
+const MOVE_RATES = [["0", "0.25×"], ["1", "0.5×"], ["2", "1×"], ["3", "2×"], ["4", "4×"], ["5", "8×"], ["6", "20×"], ["7", "48×"], ["8", "最大/2"], ["9", "最大"]];
+const TRACK_RATES = [["TQ", "恒星時", 60.164, 0.014], ["TL", "月", 57.9, 0.3], ["TS", "太陽", 60.0, 0.05], ["TK", "キング", 60.136, 0.014]];
+function parseGU(gu){
+  if(!/^[A-Za-z]+[0-9]*$/.test(gu || "") || !/[EKA]/.test(gu)) return null;
+  const ti = gu.search(/[EKA]/), fl = gu.slice(0, ti), tail = gu.slice(ti + 1), dg = (tail.match(/\d+$/) || [""])[0];
+  return {tracking: !fl.includes("n"), slewing: !fl.includes("N"), park: (fl.match(/[pPIF]/) || ["p"])[0], home: fl.includes("H"), autoflip: fl.includes("a"),
+    type: gu.charAt(ti), pier: tail.charAt(0), guideRate: dg.length >= 2 ? dg.charAt(dg.length - 2) : null};
+}
+const SID_DPS = 15.0410686 / 3600; // 恒星時レート (度/秒)
+const spdTxt = x => x >= 100 ? x.toFixed(0) : x.toFixed(1);
+const trackName = hz => { let best = null, bd = Infinity; for(const x of TRACK_RATES){ const d = Math.abs(hz - x[2]); if(d < x[3] && d < bd){ best = x[0]; bd = d; } } return best; };
+async function ctlRead(){
+  if(ctlBusy) return; ctlBusy = true;
+  if(mount.type === "generic"){ await ginfo(); ctlBusy = false; ctlR = {r: {}, g: null}; renderCtl(); return; }
+  const r = {}; for(const c of ["GU", "GT", "GX92", "GX93", "Gh", "Go", "GXE9", "GXEA", "GX95", "GX96", "GXE4", "GXE5", "GXA1", "GXA2"]) r[c] = (c === "GXE9" || c === "GXEA" || c === "GX95") ? await askv(c) : await ask(c);
+  ctlBusy = false; ctlR = {r, g: parseGU(r.GU)}; renderCtl();
+}
+function el(tag, cls, html){ const e = document.createElement(tag); if(cls) e.className = cls; if(html !== undefined) e.innerHTML = html; return e; }
+function segRow(title, note, items, activeKey, fn, disabled){
+  const wrap = el("div", "cblock"); wrap.append(el("div", "ctitle", title + (note ? " <span>" + note + "</span>" : "")));
+  const row = el("div", "seg");
+  items.forEach(it => { const b = el("button", (String(it[0]) === String(activeKey) ? "on" : ""), it[1] + (it[2] ? "<small>" + it[2] + "</small>" : "")); b.disabled = !!disabled; b.onclick = () => fn(it[0]); row.append(b); });
+  wrap.append(row); return wrap;
+}
+function kv(k, v, cls){ return "<div class='kv'><span>" + k + "</span><b class='" + (cls || "") + "'>" + v + "</b></div>"; }
+function renderGenericCtl(body){
+  const g = gcache; if(!g || !g.state){ body.append(el("div", "cnote", "マウントの状態を読み込み中…")); return; }
+  const s = g.state, caps = g.caps || {}, call = (op, label, okMsg) => ctlDo(label, async () => { await api("/api/mount/" + op); toast(okMsg); });
+  const sw = el("div", "tswitch " + (s.tracking ? "on" : ""), "<span class='dotp'></span><div><b>追尾 " + (s.tracking ? "ON" : "OFF") + "</b><small>" + (s.tracking ? (TRACK_NAMES[s.trackingRate] || "") : "停止中") + (s.slewing ? " ・導入中" : "") + "</small></div>");
+  const tb = el("button", "", s.tracking ? "停止" : "開始"); tb.disabled = !caps.canSetTracking; tb.onclick = () => call("tracking?on=" + (s.tracking ? 0 : 1), "追尾", "追尾 " + (s.tracking ? "OFF" : "ON")); sw.append(tb); body.append(sw);
+  const rates = (caps.trackingRates || []).filter(n => TRACK_NAMES[n]);
+  if(rates.length > 1) body.append(segRow("追尾レート", "", rates.map(n => [String(n), TRACK_NAMES[n]]), String(s.trackingRate), n => call("trackingrate?rate=" + n, "追尾レート", "追尾レート → " + TRACK_NAMES[n]), !s.tracking));
+  const pc = el("div", "mcard"); pc.append(el("div", "ctitle", "パーク / ホーム <span>機材の機能</span>"));
+  pc.append(el("div", "kvbox", kv("パーク", s.atPark ? "パーク済" : "未パーク") + kv("ホーム位置", s.atHome ? "ホームにいる" : "—")));
+  const grid = el("div", "agrid"), busy = s.slewing;
+  const mk = (label, sub, fn, dis) => { const b = el("button", "", label + "<small>" + sub + "</small>"); b.disabled = !!dis; b.onclick = fn; grid.append(b); };
+  mk("パークする", "パーク位置へ移動", () => call("park", "パーク", "パークを開始"), !caps.canPark || s.atPark || busy);
+  mk("パーク解除", "運転を再開", () => call("unpark", "パーク解除", "パーク解除"), !caps.canUnpark || !s.atPark);
+  mk("ホームへ", "ホームへ移動", () => call("home", "ホームへ移動", "ホームへ移動を開始"), !caps.canFindHome || s.atPark || busy);
+  pc.append(grid); body.append(pc);
+  body.append(el("div", "cnote", "汎用モード(Alpaca / ASCOM)では、導入・停止・アライメント・パーク・追尾などの基本機能が使えます。GOTO 速度や高度制限などは、機材のドライバー側で設定してください。<br>この機材が対応していない機能のボタンは、押せません。"));
+}
+function renderCtl(){
+  const body = $("ctlBody"), g = ctlR && ctlR.g, r = ctlR ? ctlR.r : {};
+  $("ctlTabs").style.display = mount.type === "generic" ? "none" : "";
+  if(mount.type === "generic"){ body.innerHTML = ""; $("ctlBadge").textContent = kindWord("汎用 (Alpaca) ・") + (mount.name || ""); renderGenericCtl(body); return; }
+  document.querySelectorAll("#ctlTabs button").forEach(b => b.classList.toggle("on", b.dataset.k === ctlTab));
+  body.innerHTML = "";
+  $("ctlBadge").textContent = mount.type === "onstep" ? "OnStep " + (mount.ver || "") + (g ? (g.type === "E" ? " ・赤道儀" : g.type === "K" ? " ・フォーク" : " ・経緯台") : "") : mount.type === "ns5000" ? "NS-5000 Ver" + (mount.ver || "") : "未確認";
+  if(mount.type !== "onstep"){ body.append(el("div", "cnote", mount.type === "ns5000" ? "NS-5000 用の操作は未対応です。<br>日時・観測地の送信は ⚙️ 設定から行えます。" : "機種が未確認です。⚙️ 設定 → 「機種を確認」を押してください。")); return; }
+  if(!g){ body.append(el("div", "cnote", "マウントの状態を読み込み中…")); return; }
+  const hz = parseFloat(r.GT), base = parseFloat(r.GX93), cur = parseFloat(r.GX92);
+  if(ctlTab === "speed"){
+    const pct = base > 0 && cur > 0 ? base / cur * 100 : null, near = pct === null ? null : [200, 150, 100, 75, 50].reduce((a, b) => Math.abs(b - pct) < Math.abs(a - pct) ? b : a);
+    const sd = parseFloat(r.GXE4), baseDps = base > 0 && sd > 0 ? 1e6 / (base * sd) : null; // 基準スルー速度 (度/秒)
+    const presets = GOTO_PRESETS.map(p => [p[0], p[1], baseDps ? "≈" + spdTxt(baseDps * parseInt(p[1]) / 100 / SID_DPS) + "× " + p[2] : p[2]]);
+    const nowTxt = pct === null ? "" : "現在 " + pct.toFixed(0) + "%" + (baseDps ? " ≈" + spdTxt(baseDps * pct / 100 / SID_DPS) + "× (" + (baseDps * pct / 100).toFixed(2) + "°/秒)" : "");
+    body.append(segRow("GOTO 速度", nowTxt, presets, near === null ? null : GOTO_PRESETS.find(p => parseInt(p[1]) === near)[0], setGotoSpeed, g.slewing));
+    if(baseDps) body.append(el("div", "cnote", "×は恒星時レート(15.04″/秒)に対する倍率です。RA 軸の steps/度 " + sd + " から計算しています。"));
+    if(g.slewing) body.append(el("div", "cnote", "導入中は GOTO 速度を変更できません。"));
+    body.append(segRow("手動移動速度", g.guideRate === null ? "" : "現在 " + (MOVE_RATES[g.guideRate] ? MOVE_RATES[g.guideRate][1] : "?"), MOVE_RATES, g.guideRate, setMoveRate));
+  }else if(ctlTab === "track"){
+    const sd = parseFloat(r.GXE4), pps = !isNaN(hz) && hz > 0 && sd > 0 ? sd * hz / 14400 : null; // RA軸の追尾ステップ信号 (pps)
+    const nm = trackName(hz), sub = !g.tracking ? "停止中" : (nm ? TRACK_RATES.find(t => t[0] === nm)[1] : "独自レート") + (pps ? " ・" + pps.toFixed(1) + " pps (RA)" : "") + (g.slewing ? " ・導入中" : "");
+    const sw = el("div", "tswitch " + (g.tracking ? "on" : ""), "<span class='dotp'></span><div><b>追尾 " + (g.tracking ? "ON" : "OFF") + "</b><small>" + sub + "</small></div>");
+    const tb = el("button", "", g.tracking ? "停止" : "開始"); tb.onclick = () => setTracking(!g.tracking); sw.append(tb); body.append(sw);
+    body.append(segRow("追尾レート", pps ? pps.toFixed(1) + " pps (RA)" : "", TRACK_RATES.map(t => [t[0], t[1]]), nm, setTrackRate, !g.tracking));
+    const fine = el("div", "cblock"); fine.append(el("div", "ctitle", "恒星時クロックの微調整 <span>EEPROM に保存</span>"));
+    const fr = el("div", "seg"); [["T-", "−0.02Hz"], ["TR", "リセット"], ["T+", "+0.02Hz"]].forEach(([c, t]) => { const b = el("button", "", t); b.onclick = () => fineTrack(c); fr.append(b); }); fine.append(fr); body.append(fine);
+  }else if(ctlTab === "pos"){
+    body.append(el("div", "kvbox", kv("パーク", {p: "未パーク", P: "パーク済", I: "パーク中", F: "パーク失敗"}[g.park], g.park === "F" ? "w" : "") + kv("ホーム位置", g.home ? "ホームにいる" : "—") + kv("鏡筒側", {T: "東側", W: "西側", o: "なし"}[g.pier] || "?")));
+    const parked = g.park === "P", busy = g.slewing || g.park === "I";
+    const mk = (grid, label, sub, fn, dis, cls) => { const b = el("button", cls || "", label + "<small>" + sub + "</small>"); b.disabled = !!dis; b.onclick = fn; grid.append(b); };
+    // --- ホーム ---
+    const hc = el("div", "mcard"); hc.append(el("div", "ctitle", "ホーム <span>基準の向き(極方向)</span>"));
+    const hg = el("div", "agrid two");
+    mk(hg, "ホームにリセット", "「今ホームにいる」として座標を初期化", () => posAct("hF"), parked || busy, "danger");
+    mk(hg, "ホームへ移動", "ホーム位置へ戻る", () => posAct("hC"), parked || busy);
+    hc.append(hg, el("div", "cnote", "<b>ホーム位置は固定です</b>(天の北極方向。赤道儀はカウンターウェイトが下)。<br><br><b>「ホームにリセット」の使い方</b><br>① 手動で、望遠鏡を天の北極へ向け、カウンターウェイトが下<br>② 「ホームにリセット」を押す → マウントは「いまホームにいる」として座標を初期化します(星図のマークも北極へ移ります。アライメントも初期化されます)<br>③ あとで「ホームへ移動」を押すと、ホームへ戻れます<br><br><b>ホームの向きでないときに押すと、座標が実際の向きとずれます。</b>"));
+    body.append(hc);
+    // --- パーク ---
+    const pc = el("div", "mcard"); pc.append(el("div", "ctitle", "パーク <span>片付ける位置</span>"));
+    const pg = el("div", "agrid two");
+    mk(pg, "パーク位置を登録", "今の向きを片付け位置に", () => posAct("hQ"), parked || busy, "danger");
+    mk(pg, "パークする", "登録位置へ移動して停止", () => posAct("hP"), parked || busy);
+    pc.append(pg);
+    const pg2 = el("div", "agrid one"); mk(pg2, "パーク解除", "運転を再開する(追尾可能に)", () => posAct("hR"), !parked); pc.append(pg2);
+    pc.append(el("div", "cnote", "<b>パークの使い方</b><br>① 片付けたい向きに手動で合わせ、「パーク位置を登録」<br>② 観測が終わったら「パークする」(登録位置へ移動して停止)<br>③ 次回は「パーク解除」から始めます"));
+    body.append(pc);
+    if(busy) body.append(el("div", "cnote", "導入中・パーク中は操作できません。"));
+  }else if(ctlTab === "lim"){
+    const h = parseInt(r.Gh), o = parseInt(r.Go), me = parseInt(r.GXE9), mw = parseInt(r.GXEA), gem = g.type === "E";
+    body.append(numRow("高度 下限", "−30〜+30° 。この高度より下へは導入しません", h, -30, 30, 1, "°", v => limSet("高度下限", "Sh" + (v < 0 ? "-" : "+") + String(Math.abs(v)).padStart(2, "0"), h, v, "°", "Gh")));
+    body.append(numRow("高度 上限", "60〜90° 。この高度より上へは導入しません", o, 60, 90, 1, "°", v => limSet("高度上限", "So" + String(v).padStart(2, "0"), o, v, "°", "Go")));
+    if(gem){
+      body.append(numRow("子午線限界 東", "分(4分=1°)。4の倍数で指定。東側でどこまで追うか", me, -720, 720, 4, "分", v => limSet("子午線限界 東", "SXE9," + v, me, v, "分", "GXE9"), 0));
+      body.append(numRow("子午線限界 西", "分(4分=1°)。4の倍数で指定。西側でどこまで追うか", mw, -720, 720, 4, "分", v => limSet("子午線限界 西", "SXEA," + v, mw, v, "分", "GXEA"), 0));
+      body.append(segRow("自動反転", "", [["1", "ON"], ["0", "OFF"]], g.autoflip ? "1" : "0", v => limSet("自動反転", "SX95," + v, g.autoflip ? "ON" : "OFF", v === "1" ? "ON" : "OFF", "", null)));
+      body.append(segRow("優先する側", "導入時にどちら側を使うか", [["E", "東側"], ["B", "最適"], ["W", "西側"]], r.GX96, v => limSet("優先する側", "SX96," + v, {E: "東側", W: "西側", B: "最適"}[r.GX96] || "?", {E: "東側", W: "西側", B: "最適"}[v], "", "GX96")));
+      body.append(el("div", "cnote", "<b>0</b> は、子午線を越える導入と追尾を行わない設定です(予想外の動きが起きにくくなります)。追尾が子午線に達すると止まります。<br>東西の限界が重なる範囲では、どちら側でも導入できます。「優先する側」と今の鏡筒側から、反転するかどうかが決まります。"));
+    }else body.append(el("div", "cnote", "フォーク式のため、子午線関連の項目はありません。"));
+  }else if(ctlTab === "mech"){
+    renderMech(body, r);
+  }
+}
+// ---- 機構: steps/度・マイクロステップ (OnStep の :GXAn / :SXAn / :SXAC) ----
+const MICROSTEPS = [1, 2, 4, 8, 16, 32, 64, 128, 256];
+function parseAxis(str){
+  if(!str) return null; const a = str.split(","); if(a.length < 6) return null;
+  return {steps: parseFloat(a[0]), ms: parseInt(a[1]), irun: parseInt(a[2]), rev: parseInt(a[3]), min: parseInt(a[4]), max: parseInt(a[5])};
+}
+// OnStep の定数: OFF=-1, ON=-2。反転(reverse)と電流(IRUN)は -1/-2 で保存される
+const revTxt = v => v === -2 ? "ON(反転)" : v === -1 ? "OFF(通常)" : String(v);
+const STEPS_MIN = 150, STEPS_MAX = 122400; // ファームの許容範囲 (validateAxisSettings)
+function axisLimits(n, altaz){ // 回転範囲(min/max)の許容範囲
+  return n === 1 ? (altaz ? {minL: -360, minH: -180, maxL: 180, maxH: 360} : {minL: -270, minH: -90, maxL: 90, maxH: 270}) : {minL: -90, minH: 0, maxL: 0, maxH: 90};
+}
+function renderMech(body, r){
+  const g = ctlR && ctlR.g, altaz = !!g && g.type === "A";
+  const run = [parseFloat(r.GXE4), parseFloat(r.GXE5)], saved = [parseAxis(r.GXA1), parseAxis(r.GXA2)], rt = !!saved[0];
+  body.append(el("div", "kvbox", kv("稼働中 " + (altaz ? "方位" : "RA") + " 軸 steps/度", r.GXE4 || "?") + kv("稼働中 " + (altaz ? "高度" : "DEC") + " 軸 steps/度", r.GXE5 || "?") + kv("設定モード", rt ? "実行時設定(編集可)" : "Config.h の値を使用")));
+  if(!rt){
+    body.append(el("div", "cnote", "いまは Config.h の値を使うモードです(起動のたびに Config.h の値に戻ります)。<br>steps/度・マイクロステップ・反転" + (altaz ? "・回転範囲" : "") + "を星図から変えるには、まず「編集を有効にする」を押してください。変更した値は電源を切っても保持され、次回の起動から Config.h より優先されます。"));
+    const b = el("button", "wide", "編集を有効にする<small>実行時設定モードへ切り替え (:SXAC,0#)</small>"); b.onclick = mechEnable; body.append(b);
+    return;
+  }
+  const ax = altaz ? [["方位軸 (AZ)", 1], ["高度軸 (ALT)", 2]] : [["RA 軸(赤経 / 時角)", 1], ["DEC 軸(赤緯)", 2]];
+  const lab = el("label", "autoscale", "<input type='checkbox' id='mAuto' " + (ctlDraft["mAuto"] === false ? "" : "checked") + "> マイクロステップを変えたら steps/度を自動換算する"); body.append(lab);
+  lab.querySelector("input").onchange = e => { ctlDraft["mAuto"] = e.target.checked; };
+  const numIn = (id, dk, val, min, max) => { const i = el("input"); i.type = "number"; i.step = "any"; i.id = id; if(min !== undefined){ i.min = min; i.max = max; } i.value = dk in ctlDraft ? ctlDraft[dk] : val; i.oninput = () => { ctlDraft[dk] = i.value; }; return i; };
+  ax.forEach(([name, n]) => {
+    const sv = saved[n - 1]; if(!sv) return;
+    const card = el("div", "mcard"); card.append(el("div", "ctitle", name + (Math.abs(sv.steps - run[n - 1]) > 0.0005 ? " <span style='color:var(--warn)'>保存済み " + sv.steps + " → 再起動で反映</span>" : "")));
+    const inp = numIn("mS" + n, "m" + n + "s", sv.steps, STEPS_MIN, STEPS_MAX);
+    const sel = el("select"); sel.id = "mM" + n; MICROSTEPS.forEach(m => { const o = el("option", "", "×" + m); o.value = m; sel.append(o); }); sel.value = ("m" + n + "m") in ctlDraft ? ctlDraft["m" + n + "m"] : sv.ms;
+    sel.onchange = () => {
+      ctlDraft["m" + n + "m"] = sel.value;
+      const auto = ($("mAuto") || {}).checked !== false, base = parseFloat(inp.value);
+      if(auto && base > 0){ inp.value = Math.round(base * (parseInt(sel.value) / parseInt(sv.ms)) * 1000) / 1000; ctlDraft["m" + n + "s"] = inp.value; }
+    };
+    const rsel = el("select"); rsel.id = "mR" + n; [[-1, "OFF(通常)"], [-2, "ON(反転)"]].forEach(([v, t]) => { const o = el("option", "", t); o.value = v; rsel.append(o); });
+    rsel.value = ("m" + n + "r") in ctlDraft ? ctlDraft["m" + n + "r"] : sv.rev; rsel.onchange = () => { ctlDraft["m" + n + "r"] = rsel.value; };
+    const row = (label, ctl) => { const f = el("div", "mrow"); f.append(el("span", "", label), ctl); card.append(f); };
+    row("steps/度 (" + STEPS_MIN + "〜" + STEPS_MAX + ")", inp); row("マイクロステップ", sel); row("モーター反転", rsel);
+    const L = axisLimits(n, altaz);
+    if(altaz){
+      row("回転範囲 下限 (" + L.minL + "〜" + L.minH + "°)", numIn("mA" + n, "m" + n + "a", sv.min, L.minL, L.minH));
+      row("回転範囲 上限 (" + L.maxL + "〜" + L.maxH + "°)", numIn("mB" + n, "m" + n + "b", sv.max, L.maxL, L.maxH));
+      card.append(el("div", "cnote", n === 1 ? "方位軸は、ケーブルの巻き付きを避けるため、−360°〜+360° の範囲で回転範囲を決めます。" : "高度軸の範囲です(下限 −90〜0°、上限 0〜90°)。"));
+    }else card.append(el("div", "cnote", "回転範囲 " + sv.min + "°〜" + sv.max + "° ・電流 " + (sv.irun === -1 ? "指定なし" : sv.irun + "mA") + "(この項目は赤道儀では変更しません)"));
+    const brow = el("div", "nrow");
+    const ap = el("button", "", "適用<small>再起動後に反映</small>"); ap.onclick = () => mechApply(n);
+    const rv = el("button", "danger2", "初期値に戻す<small>次回起動で Config.h の値</small>"); rv.onclick = () => mechRevert(n);
+    brow.append(ap, rv); card.append(brow); body.append(card);
+  });
+  body.append(el("div", "cnote", "<b>マイクロステップについて</b>: NS-3000 のように、ドライバ側(基板)でマイクロステップを固定している機体は、ここを「×1」のままにしてください。TMC などをファームから設定する機体では、変更に合わせて steps/度も同じ比率で変わります(自動換算)。ファームが対応しない値は拒否されます。"));
+  const off = el("button", "wide", "編集を無効にする(Config.h の値に戻す)<small>実行時設定モードを終了 (:SXAC,1#)</small>"); off.onclick = mechDisable; body.append(off);
+}
+async function mechEnable(){
+  if(!confirm("実行時設定モードに切り替えます。\n以後、steps/度とマイクロステップを星図から変更でき、値は電源を切っても保持されます。\n(いまの値は変わりません)\nよろしいですか?")) return;
+  await ctlDo("編集の有効化", async () => { await ask("SXAC,0"); await new Promise(r => setTimeout(r, 300)); const ok = !!(await ask("GXA1")); toast(ok ? "編集を有効にしました" : "有効にできませんでした", !ok); });
+}
+async function mechDisable(){
+  if(!confirm("Config.h の値を使うモードに戻します。\n星図から変更した値は、次回の起動で Config.h の値に置き換わります。\nよろしいですか?")) return;
+  await ctlDo("編集の無効化", async () => { await ask("SXAC,1"); await new Promise(r => setTimeout(r, 300)); const ok = !(await ask("GXA1")); toast(ok ? "Config.h の値を使うモードに戻しました" : "戻せませんでした", !ok); });
+}
+async function mechRevert(n){
+  if(!confirm((n === 1 ? "RA" : "DEC") + " 軸の steps/度・マイクロステップを初期値(Config.h の値)に戻します。\n次回の起動(電源の入れ直し)で反映されます。よろしいですか?")) return;
+  await ctlDo("初期値に戻す", async () => { const rep = await askv("SXA" + n + ",R"); toast(rep === "0" ? "拒否されました" : (n === 1 ? "RA" : "DEC") + " 軸: 次回起動で初期値に戻ります", rep === "0"); });
+}
+async function mechApply(n){
+  const sv = parseAxis(ctlR && ctlR.r["GXA" + n]); if(!sv){ toast("現在値を読めません", true); return; }
+  const altaz = !!(ctlR.g && ctlR.g.type === "A"), L = axisLimits(n, altaz);
+  const steps = parseFloat($("mS" + n).value), ms = parseInt($("mM" + n).value), rev = parseInt($("mR" + n).value);
+  let mn = sv.min, mx = sv.max;
+  if(altaz){ mn = parseInt($("mA" + n).value); mx = parseInt($("mB" + n).value); }
+  if(!(steps >= STEPS_MIN && steps <= STEPS_MAX)){ toast("steps/度は " + STEPS_MIN + "〜" + STEPS_MAX + " の範囲で入力してください(ファームの許容範囲。マイクロステップの自動換算で超えた場合は値を見直してください)", true); return; }
+  if(altaz && !(mn >= L.minL && mn <= L.minH && mx >= L.maxL && mx <= L.maxH)){ toast("回転範囲は、下限 " + L.minL + "〜" + L.minH + "°、上限 " + L.maxL + "〜" + L.maxH + "° で入力してください", true); return; }
+  const ch = [];
+  if(steps !== sv.steps) ch.push("steps/度: " + sv.steps + " → " + steps + (Math.abs(steps / sv.steps - 1) > 0.5 ? "(" + (steps / sv.steps).toFixed(2) + "倍)" : ""));
+  if(ms !== sv.ms) ch.push("マイクロステップ: ×" + sv.ms + " → ×" + ms);
+  if(rev !== sv.rev) ch.push("モーター反転: " + revTxt(sv.rev) + " → " + revTxt(rev));
+  if(mn !== sv.min) ch.push("回転範囲 下限: " + sv.min + "° → " + mn + "°");
+  if(mx !== sv.max) ch.push("回転範囲 上限: " + sv.max + "° → " + mx + "°");
+  if(!ch.length){ toast("変更はありません"); return; }
+  const name = altaz ? (n === 1 ? "方位" : "高度") : (n === 1 ? "RA" : "DEC");
+  if(!confirm(name + " 軸を変更します。\n" + ch.join("\n") + "\n\n誤った値は導入の大きなずれや脱調、機械的な衝突の原因になります。値は次回の起動(電源の入れ直し)で有効になります。\nよろしいですか?")) return;
+  await ctlDo("機構設定", async () => {
+    const cmd = "SXA" + n + "," + steps + "," + ms + "," + sv.irun + "," + rev + "," + mn + "," + mx;
+    const rep = await askv(cmd); await new Promise(r => setTimeout(r, 300));
+    const now = parseAxis(await ask("GXA" + n)), okk = rep !== "0" && !!now && Math.abs(now.steps - steps) < 0.002 && now.ms === ms && now.rev === rev && now.min === mn && now.max === mx;
+    if(okk) ["s", "m", "r", "a", "b"].forEach(k => delete ctlDraft["m" + n + k]);
+    toast(okk ? name + " 軸を保存しました。電源の入れ直しで反映されます" : name + " 軸を変更できませんでした(ファームが拒否: 値が範囲外 / ドライバ未対応)", !okk);
+  });
+}
+function numRow(title, note, cur, min, max, step, unit, apply, quick){
+  const wrap = el("div", "cblock"); wrap.append(el("div", "ctitle", title + " <span>現在 " + (isNaN(cur) ? "?" : (cur > 0 && min < 0 ? "+" : "") + cur) + unit + "</span>"));
+  const row = el("div", "nrow"), inp = el("input"); inp.type = "number"; inp.min = min; inp.max = max; inp.step = step; inp.value = title in ctlDraft ? ctlDraft[title] : (isNaN(cur) ? "" : cur); inp.oninput = () => { ctlDraft[title] = inp.value; };
+  const b = el("button", "", "適用"); b.onclick = () => { const v = parseInt(inp.value); if(isNaN(v) || v < min || v > max){ toast(title + ": " + min + "〜" + max + " の範囲で入力してください", true); return; } delete ctlDraft[title]; apply(v); };
+  row.append(inp, b);
+  if(quick !== undefined){ const q = el("button", "safe", quick + " に設定<small>安全側</small>"); q.onclick = () => { delete ctlDraft[title]; inp.value = quick; apply(quick); }; row.append(q); }
+  wrap.append(row, el("div", "cnote", note)); return wrap;
+}
+async function limSet(label, cmd, oldV, newV, unit, readCmd){
+  if(String(oldV) === String(newV)){ toast(label + " は変更ありません"); return; }
+  if(!confirm(label + " を変更しますか?\n" + oldV + unit + " → " + newV + unit + "\n(マウントの EEPROM に保存されます)")) return;
+  await ctlDo(label, async () => {
+    const rep = await ask(cmd); await new Promise(r => setTimeout(r, 300));
+    let now = readCmd ? await askv(readCmd) : null;
+    if(readCmd === "Gh" || readCmd === "Go") now = String(parseInt(now));
+    let okk;
+    if(readCmd) okk = String(now) === String(newV) || (readCmd === "GX96" && now === String(newV === "東側" ? "E" : newV === "西側" ? "W" : "B"));
+    else { const gg = parseGU(await ask("GU")); okk = !!gg && gg.autoflip === (String(newV) === "ON"); }
+    toast(okk ? label + " → " + newV + unit : label + " を変更できませんでした(範囲外/拒否) 応答: " + (rep === null ? "なし" : rep), !okk);
+  });
+}
+async function posAct(c){
+  const msg = {hQ: "現在の向きを「パーク位置」として登録します。以後の「パークする」はこの位置へ移動します。よろしいですか?",
+    hF: "マウントの座標を「ホーム位置(天の北極方向)にいる」状態に初期化します。\n実際の鏡筒が、ホームの向き(赤道儀はカウンターウェイトが下)になっていないと、以後の導入がずれます。アライメントも初期化されます。\nよろしいですか?"}[c];
+  if(msg && !confirm(msg)) return;
+  const name = {hP: "パーク", hR: "パーク解除", hC: "ホームへ移動", hQ: "パーク位置の登録", hF: "ホームにリセット"}[c];
+  await ctlDo(name, async () => {
+    const rep = await ask(c); await new Promise(r => setTimeout(r, 400));
+    const g = parseGU(await ask("GU")), noReply = c === "hC" || c === "hF";
+    let okk = noReply ? true : rep !== null;
+    if(c === "hP") okk = okk && !!g && (g.park === "I" || g.park === "P");
+    if(c === "hR") okk = okk && !!g && g.park === "p";
+    toast(okk ? name + (c === "hP" || c === "hC" ? " を開始" : " 完了") : name + " できませんでした", !okk);
+  });
+}
+async function ctlDo(label, fn){
+  try{ await fn(); }catch(e){ toast(label + " 失敗: " + e.message, true); }
+  await new Promise(r => setTimeout(r, 250)); ctlBusy = false; await ctlRead();
+}
+async function setGotoSpeed(n){ await ctlDo("GOTO速度", async () => { await ask("SX93," + n); toast("GOTO 速度 → " + GOTO_PRESETS.find(p => p[0] === n)[1]); }); }
+async function setMoveRate(n){ await ctlDo("手動速度", async () => { await ask("R" + n); toast("手動移動速度 → " + MOVE_RATES[n][1]); }); }
+async function setTracking(on){ await ctlDo("追尾", async () => {
+  await ask(on ? "Te" : "Td"); await new Promise(r => setTimeout(r, 300));
+  const g = parseGU(await ask("GU")), okk = !!(g && g.tracking === on);
+  toast(okk ? "追尾 " + (on ? "ON" : "OFF") : "追尾を切り替えられませんでした(パーク中など)", !okk); }); }
+async function setTrackRate(c){ await ctlDo("追尾レート", async () => { await ask(c); toast("追尾レート → " + TRACK_RATES.find(t => t[0] === c)[1]); }); }
+async function fineTrack(c){ await ctlDo("微調整", async () => { await ask(c); const hz = parseFloat(await ask("GT")); const sd = parseFloat(ctlR && ctlR.r.GXE4); toast("追尾ステップレート " + (isNaN(hz) || !(sd > 0) ? "" : (sd * hz / 14400).toFixed(2) + " pps")); }); }
+function openCtl(){ ["menu", "info"].forEach(i => $(i).classList.remove("show")); $("ctl").classList.add("show"); renderCtl(); ctlRead(); }
+$("bCtl").onclick = openCtl; $("ctlClose").onclick = $("ctlClose2").onclick = () => { for(const d in ctlDraft) delete ctlDraft[d]; $("ctl").classList.remove("show"); };
+CTL_TABS.forEach(([k, t]) => { const b = el("button", "", t); b.dataset.k = k; b.onclick = () => { ctlTab = k; for(const d in ctlDraft) delete ctlDraft[d]; renderCtl(); }; $("ctlTabs").append(b); });
+setInterval(() => {
+  const ae = document.activeElement, editing = ae && (ae.tagName === "INPUT" || ae.tagName === "SELECT") && $("ctlBody").contains(ae);
+  if($("ctl").classList.contains("show") && !ctlBusy && !editing && !Object.keys(ctlDraft).length) ctlRead();
+}, 4000);
+
+// ---------- マウントへ送信 ----------
+const pad = (n, w) => String(Math.abs(n)).padStart(w || 2, "0");
+const ok1 = r => /^1/.test(r || "");
+async function sendLoc(){
+  const la = Math.abs(loc.lat), lo = Math.abs(loc.lon);
+  const lat = (loc.lat < 0 ? "-" : "+") + pad(Math.floor(la)) + "*" + pad(Math.round((la - Math.floor(la)) * 60));
+  // LX200/OnStep: 経度は東が負
+  const lon = (loc.lon > 0 ? "-" : "+") + pad(Math.floor(lo), 3) + "*" + pad(Math.round((lo - Math.floor(lo)) * 60));
+  const a = await ask("St" + lat), b = await ask("Sg" + lon);
+  return [a, b];
+}
+async function sendTime(){
+  const d = new Date(), off = d.getTimezoneOffset() / 60; // 現地時+値=UTC (東京=-9)
+  const g = (off < 0 ? "-" : "+") + pad(Math.floor(Math.abs(off))) + "." + (Math.abs(off) % 1 ? "5" : "0");
+  const res = [];
+  res.push(await ask("SG" + g));
+  res.push(await ask("SC" + pad(d.getMonth() + 1) + "/" + pad(d.getDate()) + "/" + pad(d.getFullYear() % 100)));
+  const d2 = new Date(); // 日付設定に時間がかかる機種があるため時刻は最後に取り直す
+  res.push(await ask("SL" + pad(d2.getHours()) + ":" + pad(d2.getMinutes()) + ":" + pad(d2.getSeconds())));
+  return res;
+}
+async function sendToMount(what){
+  if(mount.type === "generic"){ toast("汎用モードでは、観測地・日時の送信は使えません", true); return; }
+  if(!$("dot").classList.contains("on")){ toast("マウントに接続されていません", true); return; }
+  const txt = what === "loc" ? "観測地 (" + fmtLoc() + ")" : "日時 (" + new Date().toLocaleString() + ")";
+  if(!confirm(txt + " をマウントへ送信しますか?\n時刻・観測地を変えると、アライメントや追尾に影響することがあります。")) return;
+  const r = what === "loc" ? await sendLoc() : await sendTime();
+  const good = r.filter(ok1).length;
+  toast((good === r.length ? "送信しました" : "一部の応答が不明です(" + good + "/" + r.length + ")") + " [" + r.map(x => x === null ? "無応答" : x.slice(0, 6)).join(", ") + "]", good !== r.length);
+  setTimeout(infoPoll, 600);
+}
+
+// ---------- AiBridge の SPIFFS へ設定を保存/読込 (端末をまたいで共有) ----------
+const REMOTE = "/starchart_settings.json";
+let saveT = 0;
+function saveRemote(){
+  clearTimeout(saveT);
+  saveT = setTimeout(async () => {
+    try{
+      const r = await fetch(API + "/api/ui/upload?filename=" + REMOTE, {method: "POST", headers: {"Content-Type": "text/plain"}, body: JSON.stringify({loc, layers: on})});
+      $("saveSt").textContent = r.ok ? "AiBridgeに保存しました" : "AiBridgeへの保存に失敗 (HTTP " + r.status + ")";
+    }catch(e){ $("saveSt").textContent = "AiBridgeへ保存できません: " + e.message; }
+  }, 800);
+}
+async function loadRemote(){
+  try{
+    const r = await fetch(API + REMOTE, {cache: "no-store"}); if(!r.ok) return;
+    const j = JSON.parse(await r.text());
+    if(j.loc && typeof j.loc.lat === "number"){ Object.assign(loc, j.loc); store.set("loc", loc); syncLocUI(); }
+    if(j.layers){ Object.assign(on, j.layers); store.set("layers", on); document.querySelectorAll("#layers input").forEach((cb, i) => cb.checked = !!on[LAYERS[i][0]]); }
+    $("saveSt").textContent = "AiBridgeの保存設定を読み込みました"; bodiesT = 0; redraw();
+  }catch(e){}
+}
+function targetForMount(){ // 地平線下なら警告して null を返す
+  if(!sel) return null;
+  buildFrame(); const alt = altAz(sel.ra, sel.dec)[0];
+  if(alt < 0){ alert("この位置は地平線の下です(高度 " + alt.toFixed(1) + "°)。実行できません。"); return null; }
+  return epoch === "now" ? toNow(sel.ra, sel.dec, jdNow()) : [sel.ra, sel.dec];
+}
+async function gotoSel(){
+  const tgt = targetForMount(); if(!tgt) return;
+  try{ await api("/api/goto?ra=" + encodeURIComponent(fmtHMS(tgt[0] / 15)) + "&dec=" + encodeURIComponent(fmtDMS(tgt[1])));
+    gotoT = {ra: sel.ra, dec: sel.dec, name: sel.name || "", t0: Date.now(), seen: false, idle: 0};
+    toast("GOTO 開始"); showInfo(null); setTimeout(poll, 400); redraw(); }
+  catch(e){ toast("GOTO 失敗: " + e.message, true); }
+}
+async function alignSel(){ // 現在のマウント位置を、選んだ座標に同期 (:Sr :Sd :CM)
+  const tgt = targetForMount(); if(!tgt) return;
+  if(mount.type === "generic"){ // 汎用モード: Alpaca の SyncToCoordinates
+    try{ await api("/api/mount/sync?ra=" + encodeURIComponent(fmtHMS(tgt[0] / 15)) + "&dec=" + encodeURIComponent(fmtDMS(tgt[1]))); toast("アライメント送信 (" + (sel.name || "指定位置") + ")"); setTimeout(poll, 500); }
+    catch(e){ toast("アライメント失敗: " + e.message, true); }
+    return;
+  }
+  const dms = fmtDMS(tgt[1]).replace(":", "*");
+  const a = await ask("Sr" + fmtHMS(tgt[0] / 15)), b = await ask("Sd" + dms);
+  if(!ok1(a) || !ok1(b)){ toast("アライメント失敗: 座標を受け付けませんでした [" + a + ", " + b + "]", true); return; }
+  const c = await ask("CM");
+  toast("アライメント送信 (" + (sel.name || "指定位置") + ") " + (c ? "[" + c.slice(0, 20) + "]" : "")); setTimeout(poll, 500);
+}
+async function stopMount(){ try{ await api("/api/stop"); gotoT = null; toast("停止しました"); poll(); }catch(e){ toast("停止失敗: " + e.message, true); } }
+async function mountLocation(silent){
+  if(mount.type === "generic"){
+    const j = await ginfo();
+    if(j && j.state && j.state.haveSite){ setLoc(j.state.siteLat, j.state.siteLon, "mount"); if(!silent) toast("マウントの観測地を取得しました"); }
+    else if(!silent) toast("取得できません: この機材は観測地を返しません", true);
+    return;
+  }
+  try{
+    const a = await api("/api/command?cmd=" + encodeURIComponent("Gt")), b = await api("/api/command?cmd=" + encodeURIComponent("Gg"));
+    const pa = /([+-]?\d+)\D+(\d+)/.exec(JSON.stringify(a.data ?? a.message ?? a)), pb = /([+-]?\d+)\D+(\d+)/.exec(JSON.stringify(b.data ?? b.message ?? b));
+    if(!pa || !pb) throw new Error("応答を解釈できません");
+    const lat = Math.sign(+pa[1] || 1) * (Math.abs(+pa[1]) + (+pa[2]) / 60), lon = -(Math.sign(+pb[1] || 1) * (Math.abs(+pb[1]) + (+pb[2]) / 60)); // LX200は西経が正
+    if(lat === 0 && lon === 0) throw new Error("マウント側の観測地が未設定");
+    setLoc(lat, lon, "mount"); if(!silent) toast("マウントの観測地を取得しました");
+  }catch(e){ if(!silent) toast("取得できません: " + e.message, true); }
+}
+function syncLocUI(){ $("lat").value = loc.lat.toFixed(3); $("lon").value = (-loc.lon).toFixed(3); $("locNow").textContent = fmtLoc(); }
+function setLoc(lat, lon, src){ loc.lat = lat; loc.lon = lon; loc.src = src; store.set("loc", loc); saveRemote(); syncLocUI();  bodiesT = 0; redraw(); }
+
+// ---------- 操作 ----------
+let sel = null;
+function showInfo(o){
+  sel = o;
+  if(!o){ $("info").classList.remove("show"); redraw(); return; }
+  buildFrame();
+  const [alt, az] = altAz(o.ra, o.dec);
+  const kind = {messier: "メシエ天体", planet: "太陽系", star: "恒星"}[o.kind] || "指定位置";
+  $("iName").textContent = o.name || (o.kind === "star" ? "恒星 " + o.mag.toFixed(1) + "等" : "指定位置");
+  $("iSub").innerHTML = kind + (o.mag !== undefined && o.mag > -20 ? " ・ " + o.mag.toFixed(1) + "等" : "") + "<br>RA " + fmtHMS(o.ra / 15) + " Dec " + fmtDMS(o.dec) + " (J2000)<br>高度 " + alt.toFixed(1) + "° 方位 " + az.toFixed(1) + "°" + (alt < 0 ? " <span style='color:#f87171'>(地平線の下)</span>" : "");
+  $("info").classList.add("show"); redraw();
+}
+function pick(px, py){
+  let best = null, bd = 16;
+  for(const h of hits){ const d = Math.hypot(h.x - px, h.y - py) - h.pr * 2; if(d < bd){ bd = d; best = h; } }
+  if(best) return showInfo(best);
+  const w = unproj(px, py), v = view.altaz ? mulT(M, w) : w, [ra, dec] = toRaDec(v);
+  showInfo({kind: "point", ra, dec, name: null});
+}
+const ptrs = new Map(); let moved = 0, downT = 0, pinch0 = 0, fov0 = 0;
+cv.addEventListener("pointerdown", e => {
+  cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+  if(ptrs.size === 1){ moved = 0; downT = Date.now(); }
+  if(ptrs.size === 2){ const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a[0] - b[0], a[1] - b[1]); fov0 = view.fov; moved = 99; }
+});
+cv.addEventListener("pointermove", e => {
+  if(!ptrs.has(e.pointerId)) return;
+  const prev = ptrs.get(e.pointerId); ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+  if(ptrs.size === 2){
+    const [a, b] = [...ptrs.values()]; const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+    if(pinch0 > 0) setFov(fov0 * pinch0 / d); return;
+  }
+  const dx = e.clientX - prev[0], dy = e.clientY - prev[1]; moved += Math.abs(dx) + Math.abs(dy);
+  if(moved < 6) return;
+  const dps = view.fov / H; // 度/px
+  view.lon += dx * dps / Math.max(0.25, Math.cos(view.lat * D2R)); view.lat = Math.max(-89.5, Math.min(89.5, view.lat + dy * dps));
+  view.lon = norm(view.lon); redraw();
+});
+function endPtr(e){
+  const was = ptrs.has(e.pointerId); ptrs.delete(e.pointerId);
+  if(was && ptrs.size === 0){ if(moved < 8 && Date.now() - downT < 500) pick(e.clientX, e.clientY); store.set("view", view); }
+  if(ptrs.size < 2) pinch0 = 0;
+}
+cv.addEventListener("pointerup", endPtr); cv.addEventListener("pointercancel", endPtr);
+cv.addEventListener("wheel", e => { e.preventDefault(); setFov(view.fov * (e.deltaY > 0 ? 1.15 : 1 / 1.15)); }, {passive: false});
+function setFov(f){ view.fov = Math.max(0.5, Math.min(140, f)); redraw(); }
+
+function centerOn(ra, dec){
+  buildFrame(); const v = vec(ra, dec), w = view.altaz ? mul(M, v) : v, ll = frameToLonLat(w);
+  view.lon = norm(ll[0]); view.lat = Math.max(-89.5, Math.min(89.5, ll[1])); store.set("view", view); redraw();
+}
+$("bScope").onclick = () => { if(scope){ centerOn(scope.ra, scope.dec); if(view.fov > 40) setFov(20); } else toast("望遠鏡の位置が未取得です", true); };
+$("bMode").onclick = () => {
+  buildFrame(); setCenter(); const ce = eqCenter(); view.altaz = !view.altaz;
+  $("bMode").classList.toggle("act", view.altaz); centerOn(ce[0], ce[1]);
+  toast(view.altaz ? "地平座標(北が上とは限りません)" : "赤道座標");
+};
+$("bMenu").onclick = () => $("menu").classList.add("show");
+$("bMenuClose").onclick = $("menuX").onclick = () => { $("menu").classList.remove("show"); store.set("loc", loc); };
+$("supportBtn").onclick = () => $("supportPopover").classList.add("show");
+$("bClose").onclick = () => showInfo(null);
+$("bGoto").onclick = gotoSel; $("bAlign").onclick = alignSel; $("bStop").onclick = stopMount;
+$("bBeep").onclick = async () => { try{ await api("/api/buzzer"); toast("Beep"); }catch(e){ toast("Beep失敗: " + e.message, true); } };
+let red = false; $("bRed").onclick = () => { red = !red; $("red").style.display = red ? "block" : "none"; $("bRed").classList.toggle("act", red); };
+$("bGps").onclick = () => {
+  if(!navigator.geolocation){ toast("この端末では使えません", true); return; }
+  navigator.geolocation.getCurrentPosition(p => { setLoc(p.coords.latitude, p.coords.longitude, "gps"); toast("位置を取得しました"); },
+    () => toast("取得できません(http接続では端末の位置が使えないことがあります。手入力してください)", true), {timeout: 8000});
+};
+$("bIdent").onclick = () => identify(true);
+$("bMountLoc").onclick = () => mountLocation(false);
+$("bSendLoc").onclick = () => sendToMount("loc"); $("bSendTime").onclick = () => sendToMount("time");
+$("lat").onchange = () => { const v = parseFloat($("lat").value); if(!isNaN(v)) setLoc(Math.max(-90, Math.min(90, v)), loc.lon, "manual"); };
+$("lon").onchange = () => { const v = parseFloat($("lon").value); if(!isNaN(v)) setLoc(loc.lat, Math.max(-180, Math.min(180, -v)), "manual"); }; // 入力は西が+
+LAYERS.forEach(l => {
+  const lb = document.createElement("label"), cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = on[l[0]];
+  cb.onchange = () => { on[l[0]] = cb.checked; store.set("layers", on); saveRemote(); redraw(); };
+  lb.append(cb, l[1]); $("layers").append(lb);
+});
+function resize(){
+  dpr = window.devicePixelRatio || 1; W = innerWidth; H = innerHeight;
+  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); redraw();
+}
+addEventListener("resize", resize);
+
+// ---------- 起動 ----------
+syncLocUI();
+$("bMode").classList.toggle("act", view.altaz);
+resize();
+if(!store.get("view", null)){ // 初回は天頂付近を表示
+  buildFrame(); const z = toRaDec(mulT(M, [0, 0, 1])); view.altaz = false; view.lon = z[0]; view.lat = z[1]; view.fov = 70;
+}
+loadRemote().then(() => { if(loc.src === "default") mountLocation(true); });
+setInterval(poll, 2000); setInterval(infoPoll, 6000); setInterval(renderInfo, 1000); setTimeout(infoPoll, 1500); setInterval(redraw, 10000); setInterval(() => { if(gotoT) redraw(); }, 120); poll(); loop();
+</script>
+</body>
+</html>
