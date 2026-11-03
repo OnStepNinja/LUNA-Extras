@@ -206,6 +206,17 @@
  ],
  "news": [
   {
+   "date": "2026-11-01",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "X に投稿しました"
+   },
+   "body": {
+    "ja": "X に投稿しました。\nhttps://x.com/ns5000_sst/status/2116879934862020707"
+   }
+  },
+  {
    "date": "2026-10-27",
    "level": "info",
    "product": "*",
