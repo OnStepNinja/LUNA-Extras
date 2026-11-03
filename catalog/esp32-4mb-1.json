@@ -214,6 +214,19 @@
  ],
  "news": [
   {
+   "date": "2026-11-03",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Store にアイコン・写真・リンクが表示できるようになりました",
+    "en": "LUNA Store now shows icons, photos and links"
+   },
+   "body": {
+    "ja": "新しい LUNA Base(近日公開)で、LUNA Store にアイコン・写真・リンクを表示できます。お知らせのリンクは、押して開く・コピーができます。",
+    "en": "The new LUNA Base (coming soon) shows icons, photos and links in LUNA Store. Links in the news can be opened or copied."
+   }
+  },
+  {
    "date": "2026-11-01",
    "level": "info",
    "product": "*",
