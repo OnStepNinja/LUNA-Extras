@@ -44,7 +44,15 @@
     "ja": "テスト配信です。Console の「LUNA Base へ」が追尾中でも使える(NS-5000X と同じ)。GOTO 中だけ断る",
     "en": "Test distribution. The Console \"LUNA Base\" button works while tracking (the same as NS-5000X); only a GOTO refuses"
    },
-   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
+   "images": [
+    {
+     "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/images/ja/starchart_ns4000.jpg",
+     "caption": {
+      "ja": "星図アプリの画面の例(NS-4000 につないだところ)"
+     }
+    }
+   ]
   }
  ],
  "apps": [
