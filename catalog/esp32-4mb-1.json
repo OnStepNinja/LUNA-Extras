@@ -105,6 +105,25 @@
   {
    "product": "NS-4000 / NS-5000X",
    "name": "starchart_ja.html",
+   "version": "0.9.2",
+   "lang": "ja",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/0.9.2/starchart_ja.html",
+   "size": 98487,
+   "sha256": "1667e2b2db47f982a59911e5fe4c24492fc1aae75272726935945fad41d833fa",
+   "title": {
+    "ja": "星図"
+   },
+   "category": {
+    "ja": "星図"
+   },
+   "license": "Freeware (LICENSE)",
+   "changes": {
+    "ja": "テスト配信です。開発版です。2 つ要ります: この星図と「星図のデータ」。両方を入れてください。マウントにエラー(高度の上限超えなど)が出ているとき、マウント操作の画面が「読み込み中」のまま止まる不具合を直しました"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "starchart_ja.html",
    "version": "0.9.1",
    "lang": "ja",
    "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/starchart_ja.html",
