@@ -53,6 +53,52 @@
      }
     }
    ]
+  },
+  {
+   "product": "NS-4000-FORK",
+   "mark": "LUNA OnStepNinja NS-4000 Fork v",
+   "name": "OnStepNinja NS-4000 フォーク式",
+   "version": "1.2.6",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.6_ja_fork.bin",
+   "size": 1335248,
+   "sha256": "0bfbbf389d898cb7665a48ed3305c91badf637d129dace183033b3112e4c387f",
+   "title": {
+    "ja": "テスト配信です。フォーク式赤道儀向けの OnStep + AiBridge ファーム",
+    "en": "Test distribution. OnStep + AiBridge firmware for a fork equatorial mount"
+   },
+   "changes": {
+    "ja": "テスト配信です。ドイツ式赤道儀の版(1.2.5)と機能は同じで、架台の型だけがフォーク式です",
+    "en": "Test distribution. The same functions as the German equatorial version (1.2.5); only the mount type is fork"
+   },
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
+  },
+  {
+   "product": "NS-4000-ALTAZ",
+   "mark": "LUNA OnStepNinja NS-4000 AltAz v",
+   "name": "OnStepNinja NS-4000 経緯台式",
+   "version": "1.2.7",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.7_ja_altazm.bin",
+   "size": 1335072,
+   "sha256": "93e850115e2f3e37c43dc4b4ce27aca27786ab572bf00a6bff575de57a143326",
+   "title": {
+    "ja": "テスト配信です。経緯台式向けの OnStep + AiBridge ファーム",
+    "en": "Test distribution. OnStep + AiBridge firmware for an alt-azimuth mount"
+   },
+   "changes": {
+    "ja": "テスト配信です。ドイツ式赤道儀の版(1.2.5)と機能は同じで、架台の型だけが経緯台式です(方位は -360〜+360 度)",
+    "en": "Test distribution. The same functions as the German equatorial version (1.2.5); only the mount type is alt-azimuth (azimuth -360 to +360 degrees)"
+   },
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
   }
  ],
  "apps": [
