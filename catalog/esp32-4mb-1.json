@@ -99,6 +99,31 @@
     "en": "Test distribution. The same functions as the German equatorial version (1.2.5); only the mount type is alt-azimuth (azimuth -360 to +360 degrees)"
    },
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
+  },
+  {
+   "product": "BLE Handbox",
+   "mark": "LUNA BLE Handbox v",
+   "name": "ワイヤレス BLE ハンドボックス",
+   "version": "2.0.0",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/bin/BleHandbox_v2.0.0.bin",
+   "size": 587792,
+   "sha256": "7b21f7ec7cc0ed5a45ef1b52fa27b096b3f1ef7e1bed2df5e1940ac2ac9d0222",
+   "title": {
+    "ja": "NS-4000 を無線で操作する 5 ボタンのハンドボックス(ESP32)",
+    "en": "A 5-button wireless handbox for the NS-4000 (ESP32)"
+   },
+   "changes": {
+    "ja": "ver2(2.0.0)。Store だけで配布します。将来、改良する可能性があります。操作方法と端子は、下の説明を見てください。回路図などは、後日、Store で公開します",
+    "en": "Version 2 (2.0.0). Distributed only in LUNA Store; it may be improved in the future. See the text below for the operation and the pins. The circuit diagram will be published in LUNA Store later"
+   },
+   "license": "フリーウェア(下の説明を参照)。Apache 2.0 と LGPL 2.1 の部品を含みます",
+   "readme": {
+    "ja": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/docs/handbox/ble_handbox_v2_ja.txt"
+   }
   }
  ],
  "apps": [
@@ -278,6 +303,19 @@
   }
  ],
  "news": [
+  {
+   "date": "2026-11-06",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "ワイヤレス BLE ハンドボックス ver2 を公開しました(Store のみ)",
+    "en": "Wireless BLE Handbox ver2 released (LUNA Store only)"
+   },
+   "body": {
+    "ja": "LUNA Store のファームに、「ワイヤレス BLE ハンドボックス」(ver2、2.0.0)を追加しました。NS-4000 の基板と同じ端子番号の、5 ボタンのハンドボックスです。Store だけで配布します。将来、改良する可能性があります。操作方法と端子は、ファームの説明にあります。回路図などは、後日、Store で公開します。",
+    "en": "The firmware list of LUNA Store now has the \"Wireless BLE Handbox\" (ver2, 2.0.0): a 5-button handbox with the same pin numbers as the NS-4000 board. It is distributed only in LUNA Store and may be improved in the future. The operation and the pins are in the description of the firmware. The circuit diagram will be published in LUNA Store later."
+   }
+  },
   {
    "date": "2026-11-03",
    "level": "info",
