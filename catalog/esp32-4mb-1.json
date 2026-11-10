@@ -1,6 +1,6 @@
 {
  "format": 1,
- "updated": "2026-11-08",
+ "updated": "2026-11-10",
  "firmware": [
   {
    "product": "NS-5000X",
@@ -193,13 +193,21 @@
     "en": "A 5-button wireless handbox for the NS-4000 (ESP32)"
    },
    "changes": {
-    "ja": "ver2(2.0.0)。Store だけで配布します。将来、改良する可能性があります。操作方法と端子は、下の説明を見てください。回路図などは、後日、Store で公開します",
-    "en": "Version 2 (2.0.0). Distributed only in LUNA Store; it may be improved in the future. See the text below for the operation and the pins. The circuit diagram will be published in LUNA Store later"
+    "ja": "ver2(2.0.0)。Store だけで配布します。将来、改良する可能性があります。操作方法と端子は、下の説明を見てください。回路、作り方と設定(LUNA Base を使います)も、下の説明にあります。回路図は、説明の下に出ます",
+    "en": "Version 2 (2.0.0). Distributed only in LUNA Store; it may be improved in the future. See the text below for the operation, the pins, the circuit and how to build and set it up with LUNA Base. The circuit diagram is shown below"
    },
    "license": "フリーウェア(下の説明を参照)。Apache 2.0 と LGPL 2.1 の部品を含みます",
    "readme": {
     "ja": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/docs/handbox/ble_handbox_v2_ja.txt"
-   }
+   },
+   "images": [
+    {
+     "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/images/ja/ble_handbox_v2_circuit.png",
+     "caption": {
+      "ja": "ワイヤレス BLE ハンドボックス v2 の回路図"
+     }
+    }
+   ]
   }
  ],
  "apps": [
@@ -376,9 +384,62 @@
     "ja": "文書"
    },
    "license": "Freeware (LICENSE)"
+  },
+  {
+   "group": "LUNA Base",
+   "name": "luna_base_guide.txt",
+   "lang": "ja",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/data/ja/luna_base_guide.txt",
+   "size": 7062,
+   "sha256": "b39a372127bba39636182ecb7627957ef11d12292d42080a10dba95354681a2e",
+   "type": "text",
+   "title": {
+    "ja": "LUNA Base の書き込み方法と使い方"
+   },
+   "category": {
+    "ja": "文書"
+   },
+   "license": "Freeware (LICENSE)"
+  },
+  {
+   "group": "LUNA Base",
+   "name": "luna_prog_comm_adapter.txt",
+   "lang": "ja",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/data/ja/luna_prog_comm_adapter.txt",
+   "size": 3493,
+   "sha256": "4d29a88488dae5e3db19e667a0b533cd6482f7a527f8e1d230f53f012dc89047",
+   "type": "text",
+   "title": {
+    "ja": "LUNA Prog & Comm Adapter v2(USB シリアルアダプタの回路)"
+   },
+   "category": {
+    "ja": "文書"
+   },
+   "license": "Freeware (LICENSE)",
+   "images": [
+    {
+     "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/images/ja/luna_prog_comm_adapter_v2_circuit.png",
+     "caption": {
+      "ja": "LUNA Prog & Comm Adapter v2 の回路図"
+     }
+    }
+   ]
   }
  ],
  "news": [
+  {
+   "date": "2026-11-10",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "回路図と LUNA Base の説明を LUNA Store で公開しました",
+    "en": "Circuits and the LUNA Base guide are in LUNA Store"
+   },
+   "body": {
+    "ja": "LUNA Store の「データ」に、「LUNA Base の書き込み方法と使い方」と、USB で書き込み・通信・ログの確認ができる「LUNA Prog & Comm Adapter v2」の回路図を載せました。ワイヤレス BLE ハンドボックスの回路図と作り方は、ファームの説明にあります。",
+    "en": "LUNA Store (Data) now has \"LUNA Base - writing and using\" and the circuit of the \"LUNA Prog & Comm Adapter v2\", a USB-serial adapter for writing, talking to the board and reading logs. The circuit and the build steps of the Wireless BLE Handbox are in the description of its firmware."
+   }
+  },
   {
    "date": "2026-11-08",
    "level": "info",
