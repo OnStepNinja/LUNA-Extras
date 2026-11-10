@@ -101,36 +101,6 @@
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
   },
   {
-   "product": "NS-4000",
-   "mark": "LUNA OnStepNinja NS-4000 v",
-   "name": "OnStepNinja NS-4000",
-   "version": "1.2.5",
-   "lang": "ja",
-   "layout": "esp32-4mb-1",
-   "chip": "esp32",
-   "status": "test",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.5_ja.bin",
-   "size": 1336144,
-   "sha256": "c3250f96928f9f911ffeb35723e05851dc40f9dd4fe34b526b70a8c7987126a6",
-   "title": {
-    "ja": "テスト配信です。OnStep + AiBridge の赤道儀ファーム",
-    "en": "Test distribution. OnStep + AiBridge mount firmware"
-   },
-   "changes": {
-    "ja": "テスト配信です。Console の「LUNA Base へ」が追尾中でも使える(NS-5000X と同じ)。GOTO 中だけ断る",
-    "en": "Test distribution. The Console \"LUNA Base\" button works while tracking (the same as NS-5000X); only a GOTO refuses"
-   },
-   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
-   "images": [
-    {
-     "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/images/ja/starchart_ns4000.jpg",
-     "caption": {
-      "ja": "星図アプリの画面の例(NS-4000 につないだところ)"
-     }
-    }
-   ]
-  },
-  {
    "product": "NS-4000-FORK",
    "mark": "LUNA OnStepNinja NS-4000 Fork v",
    "name": "OnStepNinja NS-4000 フォーク式",
