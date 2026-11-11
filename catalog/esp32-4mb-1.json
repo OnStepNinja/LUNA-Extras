@@ -424,6 +424,19 @@
    "level": "info",
    "product": "*",
    "title": {
+    "ja": "ブラウザだけで LUNA Base を USB で書き込めるようになりました",
+    "en": "Install LUNA Base over USB from your web browser"
+   },
+   "body": {
+    "ja": "新しい基板(ESP32)に LUNA Base を入れるのに、Python も esptool も要らなくなりました。PC の Chrome か Edge で書き込みのページを開き、基板を USB でつないで「書き込む」を押すだけです(2〜3 分)。書き込んだあとの Wi-Fi の設定のしかたも、ページに詳しく書いてあります。基板の中は消去しないので、設定は残ります。日本語のページ: https://onstepninja.github.io/LUNA-Extras/install/ (この画面から開くときは、次を押し、出た画面のリンクを押します: https://github.com/OnStepNinja/LUNA-Extras/tree/main/install )。英語のページ(海外の方向け): https://onstepninja.github.io/LUNA-Firmware/install/ (この画面から開くときは、次を押し、出た画面のリンクを押します: https://github.com/OnStepNinja/LUNA-Firmware/tree/main/install )",
+    "en": "You no longer need Python or esptool to put LUNA Base on a new board (ESP32). Open the install page in Chrome or Edge on a PC, connect the board with USB and press \"Install\" (2 to 3 minutes). The page also explains the Wi-Fi setup after installing. Nothing on the board is erased, so your settings are kept. Install page: https://onstepninja.github.io/LUNA-Firmware/install/ (to open it from here, press this link, then the link on that page: https://github.com/OnStepNinja/LUNA-Firmware/tree/main/install )"
+   }
+  },
+  {
+   "date": "2026-11-11",
+   "level": "info",
+   "product": "*",
+   "title": {
     "ja": "LUNA Base v0.9.0 を公開しました(USB なしでバージョンアップ)",
     "en": "LUNA Base v0.9.0 released (upgrade without USB)"
    },
