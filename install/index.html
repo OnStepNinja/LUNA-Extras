@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LUNA Base を USB で書き込む</title><style>
+:root{--bg:#0f1420;--card:#182033;--fg:#e6e9f0;--mut:#9aa4b8;--acc:#5aa9ff;--ok:#5fd38d;--warn:#ffc163;--line:#2a3550}
+@media (prefers-color-scheme: light){:root{--bg:#f4f6fa;--card:#fff;--fg:#1b2333;--mut:#5b6578;--acc:#1f6fd1;--ok:#1f8a4c;--warn:#a86400;--line:#dde2ec}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,"Segoe UI","Hiragino Sans","Yu Gothic UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:28px 16px 48px}
+h1{font-size:1.6rem;margin:0 0 6px}.ver{color:var(--mut);font-size:.9rem;margin:0 0 14px}
+h2{font-size:1.1rem;margin:26px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+ol,ul{margin:0;padding-left:1.4em}li{margin:4px 0}
+.go{display:flex;justify-content:center;padding:22px 0}
+esp-web-install-button button[slot=activate]{font:inherit;font-size:1.15rem;font-weight:600;padding:12px 40px;border:0;border-radius:10px;background:var(--acc);color:#fff;cursor:pointer}
+.msg{color:var(--warn);font-weight:600;text-align:center}
+.keep{border-left:4px solid var(--ok)}
+a{color:var(--acc)}small,.mut{color:var(--mut)}
+table{border-collapse:collapse;font-size:.9rem;width:100%}td{padding:3px 8px;border-top:1px solid var(--line);word-break:break-all}
+footer{margin-top:28px;font-size:.85rem;color:var(--mut)}
+</style>
+<script type="module" src="https://unpkg.com/esp-web-tools@10.4.0/dist/web/install-button.js?module"></script></head>
+<body><main>
+<h1>LUNA Base を USB で書き込む</h1><p class="ver">LUNA Base v0.9.0 &middot; <a href="https://onstepninja.github.io/LUNA-Firmware/install/">English</a></p>
+<p>Python も esptool も要りません。PC のブラウザから、LUNA Base を基板(ESP32)に書き込みます。一度入れれば、そのあとのファームや LUNA Base の更新は Wi-Fi で LUNA Store からできます。</p>
+<h2>用意するもの</h2><div class="card"><ul><li>PC(Windows・Mac・Linux)の <b>Chrome</b> か <b>Edge</b>(スマホ・Safari・Firefox は使えません)</li><li>データ通信のできる USB ケーブル(充電専用のケーブルでは、ポートが出ません)</li><li>ESP32 の基板(NS-4000 の基板など。4MB)</li></ul></div>
+<h2>書き込み方</h2><div class="card"><ol><li>基板を USB で PC につなぎます</li><li>下の「書き込む」を押し、出てきた一覧から基板のポートを選んで「接続」を押します(COM3・USB Serial・CP210x・CH340 などの名前)</li><li>「Install LUNA Base」→「Install」を押します(ここからは英語の画面です)。2〜3 分かかります。終わるまで USB を抜かないでください</li><li>「Installation complete!」と出たら終わりです。基板が自動で起動しないときは、EN(リセット)を押すか、USB を抜き差しします</li><li>スマホや PC の Wi-Fi で「LUNA-BASE-」で始まる名前につなぎ、ブラウザで <b>http://192.168.4.1</b> を開きます。LUNA Store から、使うファームを選んで入れます</li></ol></div>
+<div class="go"><esp-web-install-button manifest="manifest.json">
+<button slot="activate">書き込む</button>
+<p class="msg" slot="unsupported">このブラウザでは書き込めません。PC の Chrome か Edge で、このページを開いてください。</p>
+<p class="msg" slot="not-allowed">このページは https で開く必要があります。</p>
+</esp-web-install-button></div>
+<div class="card keep"><b>設定は残ります</b><br>基板の中を消去しないので、家庭の Wi-Fi・PIN・架台の設定は残ります。今まで入っていたファームは消えるので、LUNA Base の LUNA Store から入れ直してください。</div>
+<h2>うまくいかないとき</h2><div class="card"><ul><li><b>ポートが一覧に出ない</b>: ケーブルを替えてみます。それでも出なければ、USB の変換チップのドライバーを入れます(基板の USB の近くのチップの名前で選ぶ): <a href="https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers">CP210x(Silicon Labs)</a>・<a href="https://www.wch-ic.com/downloads/CH341SER_EXE.html">CH340(WCH)</a></li><li><b>接続・書き込みが始まらない</b>(Failed to initialize など): 基板の BOOT を押したまま EN を押して離し、BOOT を離してから、もう一度「書き込む」を押します</li><li><b>途中で止まった</b>: もう一度書き込めば大丈夫です。書いている途中で止まっても、基板は壊れません</li><li>ほかのアプリ(Arduino IDE のシリアルモニターなど)がポートを使っていると接続できません。閉じてから試します</li></ul></div>
+<h2>書き込むもの</h2><div class="card"><table><tr><td>0x1000</td><td>bootloader.bin</td><td>17,568</td></tr><tr><td>0x8000</td><td>partitions_luna4mb.bin</td><td>3,072</td></tr><tr><td>0xE000</td><td>otadata_blank.bin</td><td>8,192</td></tr><tr><td>0x10000</td><td>LUNABase_v0.9.0_ja.bin</td><td>1,048,992</td></tr></table></div>
+<footer>LUNA Base はフリーウェアです。書き込みには <a href="https://github.com/esphome/esp-web-tools">ESP Web Tools</a>(Apache 2.0)を使っています。</footer>
+</main></body></html>
