@@ -3,6 +3,28 @@
  "updated": "2026-11-10",
  "firmware": [
   {
+   "product": "LUNA-BASE-UPDATER",
+   "mark": "LUNA Base Updater v",
+   "name": "LUNA Base(Store)のバージョンアップ",
+   "version": "0.9.0",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/LUNA_Base_Updater_v0.9.0_ja.bin",
+   "size": 1324304,
+   "sha256": "08ce463e9be2a6000a96ee369cd15fef64b2e415adee961ca0cc7d0a399cf104",
+   "title": {
+    "ja": "LUNA Base を v0.9.0 にバージョンアップします。一時的にバージョンアップのプログラムを実行し、終わると LUNA Base に戻ります。そのあと、お手数ですがファームウェアをもう一度ダウンロードしてください",
+    "en": "Upgrades LUNA Base to v0.9.0. A program runs for a short time and then LUNA Base comes back. After that, please download your firmware again"
+   },
+   "changes": {
+    "ja": "LUNA Base v0.9.0 の新しいところ: 大きな目録も読めるようにした・ファームを基板ごとに分けて表示。USB は要りません。約 20 秒で終わります(電源を切らないでください)。Wi-Fi などの設定と、ファームの設定は残ります。最後の音のあと画面が変わらないときは、ページを読み直してください",
+    "en": "New in LUNA Base v0.9.0: reads large catalogs; firmware listed by board. No USB needed. It takes about 20 seconds (do not switch off). Your Wi-Fi settings and firmware settings are kept. If the page does not change after the last beeps, reload the page"
+   },
+   "license": "Freeware"
+  },
+  {
    "product": "NS-5000X",
    "mark": "NS-5000X Ver",
    "name": "DOG NS-5000X",
@@ -397,6 +419,19 @@
   }
  ],
  "news": [
+  {
+   "date": "2026-11-11",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Base v0.9.0 を公開しました(USB なしでバージョンアップ)",
+    "en": "LUNA Base v0.9.0 released (upgrade without USB)"
+   },
+   "body": {
+    "ja": "LUNA Store のファームの一番上の「LUNA Base(Store)のバージョンアップ」をダウンロードして起動すると、USB を使わずに LUNA Base が v0.9.0 になります(約 20 秒)。設定は残ります。そのあと、お手数ですがファームウェアをもう一度ダウンロードしてください。v0.9.0 では、大きな目録も読めるようになり、ファームが基板ごとに分けて表示されます。",
+    "en": "Download and start \"LUNA Base (Store) upgrade\" at the top of the Firmware list: LUNA Base becomes v0.9.0 without USB (about 20 seconds). Your settings are kept. After that, please download your firmware again. v0.9.0 reads large catalogs and lists firmware by board."
+   }
+  },
   {
    "date": "2026-11-10",
    "level": "info",
