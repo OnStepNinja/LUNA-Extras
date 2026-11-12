@@ -200,6 +200,28 @@
      }
     }
    ]
+  },
+  {
+   "product": "LUNA-Observatory",
+   "mark": "AiBridgeMCP LUNA Observatory v",
+   "name": "LUNA Observatory Edition (ESP32)",
+   "version": "5.9.10",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/bin/LUNA_Observatory_v5.9.10_ESP32.bin",
+   "size": 1363968,
+   "sha256": "8c7e2a7cbac929aa4aaea22851018c45c72284a642d85ff24546632592ee5a76",
+   "title": {
+    "ja": "AI とつながる、天文用の強力なシステム。LUNA の基板に入れるファーム",
+    "en": "A powerful astronomy system that works with AI. Firmware for the LUNA board"
+   },
+   "changes": {
+    "ja": "【ご注意】これは LUNA 専用の基板・回路に入れるファームです。NS-4000 のファームでも、その一部でもありません。NS-4000 の基板には入れないでください。LUNA は、ESP32 の上で動く MCP サーバーです。Claude などの AI と Wi-Fi で直接つながり、AI に話しかけるだけで、赤道儀(LX200 互換)などの天文機材をシリアルで動かせます。Lua のスクリプトで動きを足すこともでき、NINA・PHD2・SkySafari・Stellarium・ビクセンの機器とも連携できます。Wi-Fi の設定は LUNA Base と共通で、画面の「LUNA Base」ボタンで Store に戻れます。回路は、以前に公開しているものと同じです。詳しくは https://github.com/OnStepNinja/LUNA",
+    "en": "[Note] This firmware is for the dedicated LUNA board and circuit. It is not NS-4000 firmware, and not part of it. Do not install it on an NS-4000 board. LUNA is an MCP server that runs on an ESP32. It connects directly to AI such as Claude over Wi-Fi, so you can control your mount (LX200 compatible) and other astronomy equipment over serial just by talking to the AI. You can add your own behavior with Lua scripts, and it works with NINA, PHD2, SkySafari, Stellarium and Vixen equipment. It uses the same Wi-Fi settings as LUNA Base, and the \"LUNA Base\" button on its page takes you back to the Store. The circuit is the same as the one published before. More: https://github.com/OnStepNinja/LUNA"
+   },
+   "license": "MIT"
   }
  ],
  "apps": [
@@ -392,30 +414,6 @@
     "ja": "文書"
    },
    "license": "Freeware (LICENSE)"
-  },
-  {
-   "group": "LUNA Base",
-   "name": "luna_prog_comm_adapter.txt",
-   "lang": "ja",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/data/ja/luna_prog_comm_adapter.txt",
-   "size": 3493,
-   "sha256": "4d29a88488dae5e3db19e667a0b533cd6482f7a527f8e1d230f53f012dc89047",
-   "type": "text",
-   "title": {
-    "ja": "LUNA Prog & Comm Adapter v2(USB シリアルアダプタの回路)"
-   },
-   "category": {
-    "ja": "文書"
-   },
-   "license": "Freeware (LICENSE)",
-   "images": [
-    {
-     "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/images/ja/luna_prog_comm_adapter_v2_circuit.png",
-     "caption": {
-      "ja": "LUNA Prog & Comm Adapter v2 の回路図"
-     }
-    }
-   ]
   }
  ],
  "news": [
