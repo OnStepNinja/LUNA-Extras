@@ -340,50 +340,23 @@
    "changes": {
     "ja": "同じ絵をそろえるカードゲーム(試験用)"
    }
-  },
-  {
-   "product": "NS-4000 / NS-5000X",
-   "name": "luna_moon.svg",
-   "version": "0.1",
-   "lang": "ja",
-   "device": "none",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/luna_moon.svg",
-   "size": 1571,
-   "sha256": "4ef6fa84d03b74eb9f6aa42c2e918db50dcaac4d454f26ea0a1706fd024c5e4c",
-   "title": {
-    "ja": "月と望遠鏡(絵)"
-   },
-   "category": {
-    "ja": "画像"
-   },
-   "license": "Freeware (LICENSE)",
-   "changes": {
-    "ja": "画像の試験。ダウンロードすると http://基板の IP/luna_moon.svg で見られます"
-   }
-  },
-  {
-   "product": "NS-4000 / NS-5000X",
-   "name": "npf_calc.html",
-   "version": "0.1",
-   "lang": "ja",
-   "device": "none",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/npf_calc.html",
-   "size": 1938,
-   "sha256": "6941c216bd3246f3488dfa72444dead4d1950c25053c452f1ba5d10f4bbb2056",
-   "title": {
-    "ja": "露出時間の計算(NPF 則)"
-   },
-   "category": {
-    "ja": "ツール"
-   },
-   "license": "Freeware (LICENSE)",
-   "changes": {
-    "ja": "追尾しないで星を点に写せる秒数の目安(試験用)"
-   }
   }
  ],
  "data": [],
  "news": [
+  {
+   "date": "2026-11-14",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "アプリ「Alpaca 機材パネル」を公開しました",
+    "en": "New app: Alpaca device panel"
+   },
+   "body": {
+    "ja": "LUNA Store の「ツール」に追加しました。LAN の Alpaca 機材(フォーカサー・フィルター・望遠鏡)を基板の画面から操作できます。実機が動くので、ぶつからないか確かめてお使いください。",
+    "en": "Added to \"Tools\" in LUNA Store. Control Alpaca focusers, filter wheels and telescopes on your LAN from the board's page. It moves real equipment, so check for collisions first."
+   }
+  },
   {
    "date": "2026-11-13",
    "level": "info",

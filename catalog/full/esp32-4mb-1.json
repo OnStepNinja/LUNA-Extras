@@ -462,6 +462,25 @@
    "changes": {
     "ja": "追尾しないで星を点に写せる秒数の目安(試験用)"
    }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "alpaca_console.html",
+   "version": "0.1",
+   "lang": "ja",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/alpaca_console.html",
+   "size": 38348,
+   "sha256": "667a6637caa5e01350edcd045ed4789cdea278c8724ab750514e049e06af1989",
+   "title": {
+    "ja": "Alpaca 機材パネル"
+   },
+   "category": {
+    "ja": "ツール"
+   },
+   "license": "Freeware (LICENSE)",
+   "changes": {
+    "ja": "LAN の Alpaca 機材(フォーカサー・フィルター・望遠鏡)を基板の画面から操作。http://基板の IP/alpaca_console.html を開き「検出」を押す。実機が動くので注意。カメラ画像は非対応"
+   }
   }
  ],
  "data": [
@@ -523,6 +542,19 @@
   }
  ],
  "news": [
+  {
+   "date": "2026-11-14",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "アプリ「Alpaca 機材パネル」を公開しました",
+    "en": "New app: Alpaca device panel"
+   },
+   "body": {
+    "ja": "LUNA Store の「ツール」に追加しました。LAN の Alpaca 機材(フォーカサー・フィルター・望遠鏡)を基板の画面から操作できます。実機が動くので、ぶつからないか確かめてお使いください。",
+    "en": "Added to \"Tools\" in LUNA Store. Control Alpaca focusers, filter wheels and telescopes on your LAN from the board's page. It moves real equipment, so check for collisions first."
+   }
+  },
   {
    "date": "2026-11-13",
    "level": "info",
