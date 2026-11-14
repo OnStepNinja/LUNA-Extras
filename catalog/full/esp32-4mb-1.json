@@ -547,6 +547,19 @@
    "level": "info",
    "product": "*",
    "title": {
+    "ja": "日本語版: バージョンアップの「ファームの印が違います」を直しました",
+    "en": "Fixed: \"Wrong firmware mark\" in the Japanese Store"
+   },
+   "body": {
+    "ja": "日本語版の LUNA Store で、「LUNA Base のバージョンアップ」と「BLE ハンドボックス」が「ファームの印が違います」で入らない不具合がありました(表示名が長すぎたため)。目録を直しました。「↻ Refresh」を押してから、もう一度ダウンロードしてください。",
+    "en": "In the Japanese LUNA Store, the LUNA Base upgrade and the BLE Handbox could not be installed (\"Wrong firmware mark\", the names were too long). The catalog is fixed. The English Store was not affected."
+   }
+  },
+  {
+   "date": "2026-11-14",
+   "level": "info",
+   "product": "*",
+   "title": {
     "ja": "アプリ「Alpaca 機材パネル」を公開しました",
     "en": "New app: Alpaca device panel"
    },
