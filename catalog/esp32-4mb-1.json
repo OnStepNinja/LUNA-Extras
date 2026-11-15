@@ -50,6 +50,35 @@
    "product": "NS-4000",
    "mark": "LUNA OnStepNinja NS-4000 v",
    "name": "OnStepNinja NS-4000",
+   "version": "1.2.10",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.10_ja.bin",
+   "size": 1340096,
+   "sha256": "b87df190a128546920eeff801e18b9590eb616c336a4bbbf05a48ec0330f82c8",
+   "title": {
+    "ja": "テスト配信です。OnStep + AiBridge の赤道儀ファーム",
+    "en": "Test distribution. OnStep + AiBridge mount firmware"
+   },
+   "changes": {
+    "ja": "テスト配信です。1.2.10 の新しいところ: (1) ガイドの速さ(0.25・0.5・1 倍)を、NINA・PHD2・LUNA Imaging などの Alpaca のソフトから変えられます。新しい命令 :SX90,0.5# はガイドの速さだけを変えます(手動で動かす速さは変わりません)。(2) 観測アプリから同時にたくさん頼んだときの待ちを短くしました(試験で、いちばん長い待ちが 8.7 秒から 1.3 秒に)。1.2.8 の Wi-Fi の修正も入っています。バージョンアップは、ダウンロードして起動するだけです。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.8 を入れてください"
+   },
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
+   "images": [
+    {
+     "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/images/ja/starchart_ns4000.jpg",
+     "caption": {
+      "ja": "星図アプリの画面の例(NS-4000 につないだところ)"
+     }
+    }
+   ]
+  },
+  {
+   "product": "NS-4000",
+   "mark": "LUNA OnStepNinja NS-4000 v",
+   "name": "OnStepNinja NS-4000",
    "version": "1.2.8",
    "lang": "ja",
    "layout": "esp32-4mb-1",
@@ -80,6 +109,28 @@
    "product": "NS-4000-FORK",
    "mark": "LUNA OnStepNinja NS-4000 Fork v",
    "name": "OnStepNinja NS-4000 フォーク式",
+   "version": "1.2.10",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.10_ja_fork.bin",
+   "size": 1339248,
+   "sha256": "cdbd5f809e2683b438954ce8d03f68c4093eedb112dfe790b7fce83fb186b27e",
+   "title": {
+    "ja": "テスト配信です。フォーク式赤道儀向けの OnStep + AiBridge ファーム",
+    "en": "Test distribution. OnStep + AiBridge firmware for a fork equatorial mount"
+   },
+   "changes": {
+    "ja": "テスト配信です。1.2.10 の新しいところ: (1) ガイドの速さ(0.25・0.5・1 倍)を、NINA・PHD2・LUNA Imaging などの Alpaca のソフトから変えられます。新しい命令 :SX90,0.5# はガイドの速さだけを変えます(手動で動かす速さは変わりません)。(2) 観測アプリから同時にたくさん頼んだときの待ちを短くしました(試験で、いちばん長い待ちが 8.7 秒から 1.3 秒に)。1.2.8 の Wi-Fi の修正も入っています。バージョンアップは、ダウンロードして起動するだけです。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.8 を入れてください"
+   },
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
+  },
+  {
+   "product": "NS-4000-FORK",
+   "mark": "LUNA OnStepNinja NS-4000 Fork v",
+   "name": "OnStepNinja NS-4000 フォーク式",
    "version": "1.2.8",
    "lang": "ja",
    "layout": "esp32-4mb-1",
@@ -96,6 +147,28 @@
    "changes": {
     "ja": "テスト配信です。不具合を直しました: 家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi「OnStepNinja-xxxx」がほとんど見えず、つなげなくなり、設定を直せなくなっていました(つながらない間、休みなく家庭の Wi-Fi を探し続けていたため)。今は探す間隔を空け(最初の 2 分は 30 秒ごと、その後は 5 分ごと)、基板の Wi-Fi に誰かがつないでいる間は探しません。設定を間違えても http://192.168.4.1 から直せます。ほかの機能は 1.2.6 と同じで、架台の型はフォーク式です",
     "en": "Test distribution. Fixed: with a wrong home Wi-Fi setting (SSID or password), the board's Wi-Fi \"OnStepNinja-xxxx\" could hardly be found or joined, so the setting could not be fixed (while it could not connect, the board kept searching for the home Wi-Fi without a pause). It now waits between tries (every 30 seconds for the first 2 minutes, then every 5 minutes) and does not search while someone is connected to the board's Wi-Fi. If the setting is wrong, fix it at http://192.168.4.1. The other functions are the same as 1.2.6; the mount type is fork"
+   },
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
+  },
+  {
+   "product": "NS-4000-ALTAZ",
+   "mark": "LUNA OnStepNinja NS-4000 AltAz v",
+   "name": "OnStepNinja NS-4000 経緯台式",
+   "version": "1.2.10",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.10_ja_altazm.bin",
+   "size": 1339056,
+   "sha256": "335f87f4bda264048184dadb33bd900f4a2a780b61fe90d7db9dae25fc802d73",
+   "title": {
+    "ja": "テスト配信です。経緯台式向けの OnStep + AiBridge ファーム",
+    "en": "Test distribution. OnStep + AiBridge firmware for an alt-azimuth mount"
+   },
+   "changes": {
+    "ja": "テスト配信です。1.2.10 の新しいところ: (1) ガイドの速さ(0.25・0.5・1 倍)を、NINA・PHD2・LUNA Imaging などの Alpaca のソフトから変えられます。新しい命令 :SX90,0.5# はガイドの速さだけを変えます(手動で動かす速さは変わりません)。(2) 観測アプリから同時にたくさん頼んだときの待ちを短くしました(試験で、いちばん長い待ちが 8.7 秒から 1.3 秒に)。1.2.8 の Wi-Fi の修正も入っています。バージョンアップは、ダウンロードして起動するだけです。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.8 を入れてください"
    },
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
   },
@@ -300,26 +373,6 @@
    "changes": {
     "ja": "テスト配信です。星図のデータ。「星図」と一緒に入れてください"
    }
-  },
-  {
-   "product": "NS-4000 / NS-5000X",
-   "name": "meteor_catch.html",
-   "version": "0.1",
-   "lang": "ja",
-   "device": "none",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/meteor_catch.html",
-   "size": 3130,
-   "sha256": "264641688319555b389a13aca1cb514c0c1def3b083073ee488575b124822d63",
-   "title": {
-    "ja": "流れ星キャッチ"
-   },
-   "category": {
-    "ja": "ゲーム"
-   },
-   "license": "Freeware (LICENSE)",
-   "changes": {
-    "ja": "30 秒で流れ星をタップして集めるゲーム(試験用)"
-   }
   }
  ],
  "data": [],
@@ -387,82 +440,6 @@
    "body": {
     "ja": "LUNA Store のファームの一番上の「LUNA Base(Store)のバージョンアップ」をダウンロードして起動すると、USB を使わずに LUNA Base が v0.9.0 になります(約 20 秒)。設定は残ります。そのあと、お手数ですがファームウェアをもう一度ダウンロードしてください。v0.9.0 では、大きな目録も読めるようになり、ファームが基板ごとに分けて表示されます。",
     "en": "Download and start \"LUNA Base (Store) upgrade\" at the top of the Firmware list: LUNA Base becomes v0.9.0 without USB (about 20 seconds). Your settings are kept. After that, please download your firmware again. v0.9.0 reads large catalogs and lists firmware by board."
-   }
-  },
-  {
-   "date": "2026-11-10",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "回路図と LUNA Base の説明を LUNA Store で公開しました",
-    "en": "Circuits and the LUNA Base guide are in LUNA Store"
-   },
-   "body": {
-    "ja": "LUNA Store の「データ」に、「LUNA Base の書き込み方法と使い方」と、USB で書き込み・通信・ログの確認ができる「LUNA Prog & Comm Adapter v2」の回路図を載せました。ワイヤレス BLE ハンドボックスの回路図と作り方は、ファームの説明にあります。",
-    "en": "LUNA Store (Data) now has \"LUNA Base - writing and using\" and the circuit of the \"LUNA Prog & Comm Adapter v2\", a USB-serial adapter for writing, talking to the board and reading logs. The circuit and the build steps of the Wireless BLE Handbox are in the description of its firmware."
-   }
-  },
-  {
-   "date": "2026-11-08",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "LUNA Base v0.8.4 と NS-4000 1.2.8 を公開しました(Wi-Fi の不具合の修正)",
-    "en": "LUNA Base v0.8.4 and NS-4000 1.2.8 released (Wi-Fi fix)"
-   },
-   "body": {
-    "ja": "家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi に入れなくなり、設定を直せなくなる不具合を直しました。つながらない間、基板が休みなく家庭の Wi-Fi を探し続けていたのが原因です。今は探す間隔を空け、基板の Wi-Fi に誰かがつないでいる間は探しません。NS-4000(ドイツ式赤道儀・フォーク式・経緯台式)は、LUNA Store から 1.2.8 を入れてください。LUNA Base は自分自身を更新できないので、USB で書き直してください。新しい LUNA Base v0.8.4 をご利用ください。\nhttps://github.com/OnStepNinja/OnStepNinja-NS4000/releases",
-    "en": "Fixed: with a wrong home Wi-Fi setting (SSID or password), you could lose access to the board's own Wi-Fi and could not fix the setting. While it could not connect, the board kept searching for the home Wi-Fi without a pause. It now waits between tries and does not search while someone is connected to the board's Wi-Fi. For the NS-4000 (German equatorial, fork and alt-azimuth), install 1.2.8 from LUNA Store. LUNA Base cannot update itself, so please write the new LUNA Base v0.8.4 over USB.\nhttps://github.com/OnStepNinja/OnStepNinja-NS4000/releases"
-   }
-  },
-  {
-   "date": "2026-11-06",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "ワイヤレス BLE ハンドボックス ver2 を公開しました(Store のみ)",
-    "en": "Wireless BLE Handbox ver2 released (LUNA Store only)"
-   },
-   "body": {
-    "ja": "LUNA Store のファームに、「ワイヤレス BLE ハンドボックス」(ver2、2.0.0)を追加しました。NS-4000 の基板と同じ端子番号の、5 ボタンのハンドボックスです。Store だけで配布します。将来、改良する可能性があります。操作方法と端子は、ファームの説明にあります。回路図などは、後日、Store で公開します。",
-    "en": "The firmware list of LUNA Store now has the \"Wireless BLE Handbox\" (ver2, 2.0.0): a 5-button handbox with the same pin numbers as the NS-4000 board. It is distributed only in LUNA Store and may be improved in the future. The operation and the pins are in the description of the firmware. The circuit diagram will be published in LUNA Store later."
-   }
-  },
-  {
-   "date": "2026-11-03",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "LUNA Store にアイコン・写真・リンクが表示できるようになりました",
-    "en": "LUNA Store now shows icons, photos and links"
-   },
-   "body": {
-    "ja": "新しい LUNA Base(近日公開)で、LUNA Store にアイコン・写真・リンクを表示できます。お知らせのリンクは、押して開く・コピーができます。",
-    "en": "The new LUNA Base (coming soon) shows icons, photos and links in LUNA Store. Links in the news can be opened or copied."
-   }
-  },
-  {
-   "date": "2026-11-01",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "X に投稿しました"
-   },
-   "body": {
-    "ja": "X に投稿しました。\nhttps://x.com/ns5000_sst/status/2116879934862020707"
-   }
-  },
-  {
-   "date": "2026-10-27",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "ダウンローダーの試験を始めました",
-    "en": "Downloader test started"
-   },
-   "body": {
-    "ja": "この目録は試験用です。",
-    "en": "This manifest is for testing."
    }
   }
  ],

@@ -54,6 +54,41 @@
    "product": "NS-4000",
    "mark": "LUNA OnStepNinja NS-4000 v",
    "name": "OnStepNinja NS-4000",
+   "version": "1.2.10",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.10_ja.bin",
+   "size": 1340096,
+   "sha256": "b87df190a128546920eeff801e18b9590eb616c336a4bbbf05a48ec0330f82c8",
+   "title": {
+    "ja": "テスト配信です。OnStep + AiBridge の赤道儀ファーム",
+    "en": "Test distribution. OnStep + AiBridge mount firmware"
+   },
+   "changes": {
+    "ja": "テスト配信です。1.2.10 の新しいところ: (1) ガイドの速さ(0.25・0.5・1 倍)を、NINA・PHD2・LUNA Imaging などの Alpaca のソフトから変えられます。新しい命令 :SX90,0.5# はガイドの速さだけを変えます(手動で動かす速さは変わりません)。(2) 観測アプリから同時にたくさん頼んだときの待ちを短くしました(試験で、いちばん長い待ちが 8.7 秒から 1.3 秒に)。1.2.8 の Wi-Fi の修正も入っています。バージョンアップは、ダウンロードして起動するだけです。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.8 を入れてください"
+   },
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
+   "images": [
+    {
+     "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/images/ja/starchart_ns4000.jpg",
+     "caption": {
+      "ja": "星図アプリの画面の例(NS-4000 につないだところ)"
+     }
+    }
+   ],
+   "hw": "ns4000",
+   "color": "blue",
+   "variant": {
+    "ja": "ドイツ式(赤道儀)",
+    "en": "German equatorial"
+   }
+  },
+  {
+   "product": "NS-4000",
+   "mark": "LUNA OnStepNinja NS-4000 v",
+   "name": "OnStepNinja NS-4000",
    "version": "1.2.8",
    "lang": "ja",
    "layout": "esp32-4mb-1",
@@ -90,6 +125,34 @@
    "product": "NS-4000-FORK",
    "mark": "LUNA OnStepNinja NS-4000 Fork v",
    "name": "OnStepNinja NS-4000 フォーク式",
+   "version": "1.2.10",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.10_ja_fork.bin",
+   "size": 1339248,
+   "sha256": "cdbd5f809e2683b438954ce8d03f68c4093eedb112dfe790b7fce83fb186b27e",
+   "title": {
+    "ja": "テスト配信です。フォーク式赤道儀向けの OnStep + AiBridge ファーム",
+    "en": "Test distribution. OnStep + AiBridge firmware for a fork equatorial mount"
+   },
+   "changes": {
+    "ja": "テスト配信です。1.2.10 の新しいところ: (1) ガイドの速さ(0.25・0.5・1 倍)を、NINA・PHD2・LUNA Imaging などの Alpaca のソフトから変えられます。新しい命令 :SX90,0.5# はガイドの速さだけを変えます(手動で動かす速さは変わりません)。(2) 観測アプリから同時にたくさん頼んだときの待ちを短くしました(試験で、いちばん長い待ちが 8.7 秒から 1.3 秒に)。1.2.8 の Wi-Fi の修正も入っています。バージョンアップは、ダウンロードして起動するだけです。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.8 を入れてください"
+   },
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
+   "hw": "ns4000",
+   "color": "green",
+   "variant": {
+    "ja": "フォーク式",
+    "en": "Fork"
+   }
+  },
+  {
+   "product": "NS-4000-FORK",
+   "mark": "LUNA OnStepNinja NS-4000 Fork v",
+   "name": "OnStepNinja NS-4000 フォーク式",
    "version": "1.2.8",
    "lang": "ja",
    "layout": "esp32-4mb-1",
@@ -113,6 +176,34 @@
    "variant": {
     "ja": "フォーク式",
     "en": "Fork"
+   }
+  },
+  {
+   "product": "NS-4000-ALTAZ",
+   "mark": "LUNA OnStepNinja NS-4000 AltAz v",
+   "name": "OnStepNinja NS-4000 経緯台式",
+   "version": "1.2.10",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.10_ja_altazm.bin",
+   "size": 1339056,
+   "sha256": "335f87f4bda264048184dadb33bd900f4a2a780b61fe90d7db9dae25fc802d73",
+   "title": {
+    "ja": "テスト配信です。経緯台式向けの OnStep + AiBridge ファーム",
+    "en": "Test distribution. OnStep + AiBridge firmware for an alt-azimuth mount"
+   },
+   "changes": {
+    "ja": "テスト配信です。1.2.10 の新しいところ: (1) ガイドの速さ(0.25・0.5・1 倍)を、NINA・PHD2・LUNA Imaging などの Alpaca のソフトから変えられます。新しい命令 :SX90,0.5# はガイドの速さだけを変えます(手動で動かす速さは変わりません)。(2) 観測アプリから同時にたくさん頼んだときの待ちを短くしました(試験で、いちばん長い待ちが 8.7 秒から 1.3 秒に)。1.2.8 の Wi-Fi の修正も入っています。バージョンアップは、ダウンロードして起動するだけです。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.8 を入れてください"
+   },
+   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
+   "hw": "ns4000",
+   "color": "orange",
+   "variant": {
+    "ja": "経緯台式",
+    "en": "Alt-Az"
    }
   },
   {
