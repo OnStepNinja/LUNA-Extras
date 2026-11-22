@@ -47,6 +47,28 @@
    "license": "PolyForm Noncommercial"
   },
   {
+   "product": "NS-5000X",
+   "mark": "NS-5000X Ver",
+   "name": "DOG NS-5000X",
+   "version": "0.8.4",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS5000X_v0.8.4_ja.bin",
+   "size": 1363360,
+   "sha256": "574cb0bde8ee5594f082b5baf67e3bdc9a110217e6f53b53847a08295963043b",
+   "title": {
+    "ja": "テスト配信です。NS-5000 互換の赤道儀ファーム",
+    "en": "Test distribution. NS-5000 compatible mount firmware"
+   },
+   "changes": {
+    "ja": "テスト配信です。NS-4000 となるべく同じに: 基板でのガイド(LUNA Imaging)、Wi-Fi の切れたときの直し、Alpaca のパルスガイド・ガイド速度。OnStep の steps/度(:GXA / :SXA、基本定数 ÷ 360)。GOTO 速度をスピードテーブルの番号で選べる(星図 0.9.3)、:/NEW# で GOTO の番号も保存",
+    "en": "Test distribution. Made closer to NS-4000: on-board guiding (LUNA Imaging), Wi-Fi reconnect fix, Alpaca pulse guide and guide rate. OnStep steps/degree (:GXA / :SXA, base constant / 360). GOTO speed chosen by speed-table number (star chart 0.9.3); :/NEW# also saves the GOTO number"
+   },
+   "license": "PolyForm Noncommercial"
+  },
+  {
    "product": "NS-4000",
    "mark": "LUNA OnStepNinja NS-4000 v",
    "name": "OnStepNinja NS-4000",
@@ -320,6 +342,25 @@
   {
    "product": "NS-4000 / NS-5000X",
    "name": "starchart_ja.html",
+   "version": "0.9.3",
+   "lang": "ja",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/0.9.3/starchart_ja.html",
+   "size": 107056,
+   "sha256": "79d3728c88f946dd47c9f5efc9a72301a62903c8c1e7b8c0c9b4e202de1732ba",
+   "title": {
+    "ja": "星図"
+   },
+   "category": {
+    "ja": "星図"
+   },
+   "license": "Freeware (LICENSE)",
+   "changes": {
+    "ja": "テスト配信です。開発版です。2 つ要ります: この星図と「星図のデータ」。両方を入れてください。NS-5000X(v0.8.4 以降)でも、マウント操作の画面に 速度・追尾・パーク/ホーム・制限・機構 のタブが出るようにしました。GOTO 速度はスピードテーブルの番号で選び、「保存」で次回も同じ状態になります。機構では steps/度(基本定数 ÷ 360)をすぐに反映できます"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "starchart_ja.html",
    "version": "0.9.1",
    "lang": "ja",
    "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/starchart_ja.html",
@@ -414,32 +455,6 @@
    "body": {
     "ja": "LUNA Store のファームの一番上の「LUNA Base(Store)のバージョンアップ」をダウンロードして起動すると、USB を使わずに LUNA Base が v0.9.2 になります(約 20 秒)。設定は残ります。そのあと、お手数ですがファームウェアをもう一度ダウンロードしてください。v0.9.2 では、LUNA Store の見出しの右の「Q&A」ボタンで、ご質問・ご要望の掲示板(英語が基本です)を開けます。今の画面からは次のリンクで開けます: https://github.com/OnStepNinja/LUNA-Store/discussions",
     "en": "Download and start \"LUNA Base (Store) upgrade\" at the top of the Firmware list: LUNA Base becomes v0.9.2 without USB (about 20 seconds). Your settings are kept. After that, please download your firmware again. In v0.9.2, the \"Q&A\" button next to the LUNA Store title opens our board for questions and feedback. You can also open it here: https://github.com/OnStepNinja/LUNA-Store/discussions"
-   }
-  },
-  {
-   "date": "2026-11-11",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "ブラウザだけで LUNA Base を USB で書き込めるようになりました",
-    "en": "Install LUNA Base over USB from your web browser"
-   },
-   "body": {
-    "ja": "新しい基板(ESP32)に LUNA Base を入れるのに、Python も esptool も要らなくなりました。PC の Chrome か Edge で書き込みのページを開き、基板を USB でつないで「書き込む」を押すだけです(2〜3 分)。書き込んだあとの Wi-Fi の設定のしかたも、ページに詳しく書いてあります。基板の中は消去しないので、設定は残ります。日本語のページ: https://onstepninja.github.io/LUNA-Extras/install/ (この画面から開くときは、次を押し、出た画面のリンクを押します: https://github.com/OnStepNinja/LUNA-Extras/tree/main/install )。英語のページ(海外の方向け): https://onstepninja.github.io/LUNA-Firmware/install/ (この画面から開くときは、次を押し、出た画面のリンクを押します: https://github.com/OnStepNinja/LUNA-Firmware/tree/main/install )",
-    "en": "You no longer need Python or esptool to put LUNA Base on a new board (ESP32). Open the install page in Chrome or Edge on a PC, connect the board with USB and press \"Install\" (2 to 3 minutes). The page also explains the Wi-Fi setup after installing. Nothing on the board is erased, so your settings are kept. Install page: https://onstepninja.github.io/LUNA-Firmware/install/ (to open it from here, press this link, then the link on that page: https://github.com/OnStepNinja/LUNA-Firmware/tree/main/install )"
-   }
-  },
-  {
-   "date": "2026-11-11",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "LUNA Base v0.9.0 を公開しました(USB なしでバージョンアップ)",
-    "en": "LUNA Base v0.9.0 released (upgrade without USB)"
-   },
-   "body": {
-    "ja": "LUNA Store のファームの一番上の「LUNA Base(Store)のバージョンアップ」をダウンロードして起動すると、USB を使わずに LUNA Base が v0.9.0 になります(約 20 秒)。設定は残ります。そのあと、お手数ですがファームウェアをもう一度ダウンロードしてください。v0.9.0 では、大きな目録も読めるようになり、ファームが基板ごとに分けて表示されます。",
-    "en": "Download and start \"LUNA Base (Store) upgrade\" at the top of the Firmware list: LUNA Base becomes v0.9.0 without USB (about 20 seconds). Your settings are kept. After that, please download your firmware again. v0.9.0 reads large catalogs and lists firmware by board."
    }
   }
  ],

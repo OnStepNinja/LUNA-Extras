@@ -51,6 +51,30 @@
    "color": "purple"
   },
   {
+   "product": "NS-5000X",
+   "mark": "NS-5000X Ver",
+   "name": "DOG NS-5000X",
+   "version": "0.8.4",
+   "lang": "ja",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "status": "test",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS5000X_v0.8.4_ja.bin",
+   "size": 1363360,
+   "sha256": "574cb0bde8ee5594f082b5baf67e3bdc9a110217e6f53b53847a08295963043b",
+   "title": {
+    "ja": "テスト配信です。NS-5000 互換の赤道儀ファーム",
+    "en": "Test distribution. NS-5000 compatible mount firmware"
+   },
+   "changes": {
+    "ja": "テスト配信です。NS-4000 となるべく同じに: 基板でのガイド(LUNA Imaging)、Wi-Fi の切れたときの直し、Alpaca のパルスガイド・ガイド速度。OnStep の steps/度(:GXA / :SXA、基本定数 ÷ 360)。GOTO 速度をスピードテーブルの番号で選べる(星図 0.9.3)、:/NEW# で GOTO の番号も保存",
+    "en": "Test distribution. Made closer to NS-4000: on-board guiding (LUNA Imaging), Wi-Fi reconnect fix, Alpaca pulse guide and guide rate. OnStep steps/degree (:GXA / :SXA, base constant / 360). GOTO speed chosen by speed-table number (star chart 0.9.3); :/NEW# also saves the GOTO number"
+   },
+   "license": "PolyForm Noncommercial",
+   "hw": "ns4000",
+   "color": "purple"
+  },
+  {
    "product": "NS-4000",
    "mark": "LUNA OnStepNinja NS-4000 v",
    "name": "OnStepNinja NS-4000",
@@ -415,6 +439,25 @@
    "license": "Freeware (LICENSE)",
    "changes": {
     "ja": "テスト配信です。開発版です。2 つ要ります: この星図と「星図のデータ」。両方を入れてください。マウントにエラー(高度の上限超えなど)が出ているとき、マウント操作の画面が「読み込み中」のまま止まる不具合を直しました"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "starchart_ja.html",
+   "version": "0.9.3",
+   "lang": "ja",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/0.9.3/starchart_ja.html",
+   "size": 107056,
+   "sha256": "79d3728c88f946dd47c9f5efc9a72301a62903c8c1e7b8c0c9b4e202de1732ba",
+   "title": {
+    "ja": "星図"
+   },
+   "category": {
+    "ja": "星図"
+   },
+   "license": "Freeware (LICENSE)",
+   "changes": {
+    "ja": "テスト配信です。開発版です。2 つ要ります: この星図と「星図のデータ」。両方を入れてください。NS-5000X(v0.8.4 以降)でも、マウント操作の画面に 速度・追尾・パーク/ホーム・制限・機構 のタブが出るようにしました。GOTO 速度はスピードテーブルの番号で選び、「保存」で次回も同じ状態になります。機構では steps/度(基本定数 ÷ 360)をすぐに反映できます"
    }
   },
   {
