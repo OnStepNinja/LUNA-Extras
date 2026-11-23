@@ -113,21 +113,20 @@
    "product": "NS-4000",
    "mark": "LUNA OnStepNinja NS-4000 v",
    "name": "OnStepNinja NS-4000",
-   "version": "1.2.8",
+   "version": "1.2.24",
    "lang": "ja",
    "layout": "esp32-4mb-1",
    "chip": "esp32",
    "status": "test",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.8_ja.bin",
-   "size": 1336272,
-   "sha256": "8b61c32fadc79c903e9fe29032cb1d594f4fc030befdcea5c7fb1695c4eff839",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.24_ja.bin",
+   "size": 1390176,
+   "sha256": "50e8a71e5684cc9f15c726a815a7dabf064f6bbc7d47a3c2051970ddb998d8d9",
    "title": {
     "ja": "テスト配信です。OnStep + AiBridge の赤道儀ファーム",
     "en": "Test distribution. OnStep + AiBridge mount firmware"
    },
    "changes": {
-    "ja": "テスト配信です。不具合を直しました: 家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi「OnStepNinja-xxxx」がほとんど見えず、つなげなくなり、設定を直せなくなっていました(つながらない間、休みなく家庭の Wi-Fi を探し続けていたため)。今は探す間隔を空け(最初の 2 分は 30 秒ごと、その後は 5 分ごと)、基板の Wi-Fi に誰かがつないでいる間は探しません。設定を間違えても http://192.168.4.1 から直せます。ほかの機能は 1.2.5 と同じです",
-    "en": "Test distribution. Fixed: with a wrong home Wi-Fi setting (SSID or password), the board's Wi-Fi \"OnStepNinja-xxxx\" could hardly be found or joined, so the setting could not be fixed (while it could not connect, the board kept searching for the home Wi-Fi without a pause). It now waits between tries (every 30 seconds for the first 2 minutes, then every 5 minutes) and does not search while someone is connected to the board's Wi-Fi. If the setting is wrong, fix it at http://192.168.4.1. The other functions are the same as 1.2.5"
+    "ja": "テスト配信です。1.2.24 の新しいところ: (1) 基板の上でのオートガイド(ガイドカメラは Alpaca。ブラウザを閉じても続き、GOTO・パーク・ホームで自動で止まります)。(2) ピリオディックモーションの測定。(3) 操作の記録(最近の 150 件)。(4) Alpaca の PulseGuide の長さ 0 で動き続ける不具合を修正。(5) DEC モーターの電流ダウンの信号(GPIO19)を出します。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.10 を入れてください"
    },
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
    "images": [
@@ -177,22 +176,21 @@
    "product": "NS-4000-FORK",
    "mark": "LUNA OnStepNinja NS-4000 Fork v",
    "name": "OnStepNinja NS-4000 フォーク式",
-   "version": "1.2.8",
+   "version": "1.2.24",
    "lang": "ja",
    "layout": "esp32-4mb-1",
    "chip": "esp32",
    "status": "test",
    "minBase": "0.7.0",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.8_ja_fork.bin",
-   "size": 1335376,
-   "sha256": "0c7d7994a5a114a894c26a5c85dd8f041caee56c4b3ac56f713eb5a0fbabfb4a",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.24_ja_fork.bin",
+   "size": 1389376,
+   "sha256": "9d3cac7a3630b40f2ecd2a4883f94cf1b459f442b9f8b075aeff19b5d4f78c2e",
    "title": {
     "ja": "テスト配信です。フォーク式赤道儀向けの OnStep + AiBridge ファーム",
     "en": "Test distribution. OnStep + AiBridge firmware for a fork equatorial mount"
    },
    "changes": {
-    "ja": "テスト配信です。不具合を直しました: 家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi「OnStepNinja-xxxx」がほとんど見えず、つなげなくなり、設定を直せなくなっていました(つながらない間、休みなく家庭の Wi-Fi を探し続けていたため)。今は探す間隔を空け(最初の 2 分は 30 秒ごと、その後は 5 分ごと)、基板の Wi-Fi に誰かがつないでいる間は探しません。設定を間違えても http://192.168.4.1 から直せます。ほかの機能は 1.2.6 と同じで、架台の型はフォーク式です",
-    "en": "Test distribution. Fixed: with a wrong home Wi-Fi setting (SSID or password), the board's Wi-Fi \"OnStepNinja-xxxx\" could hardly be found or joined, so the setting could not be fixed (while it could not connect, the board kept searching for the home Wi-Fi without a pause). It now waits between tries (every 30 seconds for the first 2 minutes, then every 5 minutes) and does not search while someone is connected to the board's Wi-Fi. If the setting is wrong, fix it at http://192.168.4.1. The other functions are the same as 1.2.6; the mount type is fork"
+    "ja": "テスト配信です。1.2.24 の新しいところ: (1) 基板の上でのオートガイド(ガイドカメラは Alpaca。ブラウザを閉じても続き、GOTO・パーク・ホームで自動で止まります)。(2) ピリオディックモーションの測定。(3) 操作の記録(最近の 150 件)。(4) Alpaca の PulseGuide の長さ 0 で動き続ける不具合を修正。(5) DEC モーターの電流ダウンの信号(GPIO19)を出します。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.10 を入れてください"
    },
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
    "hw": "ns4000",
@@ -234,80 +232,21 @@
    "product": "NS-4000-ALTAZ",
    "mark": "LUNA OnStepNinja NS-4000 AltAz v",
    "name": "OnStepNinja NS-4000 経緯台式",
-   "version": "1.2.8",
+   "version": "1.2.24",
    "lang": "ja",
    "layout": "esp32-4mb-1",
    "chip": "esp32",
    "status": "test",
    "minBase": "0.7.0",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.8_ja_altazm.bin",
-   "size": 1335216,
-   "sha256": "aebb7050495b615d3378771c1fe04edcb5460387fa5fd5c63e441d7aad621077",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.24_ja_altazm.bin",
+   "size": 1389136,
+   "sha256": "fd38efa0c042d1812a9f43b0a980e12000b632c4a8a52f71c18bfebde6d4b6cc",
    "title": {
     "ja": "テスト配信です。経緯台式向けの OnStep + AiBridge ファーム",
     "en": "Test distribution. OnStep + AiBridge firmware for an alt-azimuth mount"
    },
    "changes": {
-    "ja": "テスト配信です。不具合を直しました: 家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi「OnStepNinja-xxxx」がほとんど見えず、つなげなくなり、設定を直せなくなっていました(つながらない間、休みなく家庭の Wi-Fi を探し続けていたため)。今は探す間隔を空け(最初の 2 分は 30 秒ごと、その後は 5 分ごと)、基板の Wi-Fi に誰かがつないでいる間は探しません。設定を間違えても http://192.168.4.1 から直せます。ほかの機能は 1.2.7 と同じで、架台の型は経緯台式です(方位は -360〜+360 度)",
-    "en": "Test distribution. Fixed: with a wrong home Wi-Fi setting (SSID or password), the board's Wi-Fi \"OnStepNinja-xxxx\" could hardly be found or joined, so the setting could not be fixed (while it could not connect, the board kept searching for the home Wi-Fi without a pause). It now waits between tries (every 30 seconds for the first 2 minutes, then every 5 minutes) and does not search while someone is connected to the board's Wi-Fi. If the setting is wrong, fix it at http://192.168.4.1. The other functions are the same as 1.2.7; the mount type is alt-azimuth (azimuth -360 to +360 degrees)"
-   },
-   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
-   "hw": "ns4000",
-   "color": "orange",
-   "variant": {
-    "ja": "経緯台式",
-    "en": "Alt-Az"
-   }
-  },
-  {
-   "product": "NS-4000-FORK",
-   "mark": "LUNA OnStepNinja NS-4000 Fork v",
-   "name": "OnStepNinja NS-4000 フォーク式",
-   "version": "1.2.6",
-   "lang": "ja",
-   "layout": "esp32-4mb-1",
-   "chip": "esp32",
-   "status": "test",
-   "minBase": "0.7.0",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.6_ja_fork.bin",
-   "size": 1335248,
-   "sha256": "0bfbbf389d898cb7665a48ed3305c91badf637d129dace183033b3112e4c387f",
-   "title": {
-    "ja": "テスト配信です。フォーク式赤道儀向けの OnStep + AiBridge ファーム",
-    "en": "Test distribution. OnStep + AiBridge firmware for a fork equatorial mount"
-   },
-   "changes": {
-    "ja": "テスト配信です。ドイツ式赤道儀の版(1.2.5)と機能は同じで、架台の型だけがフォーク式です",
-    "en": "Test distribution. The same functions as the German equatorial version (1.2.5); only the mount type is fork"
-   },
-   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
-   "hw": "ns4000",
-   "color": "green",
-   "variant": {
-    "ja": "フォーク式",
-    "en": "Fork"
-   }
-  },
-  {
-   "product": "NS-4000-ALTAZ",
-   "mark": "LUNA OnStepNinja NS-4000 AltAz v",
-   "name": "OnStepNinja NS-4000 経緯台式",
-   "version": "1.2.7",
-   "lang": "ja",
-   "layout": "esp32-4mb-1",
-   "chip": "esp32",
-   "status": "test",
-   "minBase": "0.7.0",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.7_ja_altazm.bin",
-   "size": 1335072,
-   "sha256": "93e850115e2f3e37c43dc4b4ce27aca27786ab572bf00a6bff575de57a143326",
-   "title": {
-    "ja": "テスト配信です。経緯台式向けの OnStep + AiBridge ファーム",
-    "en": "Test distribution. OnStep + AiBridge firmware for an alt-azimuth mount"
-   },
-   "changes": {
-    "ja": "テスト配信です。ドイツ式赤道儀の版(1.2.5)と機能は同じで、架台の型だけが経緯台式です(方位は -360〜+360 度)",
-    "en": "Test distribution. The same functions as the German equatorial version (1.2.5); only the mount type is alt-azimuth (azimuth -360 to +360 degrees)"
+    "ja": "テスト配信です。1.2.24 の新しいところ: (1) 基板の上でのオートガイド(ガイドカメラは Alpaca。ブラウザを閉じても続き、GOTO・パーク・ホームで自動で止まります)。(2) ピリオディックモーションの測定。(3) 操作の記録(最近の 150 件)。(4) Alpaca の PulseGuide の長さ 0 で動き続ける不具合を修正。(5) DEC モーターの電流ダウンの信号(GPIO19)を出します。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.10 を入れてください"
    },
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
    "hw": "ns4000",

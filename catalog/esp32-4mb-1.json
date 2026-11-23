@@ -101,21 +101,20 @@
    "product": "NS-4000",
    "mark": "LUNA OnStepNinja NS-4000 v",
    "name": "OnStepNinja NS-4000",
-   "version": "1.2.8",
+   "version": "1.2.24",
    "lang": "ja",
    "layout": "esp32-4mb-1",
    "chip": "esp32",
    "status": "test",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.8_ja.bin",
-   "size": 1336272,
-   "sha256": "8b61c32fadc79c903e9fe29032cb1d594f4fc030befdcea5c7fb1695c4eff839",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.24_ja.bin",
+   "size": 1390176,
+   "sha256": "50e8a71e5684cc9f15c726a815a7dabf064f6bbc7d47a3c2051970ddb998d8d9",
    "title": {
     "ja": "テスト配信です。OnStep + AiBridge の赤道儀ファーム",
     "en": "Test distribution. OnStep + AiBridge mount firmware"
    },
    "changes": {
-    "ja": "テスト配信です。不具合を直しました: 家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi「OnStepNinja-xxxx」がほとんど見えず、つなげなくなり、設定を直せなくなっていました(つながらない間、休みなく家庭の Wi-Fi を探し続けていたため)。今は探す間隔を空け(最初の 2 分は 30 秒ごと、その後は 5 分ごと)、基板の Wi-Fi に誰かがつないでいる間は探しません。設定を間違えても http://192.168.4.1 から直せます。ほかの機能は 1.2.5 と同じです",
-    "en": "Test distribution. Fixed: with a wrong home Wi-Fi setting (SSID or password), the board's Wi-Fi \"OnStepNinja-xxxx\" could hardly be found or joined, so the setting could not be fixed (while it could not connect, the board kept searching for the home Wi-Fi without a pause). It now waits between tries (every 30 seconds for the first 2 minutes, then every 5 minutes) and does not search while someone is connected to the board's Wi-Fi. If the setting is wrong, fix it at http://192.168.4.1. The other functions are the same as 1.2.5"
+    "ja": "テスト配信です。1.2.24 の新しいところ: (1) 基板の上でのオートガイド(ガイドカメラは Alpaca。ブラウザを閉じても続き、GOTO・パーク・ホームで自動で止まります)。(2) ピリオディックモーションの測定。(3) 操作の記録(最近の 150 件)。(4) Alpaca の PulseGuide の長さ 0 で動き続ける不具合を修正。(5) DEC モーターの電流ダウンの信号(GPIO19)を出します。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.10 を入れてください"
    },
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)",
    "images": [
@@ -153,22 +152,21 @@
    "product": "NS-4000-FORK",
    "mark": "LUNA OnStepNinja NS-4000 Fork v",
    "name": "OnStepNinja NS-4000 フォーク式",
-   "version": "1.2.8",
+   "version": "1.2.24",
    "lang": "ja",
    "layout": "esp32-4mb-1",
    "chip": "esp32",
    "status": "test",
    "minBase": "0.7.0",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.8_ja_fork.bin",
-   "size": 1335376,
-   "sha256": "0c7d7994a5a114a894c26a5c85dd8f041caee56c4b3ac56f713eb5a0fbabfb4a",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.24_ja_fork.bin",
+   "size": 1389376,
+   "sha256": "9d3cac7a3630b40f2ecd2a4883f94cf1b459f442b9f8b075aeff19b5d4f78c2e",
    "title": {
     "ja": "テスト配信です。フォーク式赤道儀向けの OnStep + AiBridge ファーム",
     "en": "Test distribution. OnStep + AiBridge firmware for a fork equatorial mount"
    },
    "changes": {
-    "ja": "テスト配信です。不具合を直しました: 家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi「OnStepNinja-xxxx」がほとんど見えず、つなげなくなり、設定を直せなくなっていました(つながらない間、休みなく家庭の Wi-Fi を探し続けていたため)。今は探す間隔を空け(最初の 2 分は 30 秒ごと、その後は 5 分ごと)、基板の Wi-Fi に誰かがつないでいる間は探しません。設定を間違えても http://192.168.4.1 から直せます。ほかの機能は 1.2.6 と同じで、架台の型はフォーク式です",
-    "en": "Test distribution. Fixed: with a wrong home Wi-Fi setting (SSID or password), the board's Wi-Fi \"OnStepNinja-xxxx\" could hardly be found or joined, so the setting could not be fixed (while it could not connect, the board kept searching for the home Wi-Fi without a pause). It now waits between tries (every 30 seconds for the first 2 minutes, then every 5 minutes) and does not search while someone is connected to the board's Wi-Fi. If the setting is wrong, fix it at http://192.168.4.1. The other functions are the same as 1.2.6; the mount type is fork"
+    "ja": "テスト配信です。1.2.24 の新しいところ: (1) 基板の上でのオートガイド(ガイドカメラは Alpaca。ブラウザを閉じても続き、GOTO・パーク・ホームで自動で止まります)。(2) ピリオディックモーションの測定。(3) 操作の記録(最近の 150 件)。(4) Alpaca の PulseGuide の長さ 0 で動き続ける不具合を修正。(5) DEC モーターの電流ダウンの信号(GPIO19)を出します。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.10 を入れてください"
    },
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
   },
@@ -198,68 +196,21 @@
    "product": "NS-4000-ALTAZ",
    "mark": "LUNA OnStepNinja NS-4000 AltAz v",
    "name": "OnStepNinja NS-4000 経緯台式",
-   "version": "1.2.8",
+   "version": "1.2.24",
    "lang": "ja",
    "layout": "esp32-4mb-1",
    "chip": "esp32",
    "status": "test",
    "minBase": "0.7.0",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.8_ja_altazm.bin",
-   "size": 1335216,
-   "sha256": "aebb7050495b615d3378771c1fe04edcb5460387fa5fd5c63e441d7aad621077",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.24_ja_altazm.bin",
+   "size": 1389136,
+   "sha256": "fd38efa0c042d1812a9f43b0a980e12000b632c4a8a52f71c18bfebde6d4b6cc",
    "title": {
     "ja": "テスト配信です。経緯台式向けの OnStep + AiBridge ファーム",
     "en": "Test distribution. OnStep + AiBridge firmware for an alt-azimuth mount"
    },
    "changes": {
-    "ja": "テスト配信です。不具合を直しました: 家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi「OnStepNinja-xxxx」がほとんど見えず、つなげなくなり、設定を直せなくなっていました(つながらない間、休みなく家庭の Wi-Fi を探し続けていたため)。今は探す間隔を空け(最初の 2 分は 30 秒ごと、その後は 5 分ごと)、基板の Wi-Fi に誰かがつないでいる間は探しません。設定を間違えても http://192.168.4.1 から直せます。ほかの機能は 1.2.7 と同じで、架台の型は経緯台式です(方位は -360〜+360 度)",
-    "en": "Test distribution. Fixed: with a wrong home Wi-Fi setting (SSID or password), the board's Wi-Fi \"OnStepNinja-xxxx\" could hardly be found or joined, so the setting could not be fixed (while it could not connect, the board kept searching for the home Wi-Fi without a pause). It now waits between tries (every 30 seconds for the first 2 minutes, then every 5 minutes) and does not search while someone is connected to the board's Wi-Fi. If the setting is wrong, fix it at http://192.168.4.1. The other functions are the same as 1.2.7; the mount type is alt-azimuth (azimuth -360 to +360 degrees)"
-   },
-   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
-  },
-  {
-   "product": "NS-4000-FORK",
-   "mark": "LUNA OnStepNinja NS-4000 Fork v",
-   "name": "OnStepNinja NS-4000 フォーク式",
-   "version": "1.2.6",
-   "lang": "ja",
-   "layout": "esp32-4mb-1",
-   "chip": "esp32",
-   "status": "test",
-   "minBase": "0.7.0",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.6_ja_fork.bin",
-   "size": 1335248,
-   "sha256": "0bfbbf389d898cb7665a48ed3305c91badf637d129dace183033b3112e4c387f",
-   "title": {
-    "ja": "テスト配信です。フォーク式赤道儀向けの OnStep + AiBridge ファーム",
-    "en": "Test distribution. OnStep + AiBridge firmware for a fork equatorial mount"
-   },
-   "changes": {
-    "ja": "テスト配信です。ドイツ式赤道儀の版(1.2.5)と機能は同じで、架台の型だけがフォーク式です",
-    "en": "Test distribution. The same functions as the German equatorial version (1.2.5); only the mount type is fork"
-   },
-   "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
-  },
-  {
-   "product": "NS-4000-ALTAZ",
-   "mark": "LUNA OnStepNinja NS-4000 AltAz v",
-   "name": "OnStepNinja NS-4000 経緯台式",
-   "version": "1.2.7",
-   "lang": "ja",
-   "layout": "esp32-4mb-1",
-   "chip": "esp32",
-   "status": "test",
-   "minBase": "0.7.0",
-   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/bin/NS4000_v1.2.7_ja_altazm.bin",
-   "size": 1335072,
-   "sha256": "93e850115e2f3e37c43dc4b4ce27aca27786ab572bf00a6bff575de57a143326",
-   "title": {
-    "ja": "テスト配信です。経緯台式向けの OnStep + AiBridge ファーム",
-    "en": "Test distribution. OnStep + AiBridge firmware for an alt-azimuth mount"
-   },
-   "changes": {
-    "ja": "テスト配信です。ドイツ式赤道儀の版(1.2.5)と機能は同じで、架台の型だけが経緯台式です(方位は -360〜+360 度)",
-    "en": "Test distribution. The same functions as the German equatorial version (1.2.5); only the mount type is alt-azimuth (azimuth -360 to +360 degrees)"
+    "ja": "テスト配信です。1.2.24 の新しいところ: (1) 基板の上でのオートガイド(ガイドカメラは Alpaca。ブラウザを閉じても続き、GOTO・パーク・ホームで自動で止まります)。(2) ピリオディックモーションの測定。(3) 操作の記録(最近の 150 件)。(4) Alpaca の PulseGuide の長さ 0 で動き続ける不具合を修正。(5) DEC モーターの電流ダウンの信号(GPIO19)を出します。設定・Wi-Fi・アプリは残ります。戻すときは「古い版」の 1.2.10 を入れてください"
    },
    "license": "GPL v3 (source: https://github.com/OnStepNinja/OnStepNinja-NS4000)"
   },
@@ -455,6 +406,58 @@
    "body": {
     "ja": "LUNA Store のファームの一番上の「LUNA Base(Store)のバージョンアップ」をダウンロードして起動すると、USB を使わずに LUNA Base が v0.9.2 になります(約 20 秒)。設定は残ります。そのあと、お手数ですがファームウェアをもう一度ダウンロードしてください。v0.9.2 では、LUNA Store の見出しの右の「Q&A」ボタンで、ご質問・ご要望の掲示板(英語が基本です)を開けます。今の画面からは次のリンクで開けます: https://github.com/OnStepNinja/LUNA-Store/discussions",
     "en": "Download and start \"LUNA Base (Store) upgrade\" at the top of the Firmware list: LUNA Base becomes v0.9.2 without USB (about 20 seconds). Your settings are kept. After that, please download your firmware again. In v0.9.2, the \"Q&A\" button next to the LUNA Store title opens our board for questions and feedback. You can also open it here: https://github.com/OnStepNinja/LUNA-Store/discussions"
+   }
+  },
+  {
+   "date": "2026-11-11",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "ブラウザだけで LUNA Base を USB で書き込めるようになりました",
+    "en": "Install LUNA Base over USB from your web browser"
+   },
+   "body": {
+    "ja": "新しい基板(ESP32)に LUNA Base を入れるのに、Python も esptool も要らなくなりました。PC の Chrome か Edge で書き込みのページを開き、基板を USB でつないで「書き込む」を押すだけです(2〜3 分)。書き込んだあとの Wi-Fi の設定のしかたも、ページに詳しく書いてあります。基板の中は消去しないので、設定は残ります。日本語のページ: https://onstepninja.github.io/LUNA-Extras/install/ (この画面から開くときは、次を押し、出た画面のリンクを押します: https://github.com/OnStepNinja/LUNA-Extras/tree/main/install )。英語のページ(海外の方向け): https://onstepninja.github.io/LUNA-Firmware/install/ (この画面から開くときは、次を押し、出た画面のリンクを押します: https://github.com/OnStepNinja/LUNA-Firmware/tree/main/install )",
+    "en": "You no longer need Python or esptool to put LUNA Base on a new board (ESP32). Open the install page in Chrome or Edge on a PC, connect the board with USB and press \"Install\" (2 to 3 minutes). The page also explains the Wi-Fi setup after installing. Nothing on the board is erased, so your settings are kept. Install page: https://onstepninja.github.io/LUNA-Firmware/install/ (to open it from here, press this link, then the link on that page: https://github.com/OnStepNinja/LUNA-Firmware/tree/main/install )"
+   }
+  },
+  {
+   "date": "2026-11-11",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Base v0.9.0 を公開しました(USB なしでバージョンアップ)",
+    "en": "LUNA Base v0.9.0 released (upgrade without USB)"
+   },
+   "body": {
+    "ja": "LUNA Store のファームの一番上の「LUNA Base(Store)のバージョンアップ」をダウンロードして起動すると、USB を使わずに LUNA Base が v0.9.0 になります(約 20 秒)。設定は残ります。そのあと、お手数ですがファームウェアをもう一度ダウンロードしてください。v0.9.0 では、大きな目録も読めるようになり、ファームが基板ごとに分けて表示されます。",
+    "en": "Download and start \"LUNA Base (Store) upgrade\" at the top of the Firmware list: LUNA Base becomes v0.9.0 without USB (about 20 seconds). Your settings are kept. After that, please download your firmware again. v0.9.0 reads large catalogs and lists firmware by board."
+   }
+  },
+  {
+   "date": "2026-11-10",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "回路図と LUNA Base の説明を LUNA Store で公開しました",
+    "en": "Circuits and the LUNA Base guide are in LUNA Store"
+   },
+   "body": {
+    "ja": "LUNA Store の「データ」に、「LUNA Base の書き込み方法と使い方」と、USB で書き込み・通信・ログの確認ができる「LUNA Prog & Comm Adapter v2」の回路図を載せました。ワイヤレス BLE ハンドボックスの回路図と作り方は、ファームの説明にあります。",
+    "en": "LUNA Store (Data) now has \"LUNA Base - writing and using\" and the circuit of the \"LUNA Prog & Comm Adapter v2\", a USB-serial adapter for writing, talking to the board and reading logs. The circuit and the build steps of the Wireless BLE Handbox are in the description of its firmware."
+   }
+  },
+  {
+   "date": "2026-11-08",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Base v0.8.4 と NS-4000 1.2.8 を公開しました(Wi-Fi の不具合の修正)",
+    "en": "LUNA Base v0.8.4 and NS-4000 1.2.8 released (Wi-Fi fix)"
+   },
+   "body": {
+    "ja": "家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi に入れなくなり、設定を直せなくなる不具合を直しました。つながらない間、基板が休みなく家庭の Wi-Fi を探し続けていたのが原因です。今は探す間隔を空け、基板の Wi-Fi に誰かがつないでいる間は探しません。NS-4000(ドイツ式赤道儀・フォーク式・経緯台式)は、LUNA Store から 1.2.8 を入れてください。LUNA Base は自分自身を更新できないので、USB で書き直してください。新しい LUNA Base v0.8.4 をご利用ください。\nhttps://github.com/OnStepNinja/OnStepNinja-NS4000/releases",
+    "en": "Fixed: with a wrong home Wi-Fi setting (SSID or password), you could lose access to the board's own Wi-Fi and could not fix the setting. While it could not connect, the board kept searching for the home Wi-Fi without a pause. It now waits between tries and does not search while someone is connected to the board's Wi-Fi. For the NS-4000 (German equatorial, fork and alt-azimuth), install 1.2.8 from LUNA Store. LUNA Base cannot update itself, so please write the new LUNA Base v0.8.4 over USB.\nhttps://github.com/OnStepNinja/OnStepNinja-NS4000/releases"
    }
   }
  ],
