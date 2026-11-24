@@ -370,6 +370,19 @@
  "data": [],
  "news": [
   {
+   "date": "2026-11-24",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Imaging(撮影)の開発版を公開しました",
+    "en": "LUNA Imaging (capture) preview released"
+   },
+   "body": {
+    "ja": "LUNA Store の「ツール」に追加しました。PC の撮影ソフトを使わずに、NS-4000・NS-5000X の基板の画面だけで、Alpaca のカメラで撮影できます(画像はブラウザに残り、FITS / PNG で保存できます)。撮影の結果を Q&A でお知らせください。開発が進みますので、よろしくお願いします。",
+    "en": "Added to \"Tools\" in LUNA Store. Capture images with an Alpaca camera from the NS-4000 / NS-5000X board's page alone, without imaging software on a PC (images stay in your browser; save as FITS / PNG). Please tell us your results on the Q&A board. It helps the development. Thank you."
+   }
+  },
+  {
    "date": "2026-11-14",
    "level": "info",
    "product": "*",
@@ -445,19 +458,6 @@
    "body": {
     "ja": "LUNA Store の「データ」に、「LUNA Base の書き込み方法と使い方」と、USB で書き込み・通信・ログの確認ができる「LUNA Prog & Comm Adapter v2」の回路図を載せました。ワイヤレス BLE ハンドボックスの回路図と作り方は、ファームの説明にあります。",
     "en": "LUNA Store (Data) now has \"LUNA Base - writing and using\" and the circuit of the \"LUNA Prog & Comm Adapter v2\", a USB-serial adapter for writing, talking to the board and reading logs. The circuit and the build steps of the Wireless BLE Handbox are in the description of its firmware."
-   }
-  },
-  {
-   "date": "2026-11-08",
-   "level": "info",
-   "product": "*",
-   "title": {
-    "ja": "LUNA Base v0.8.4 と NS-4000 1.2.8 を公開しました(Wi-Fi の不具合の修正)",
-    "en": "LUNA Base v0.8.4 and NS-4000 1.2.8 released (Wi-Fi fix)"
-   },
-   "body": {
-    "ja": "家庭の Wi-Fi の設定(SSID・パスワード)を間違えると、基板の Wi-Fi に入れなくなり、設定を直せなくなる不具合を直しました。つながらない間、基板が休みなく家庭の Wi-Fi を探し続けていたのが原因です。今は探す間隔を空け、基板の Wi-Fi に誰かがつないでいる間は探しません。NS-4000(ドイツ式赤道儀・フォーク式・経緯台式)は、LUNA Store から 1.2.8 を入れてください。LUNA Base は自分自身を更新できないので、USB で書き直してください。新しい LUNA Base v0.8.4 をご利用ください。\nhttps://github.com/OnStepNinja/OnStepNinja-NS4000/releases",
-    "en": "Fixed: with a wrong home Wi-Fi setting (SSID or password), you could lose access to the board's own Wi-Fi and could not fix the setting. While it could not connect, the board kept searching for the home Wi-Fi without a pause. It now waits between tries and does not search while someone is connected to the board's Wi-Fi. For the NS-4000 (German equatorial, fork and alt-azimuth), install 1.2.8 from LUNA Store. LUNA Base cannot update itself, so please write the new LUNA Base v0.8.4 over USB.\nhttps://github.com/OnStepNinja/OnStepNinja-NS4000/releases"
    }
   }
  ],

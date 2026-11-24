@@ -631,9 +631,46 @@
      }
     }
    ]
+  },
+  {
+   "group": "OnStep",
+   "name": "ns4000_esp32_circuit.txt",
+   "lang": "ja",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/data/ja/ns4000_esp32_circuit.txt",
+   "size": 2903,
+   "sha256": "9843ebe7a3bfce411b29b5ac6bc3d3051a71f3617fbdbf1f4c19856e32c3b6f5",
+   "type": "text",
+   "title": {
+    "ja": "NS-4000 の ESP32 の基本回路(回路図)"
+   },
+   "category": {
+    "ja": "文書"
+   },
+   "license": "Freeware (LICENSE)",
+   "images": [
+    {
+     "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/images/ja/ns4000_esp32_circuit_v3.png",
+     "caption": {
+      "ja": "NS-4000 の ESP32 の基本回路図(v3、2026-11-23)"
+     }
+    }
+   ]
   }
  ],
  "news": [
+  {
+   "date": "2026-11-24",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Imaging(撮影)の開発版を公開しました",
+    "en": "LUNA Imaging (capture) preview released"
+   },
+   "body": {
+    "ja": "LUNA Store の「ツール」に追加しました。PC の撮影ソフトを使わずに、NS-4000・NS-5000X の基板の画面だけで、Alpaca のカメラで撮影できます(画像はブラウザに残り、FITS / PNG で保存できます)。撮影の結果を Q&A でお知らせください。開発が進みますので、よろしくお願いします。",
+    "en": "Added to \"Tools\" in LUNA Store. Capture images with an Alpaca camera from the NS-4000 / NS-5000X board's page alone, without imaging software on a PC (images stay in your browser; save as FITS / PNG). Please tell us your results on the Q&A board. It helps the development. Thank you."
+   }
+  },
   {
    "date": "2026-11-14",
    "level": "info",
