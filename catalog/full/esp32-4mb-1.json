@@ -5,7 +5,7 @@
   {
    "product": "LUNA-BASE-UPDATER",
    "mark": "LUNA Base Updater v",
-   "name": "LUNA Base のバージョンアップ",
+   "name": "LUNA Base 日本語版",
    "version": "0.9.2",
    "lang": "ja",
    "layout": "esp32-4mb-1",
@@ -25,6 +25,32 @@
    "license": "Freeware",
    "hw": "base",
    "color": "gray",
+   "category": {
+    "ja": "LUNA Base",
+    "en": "LUNA Base"
+   }
+  },
+  {
+   "product": "LUNA-BASE-UPDATER-EN",
+   "mark": "LUNA Base Updater v",
+   "name": "LUNA Base English",
+   "version": "0.9.2",
+   "lang": "en",
+   "layout": "esp32-4mb-1",
+   "chip": "esp32",
+   "minBase": "0.7.0",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/bin/LUNA_Base_Updater_v0.9.2_en.bin",
+   "size": 1323088,
+   "sha256": "13f0ed164b87597807644a8aec27073bae1f78731562ecb29b679351632ccdc0",
+   "title": {
+    "en": "Upgrades LUNA Base to v0.9.2. A program runs for a short time and then LUNA Base comes back. After that, please download your firmware again"
+   },
+   "changes": {
+    "en": "New in LUNA Base v0.9.2: a \"Q&A\" button next to the LUNA Store title (opens the LUNA Store discussion board in a new tab); links in descriptions and news are now in a brighter, easier-to-read color. No USB needed. It takes about 20 seconds (do not switch off). Your Wi-Fi settings and firmware settings are kept. If the page does not change after the last beeps, reload the page"
+   },
+   "license": "Freeware",
+   "hw": "base",
+   "color": "teal",
    "category": {
     "ja": "LUNA Base",
     "en": "LUNA Base"
@@ -632,6 +658,150 @@
    "license": "Freeware (LICENSE)",
    "changes": {
     "ja": "開発版(試作)です。基板の画面から ASCOM Alpaca のカメラで撮影し、画像をブラウザに残します(サムネイル・星の数と HFR・FITS / PNG で保存)。今回は撮影の機能だけで、オートフォーカス・基板の上でのオートガイドは、このあと順に出します。まだ全部の機能を実機で試せていません。試してみたい方はいませんか? ダウンロードしたら http://基板の IP/luna_imaging.html を開き「Alpaca デバイス検索」を押してください。Alpaca サーバーで、基板のアドレスを CORS で許可しておく必要があります。ご意見は Q&A へどうぞ"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "starchart_en.html",
+   "version": "0.9.3",
+   "lang": "en",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/apps/common/0.9.3/starchart_en.html",
+   "size": 99463,
+   "sha256": "c11e9c9c4145fb09dde0eb2962bc387cd627480f0a1d04415b683d131650edb4",
+   "title": {
+    "en": "Star chart (English)"
+   },
+   "category": {
+    "ja": "星図",
+    "en": "Star chart"
+   },
+   "license": "Freeware (apps/common/LICENSE)",
+   "changes": {
+    "en": "Needs 2 files: this one and \"Star chart data\". Download both. NS-5000X (v0.8.4 or later) now gets the Speed, Tracking, Park/Home, Limits and Mechanics tabs in Mount control. The GOTO speed is chosen by speed-table number, and Save keeps it after power-off. Mechanics applies steps/degree (base constant / 360) at once"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "meteor_catch_en.html",
+   "version": "0.1",
+   "lang": "en",
+   "device": "none",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/apps/en/meteor_catch_en.html",
+   "size": 3072,
+   "sha256": "855035bd73771430dac0c65b8614ec01900fea33c9c23ab7ef21980720c7b66c",
+   "title": {
+    "en": "Meteor Catch"
+   },
+   "category": {
+    "ja": "ゲーム",
+    "en": "Games"
+   },
+   "license": "Freeware (apps/common/LICENSE)",
+   "changes": {
+    "en": "Tap the meteors for 30 seconds (test)"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "star_memory_en.html",
+   "version": "0.1",
+   "lang": "en",
+   "device": "none",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/apps/en/star_memory_en.html",
+   "size": 2578,
+   "sha256": "708842ef2fb6ae3a93d985db6416f09150c4dbb3a9f22caa2338641a6aba9b51",
+   "title": {
+    "en": "Star Memory"
+   },
+   "category": {
+    "ja": "ゲーム",
+    "en": "Games"
+   },
+   "license": "Freeware (apps/common/LICENSE)",
+   "changes": {
+    "en": "Match the pairs (test)"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "luna_moon_en.svg",
+   "version": "0.1",
+   "lang": "en",
+   "device": "none",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/apps/en/luna_moon_en.svg",
+   "size": 1584,
+   "sha256": "1398b97a85b2ae46adf8de913c46e0d55236825f8a3722d540b53cb67137ce81",
+   "title": {
+    "en": "Moon and telescope (picture)"
+   },
+   "category": {
+    "ja": "画像",
+    "en": "Images"
+   },
+   "license": "Freeware (apps/common/LICENSE)",
+   "changes": {
+    "en": "Image test. After download: http://<board IP>/luna_moon_en.svg"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "npf_calc_en.html",
+   "version": "0.1",
+   "lang": "en",
+   "device": "none",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/apps/en/npf_calc_en.html",
+   "size": 1895,
+   "sha256": "70194c0aaad3178eec7369e0b35d843e541a6719c68a7ba25f94894a669b118b",
+   "title": {
+    "en": "Exposure calculator (NPF rule)"
+   },
+   "category": {
+    "ja": "ツール",
+    "en": "Tools"
+   },
+   "license": "Freeware (apps/common/LICENSE)",
+   "changes": {
+    "en": "Longest untracked exposure (test)"
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "alpaca_console_en.html",
+   "version": "0.1",
+   "lang": "en",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/apps/en/alpaca_console_en.html",
+   "size": 37718,
+   "sha256": "3b72a1752d2bead3a8d25067fac2906260150b6637d9f0e1ad0f38b598a3727d",
+   "title": {
+    "en": "Alpaca device panel (focuser, filter wheel, telescope)"
+   },
+   "category": {
+    "ja": "ツール",
+    "en": "Tools"
+   },
+   "license": "Freeware (apps/common/LICENSE)",
+   "changes": {
+    "en": "Control ASCOM Alpaca devices on your LAN from the board's web page: a focuser (position, move, temperature), a filter wheel and a telescope. After downloading, open http://<board IP>/alpaca_console_en.html, enter the address of your Alpaca server (for example 192.168.1.50:11111) and press \"Detect on network\". [Caution] This moves real equipment. Check that nothing can collide or tangle before you press a button. Camera images are not supported."
+   }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "luna_imaging_en.html",
+   "version": "0.21",
+   "lang": "en",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Firmware/main/apps/en/luna_imaging_en.html",
+   "size": 163208,
+   "sha256": "ad577b387cfa6ef2ee716230cc245096eb30faf39e8a767228c5a52635144442",
+   "title": {
+    "en": "LUNA Imaging (preview): capture with an Alpaca camera"
+   },
+   "category": {
+    "ja": "ツール",
+    "en": "Tools"
+   },
+   "license": "Freeware (apps/common/LICENSE)",
+   "changes": {
+    "en": "Preview (prototype). Captures images with an ASCOM Alpaca camera from the board's web page and keeps them in your browser (thumbnails, star count and HFR, save as FITS / PNG). This first preview has the capture functions only; autofocus and on-board autoguiding will follow. Not all functions have been tested on real equipment yet. Would anyone like to try it? After downloading, open http://<board IP>/luna_imaging_en.html and press \"Find Alpaca devices\". Your Alpaca server must allow the board's address by CORS. Feedback is welcome on the Q&A board."
    }
   }
  ],
