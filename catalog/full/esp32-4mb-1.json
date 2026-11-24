@@ -24,7 +24,11 @@
    },
    "license": "Freeware",
    "hw": "base",
-   "color": "gray"
+   "color": "gray",
+   "category": {
+    "ja": "LUNA Base",
+    "en": "LUNA Base"
+   }
   },
   {
    "product": "NS-5000X",
@@ -48,7 +52,11 @@
    },
    "license": "PolyForm Noncommercial",
    "hw": "ns4000",
-   "color": "purple"
+   "color": "purple",
+   "category": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
+   }
   },
   {
    "product": "NS-5000X",
@@ -72,7 +80,11 @@
    },
    "license": "PolyForm Noncommercial",
    "hw": "ns4000",
-   "color": "purple"
+   "color": "purple",
+   "category": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
+   }
   },
   {
    "product": "NS-4000",
@@ -107,6 +119,10 @@
    "variant": {
     "ja": "ドイツ式(赤道儀)",
     "en": "German equatorial"
+   },
+   "category": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
    }
   },
   {
@@ -142,6 +158,10 @@
    "variant": {
     "ja": "ドイツ式(赤道儀)",
     "en": "German equatorial"
+   },
+   "category": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
    }
   },
   {
@@ -170,6 +190,10 @@
    "variant": {
     "ja": "フォーク式",
     "en": "Fork"
+   },
+   "category": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
    }
   },
   {
@@ -198,6 +222,10 @@
    "variant": {
     "ja": "フォーク式",
     "en": "Fork"
+   },
+   "category": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
    }
   },
   {
@@ -226,6 +254,10 @@
    "variant": {
     "ja": "経緯台式",
     "en": "Alt-Az"
+   },
+   "category": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
    }
   },
   {
@@ -254,6 +286,10 @@
    "variant": {
     "ja": "経緯台式",
     "en": "Alt-Az"
+   },
+   "category": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
    }
   },
   {
@@ -289,7 +325,11 @@
     }
    ],
    "hw": "handbox",
-   "color": "teal"
+   "color": "teal",
+   "category": {
+    "ja": "ハンドボックス",
+    "en": "Handbox"
+   }
   },
   {
    "product": "LUNA-Observatory",
@@ -313,7 +353,11 @@
    },
    "license": "MIT",
    "hw": "luna",
-   "color": "pink"
+   "color": "pink",
+   "category": {
+    "ja": "LUNA",
+    "en": "LUNA"
+   }
   }
  ],
  "hardware": {
@@ -325,6 +369,10 @@
    "note": {
     "ja": "赤道儀・架台の型に合うものを選んでください(ドイツ式・フォーク式・経緯台式)",
     "en": "Choose the one that matches your mount (German equatorial, fork or alt-azimuth)"
+   },
+   "tab": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
    }
   },
   "handbox": {
@@ -336,7 +384,11 @@
     "ja": "ハンドボックスの基板専用です。NS-4000 の基板には入れないでください",
     "en": "For the handbox board only. Do not install it on an NS-4000 board"
    },
-   "warn": true
+   "warn": true,
+   "tab": {
+    "ja": "ハンドボックス",
+    "en": "Handbox"
+   }
   },
   "luna": {
    "name": {
@@ -347,7 +399,11 @@
     "ja": "LUNA の基板専用です。NS-4000・NS-5000X の基板には入れないでください",
     "en": "For the LUNA board only. Do not install it on an NS-4000 or NS-5000X board"
    },
-   "warn": true
+   "warn": true,
+   "tab": {
+    "ja": "LUNA",
+    "en": "LUNA"
+   }
   },
   "base": {
    "name": {
@@ -357,6 +413,10 @@
    "note": {
     "ja": "一時的に LUNA Base(Store)のバージョンアップのプログラムを実行します(約 20 秒、電源を切らないでください)。バージョンアップのあとは、お手数ですがファームウェアをもう一度ダウンロードしてください",
     "en": "Runs a program that upgrades LUNA Base (Store) for a short time (about 20 seconds, do not switch off). After the upgrade, please download your firmware again"
+   },
+   "tab": {
+    "ja": "LUNA Base",
+    "en": "LUNA Base"
    }
   }
  },
