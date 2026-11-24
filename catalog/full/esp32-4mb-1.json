@@ -554,6 +554,25 @@
    "changes": {
     "ja": "LAN の Alpaca 機材(フォーカサー・フィルター・望遠鏡)を基板の画面から操作。http://基板の IP/alpaca_console.html を開き「検出」を押す。実機が動くので注意。カメラ画像は非対応"
    }
+  },
+  {
+   "product": "NS-4000 / NS-5000X",
+   "name": "luna_imaging.html",
+   "version": "0.21",
+   "lang": "ja",
+   "url": "https://raw.githubusercontent.com/OnStepNinja/LUNA-Extras/main/apps/ja/luna_imaging.html",
+   "size": 164447,
+   "sha256": "ae4620a086c7473a437b340760609ee40f71303c4bf3a2d28b77c5b6f0457989",
+   "title": {
+    "ja": "LUNA Imaging(開発版): Alpaca のカメラで撮影"
+   },
+   "category": {
+    "ja": "ツール"
+   },
+   "license": "Freeware (LICENSE)",
+   "changes": {
+    "ja": "開発版(試作)です。基板の画面から ASCOM Alpaca のカメラで撮影し、画像をブラウザに残します(サムネイル・星の数と HFR・FITS / PNG で保存)。今回は撮影の機能だけで、オートフォーカス・基板の上でのオートガイドは、このあと順に出します。まだ全部の機能を実機で試せていません。試してみたい方はいませんか? ダウンロードしたら http://基板の IP/luna_imaging.html を開き「Alpaca デバイス検索」を押してください。Alpaca サーバーで、基板のアドレスを CORS で許可しておく必要があります。ご意見は Q&A へどうぞ"
+   }
   }
  ],
  "data": [
