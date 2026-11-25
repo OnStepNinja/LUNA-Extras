@@ -745,6 +745,19 @@
  ],
  "news": [
   {
+   "date": "2026-11-25",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Store の Web 版を公開しました",
+    "en": "LUNA Store on the web"
+   },
+   "body": {
+    "ja": "基板がなくても、LUNA Store の中身をブラウザで見られるようになりました。https://onstepninja.github.io/LUNA-Store/ja/ 公開中のファーム・アプリ・お知らせが、基板の Store と同じように並びます。アプリは「試しに開く」でブラウザで試せます(基板が要る機能は動きません)。入れるときは、これまでどおり基板の LUNA Base から。",
+    "en": "You can now see what is in LUNA Store in your browser, without a board: https://onstepninja.github.io/LUNA-Store/ It lists the published firmware, apps and news just like LUNA Store on the board. Apps can be tried in your browser with \"Try it\" (features that need the board will not work). To install, use LUNA Base on your board as before."
+   }
+  },
+  {
    "date": "2026-11-24",
    "level": "info",
    "product": "*",
