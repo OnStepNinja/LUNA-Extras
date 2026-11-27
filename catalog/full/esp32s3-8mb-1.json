@@ -1,0 +1,186 @@
+{
+ "format": 1,
+ "updated": "2026-11-10",
+ "firmware": [],
+ "hardware": {
+  "ns4000": {
+   "name": {
+    "ja": "NS-4000 の基板(NS-5000X・NS-4000)",
+    "en": "NS-4000 board (NS-5000X, NS-4000)"
+   },
+   "note": {
+    "ja": "赤道儀・架台の型に合うものを選んでください(ドイツ式・フォーク式・経緯台式)",
+    "en": "Choose the one that matches your mount (German equatorial, fork or alt-azimuth)"
+   },
+   "tab": {
+    "ja": "NS-4000/5000",
+    "en": "NS-4000/5000"
+   }
+  },
+  "handbox": {
+   "name": {
+    "ja": "BLE ハンドボックスの基板",
+    "en": "BLE handbox board"
+   },
+   "note": {
+    "ja": "ハンドボックスの基板専用です。NS-4000 の基板には入れないでください",
+    "en": "For the handbox board only. Do not install it on an NS-4000 board"
+   },
+   "warn": true,
+   "tab": {
+    "ja": "ハンドボックス",
+    "en": "Handbox"
+   }
+  },
+  "luna": {
+   "name": {
+    "ja": "LUNA の基板",
+    "en": "LUNA board"
+   },
+   "note": {
+    "ja": "LUNA の基板専用です。NS-4000・NS-5000X の基板には入れないでください",
+    "en": "For the LUNA board only. Do not install it on an NS-4000 or NS-5000X board"
+   },
+   "warn": true,
+   "tab": {
+    "ja": "LUNA",
+    "en": "LUNA"
+   }
+  },
+  "base": {
+   "name": {
+    "ja": "LUNA Base(Store)自身のバージョンアップ(USB 不要)",
+    "en": "Upgrade LUNA Base (Store) itself (no USB)"
+   },
+   "note": {
+    "ja": "一時的に LUNA Base(Store)のバージョンアップのプログラムを実行します(約 20 秒、電源を切らないでください)。バージョンアップのあとは、お手数ですがファームウェアをもう一度ダウンロードしてください",
+    "en": "Runs a program that upgrades LUNA Base (Store) for a short time (about 20 seconds, do not switch off). After the upgrade, please download your firmware again"
+   },
+   "tab": {
+    "ja": "LUNA Base",
+    "en": "LUNA Base"
+   }
+  }
+ },
+ "apps": [],
+ "data": [],
+ "news": [
+  {
+   "date": "2026-11-27",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Base が ESP32-S3 の基板に対応しました",
+    "en": "LUNA Base now supports ESP32-S3 boards"
+   },
+   "body": {
+    "ja": "ESP32-S3 の基板(N8R8・N16R8)にも LUNA Base を入れられるようになりました。ブラウザの書き込みのページ https://onstepninja.github.io/LUNA-Extras/install/ で、つないだ基板に合うものが自動で入ります。S3 用のファームは、これから順に LUNA Store に用意します。",
+    "en": "LUNA Base can now be installed on ESP32-S3 boards (N8R8 and N16R8). The browser install page https://onstepninja.github.io/LUNA-Firmware/install/ picks the right build for the connected board. Firmware for the S3 will be added to LUNA Store step by step."
+   }
+  },
+  {
+   "date": "2026-11-27",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "ESP32-S3 用のファームは準備中です",
+    "en": "Firmware for ESP32-S3 is in preparation"
+   },
+   "body": {
+    "ja": "この基板(ESP32-S3)用のファームとアプリは、まだ LUNA Store にありません。用意ができたら、ここでお知らせします。ESP32(NS-4000 の基板など)用のファームは、この基板には入りません。",
+    "en": "There is no firmware or app for this board (ESP32-S3) in LUNA Store yet. We will announce it here when it is ready. Firmware for ESP32 (such as the NS-4000 board) cannot be installed on this board."
+   }
+  },
+  {
+   "date": "2026-11-25",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "LUNA Store の Web 版を公開しました",
+    "en": "LUNA Store on the web"
+   },
+   "body": {
+    "ja": "基板がなくても、LUNA Store の中身をブラウザで見られるようになりました。https://onstepninja.github.io/LUNA-Store/ja/ 公開中のファーム・アプリ・お知らせが、基板の Store と同じように並びます。アプリは「試しに開く」でブラウザで試せます(基板が要る機能は動きません)。入れるときは、これまでどおり基板の LUNA Base から。",
+    "en": "You can now see what is in LUNA Store in your browser, without a board: https://onstepninja.github.io/LUNA-Store/ It lists the published firmware, apps and news just like LUNA Store on the board. Apps can be tried in your browser with \"Try it\" (features that need the board will not work). To install, use LUNA Base on your board as before."
+   }
+  },
+  {
+   "date": "2026-11-11",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "ブラウザだけで LUNA Base を USB で書き込めるようになりました",
+    "en": "Install LUNA Base over USB from your web browser"
+   },
+   "body": {
+    "ja": "新しい基板(ESP32)に LUNA Base を入れるのに、Python も esptool も要らなくなりました。PC の Chrome か Edge で書き込みのページを開き、基板を USB でつないで「書き込む」を押すだけです(2〜3 分)。書き込んだあとの Wi-Fi の設定のしかたも、ページに詳しく書いてあります。基板の中は消去しないので、設定は残ります。日本語のページ: https://onstepninja.github.io/LUNA-Extras/install/ (この画面から開くときは、次を押し、出た画面のリンクを押します: https://github.com/OnStepNinja/LUNA-Extras/tree/main/install )。英語のページ(海外の方向け): https://onstepninja.github.io/LUNA-Firmware/install/ (この画面から開くときは、次を押し、出た画面のリンクを押します: https://github.com/OnStepNinja/LUNA-Firmware/tree/main/install )",
+    "en": "You no longer need Python or esptool to put LUNA Base on a new board (ESP32). Open the install page in Chrome or Edge on a PC, connect the board with USB and press \"Install\" (2 to 3 minutes). The page also explains the Wi-Fi setup after installing. Nothing on the board is erased, so your settings are kept. Install page: https://onstepninja.github.io/LUNA-Firmware/install/ (to open it from here, press this link, then the link on that page: https://github.com/OnStepNinja/LUNA-Firmware/tree/main/install )"
+   }
+  },
+  {
+   "date": "2026-11-10",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "回路図と LUNA Base の説明を LUNA Store で公開しました",
+    "en": "Circuits and the LUNA Base guide are in LUNA Store"
+   },
+   "body": {
+    "ja": "LUNA Store の「データ」に、「LUNA Base の書き込み方法と使い方」と、USB で書き込み・通信・ログの確認ができる「LUNA Prog & Comm Adapter v2」の回路図を載せました。ワイヤレス BLE ハンドボックスの回路図と作り方は、ファームの説明にあります。",
+    "en": "LUNA Store (Data) now has \"LUNA Base - writing and using\" and the circuit of the \"LUNA Prog & Comm Adapter v2\", a USB-serial adapter for writing, talking to the board and reading logs. The circuit and the build steps of the Wireless BLE Handbox are in the description of its firmware."
+   }
+  },
+  {
+   "date": "2026-11-01",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "X に投稿しました"
+   },
+   "body": {
+    "ja": "X に投稿しました。\nhttps://x.com/ns5000_sst/status/2116879934862020707"
+   }
+  }
+ ],
+ "astro": [
+  {
+   "date": "2026-10-28",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "11 月の月: 新月 9 日・満月 24 日",
+    "en": "November Moon: New on the 9th, Full on the 24th"
+   },
+   "body": {
+    "ja": "新月は 11/9 の 16 時ごろ、満月は 11/24 の 23 時 50 分ごろ(日本時間、計算値で数分の誤差)。月の出ない新月の前後が、暗い夜空を狙う好機です。(試験配信)",
+    "en": "New Moon on Nov 9 at about 16:00 JST (07:00 UT) and Full Moon on Nov 24 at about 23:50 JST (14:50 UT). Computed values, a few minutes of error. The days around New Moon give the darkest skies. (Test notice)"
+   }
+  },
+  {
+   "date": "2026-10-28",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "しし座流星群 11/17〜18 ごろが見ごろ",
+    "en": "Leonids: best around Nov 17-18"
+   },
+   "body": {
+    "ja": "例年の極大は 11/17〜18 ごろで、条件がよいと 1 時間に 15 個ほど。今年は 17 日の月が上弦ごろで、真夜中すぎに沈むため、明け方は月明かりがなく見やすい年です。放射点のしし座は夜半すぎに昇ります。(試験配信)",
+    "en": "The Leonids usually peak around Nov 17-18, about 15 meteors per hour under good conditions. This year the Moon is near first quarter on the 17th and sets after midnight, so the pre-dawn sky is dark. The radiant in Leo rises after midnight. (Test notice)"
+   }
+  },
+  {
+   "date": "2026-10-28",
+   "level": "info",
+   "product": "*",
+   "title": {
+    "ja": "おうし座流星群: 11/5 ごろ(南群)と 11/12 ごろ(北群)",
+    "en": "Taurids: about Nov 5 (south) and Nov 12 (north)"
+   },
+   "body": {
+    "ja": "数は少ない(1 時間に数個)ものの、ゆっくり流れる明るい火球が混じるのが特徴です。11/5 は明け方に細い月が昇るだけ、11/12 の月は細く宵のうちに沈むので、どちらも夜は暗く見やすい年です。(試験配信)",
+    "en": "Only a few meteors per hour, but slow, bright fireballs are a feature. On Nov 5 only a thin crescent rises before dawn, and on Nov 12 the thin Moon sets early in the evening, so both nights are dark. (Test notice)"
+   }
+  }
+ ]
+}
